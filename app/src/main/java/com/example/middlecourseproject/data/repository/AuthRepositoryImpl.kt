@@ -1,6 +1,5 @@
 package com.example.middlecourseproject.data.repository
 
-import com.example.middlecourseproject.data.local.DataStoreManager
 import com.example.middlecourseproject.data.remote.services.AuthService
 import com.example.middlecourseproject.data.remote.dtos.LoginDto
 import com.example.middlecourseproject.data.remote.dtos.RegisterDto
@@ -18,7 +17,6 @@ import javax.inject.Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService,
     private val apiHelper: ApiHelper,
-    private val dataStoreManager: DataStoreManager
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Resource<LoginDto> {
@@ -38,10 +36,6 @@ class AuthRepositoryImpl @Inject constructor(
             authService.otpValidation(OtpRequest(email, otp))
         }
     }
-
-//    override suspend fun saveUserAuth(token: String) {
-//        dataStoreManager.saveToken(token)
-//    }
 
 
 

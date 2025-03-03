@@ -11,7 +11,7 @@ import com.example.middlecourseproject.R
 
 import com.example.middlecourseproject.databinding.FragmentLoginBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
-import com.google.android.material.snackbar.Snackbar
+import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,10 +38,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             val password = binding.passwordInputLogin.text.toString()
             when {
                 email.isEmpty() || password.isEmpty() -> {
-                    Snackbar.make(binding.root, "Fill all fields", Snackbar.LENGTH_LONG).show()
+                    binding.root.showSnackbar(getString(R.string.fill_all_fields))
                 }
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    Snackbar.make(binding.root, "Input a valid email address", Snackbar.LENGTH_LONG).show()
+                    binding.root.showSnackbar(getString(R.string.valid_email))
                 }
                 else -> {
                     loginViewModel.login(email, password)
@@ -72,8 +72,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             loginViewModel.loginEvent.collect { event ->
                 when (event) {
                     is LoginEvent.Success -> navigateToHome()
-                    is LoginEvent.Error -> Snackbar.make(binding.root, event.message, Snackbar.LENGTH_LONG).show()
-                    else -> {}
+                    is LoginEvent.Error ->
+                        binding.root.showSnackbar(event.message)
                 }
             }
         }

@@ -4,4 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green_500">#4CAF50</color>
     <color name="red_required">#FF0000</color>
+    <color name="main_background">#181516</color>
+    <color name="main_red">#8C1D2F</color>
+    <color name="second_background">#C6B0B4</color>58121D
+    <color name="header">#58121D</color>
+    <color name="card_background">#1C191A</color>
+    <color name="main_red1">#B63146</color>
+
 </resources>

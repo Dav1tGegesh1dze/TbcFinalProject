@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.middlecourseproject.R
@@ -20,8 +21,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    // Inject the CheckAuthTokenUseCase instead of DataStoreManager.
+    // Inject the CheckAuthTokenUseCase.
     @Inject lateinit var checkAuthTokenUseCase: CheckAuthTokenUseCase
+
+    // Flag to control when navigation is ready.
+    @Volatile
+    private var isNavigationReady: Boolean = false
 
     override fun attachBaseContext(newBase: Context) {
         // Retrieve the entry point for locale-related helpers.
@@ -34,10 +39,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Install the splash screen before super.onCreate().
+        val splashScreen = installSplashScreen()
+        // Keep the splash screen on until isNavigationReady becomes true.
+        splashScreen.setKeepOnScreenCondition { !isNavigationReady }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavigation()
+        Log.d("MainActivity", "onCreate: created")
     }
 
     private fun setUpNavigation() {
@@ -56,6 +67,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "No valid token found. Navigating to Login")
             }
             navController.graph = navGraph
+            // Once navigation is set, update the flag to remove the splash.
+            isNavigationReady = true
         }
     }
 }

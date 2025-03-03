@@ -1,4 +1,4 @@
-package com.example.middlecourseproject.data.local
+package com.example.middlecourseproject.data.local.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -35,6 +35,12 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
 
     suspend fun clearData() {
         dataStore.edit { it.clear() }
+    }
+
+    suspend fun clearJwtToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(JWT_TOKEN)
+        }
     }
 
 

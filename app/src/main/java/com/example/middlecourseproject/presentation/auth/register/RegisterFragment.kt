@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentRegisterBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
-import com.google.android.material.snackbar.Snackbar
+import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,10 +35,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             val userName = binding.userNameInput.text.toString()
             when {
                 email.isEmpty() || password.isEmpty() || userName.isEmpty() -> {
-                    Snackbar.make(binding.root, "Fill all fields", Snackbar.LENGTH_LONG).show()
+                    binding.root.showSnackbar(getString(R.string.fill_all_fields))
                 }
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    Snackbar.make(binding.root, "Input a valid email address", Snackbar.LENGTH_LONG).show()
+                    binding.root.showSnackbar(getString(R.string.valid_email))
                 }
                 else -> {
                     registerViewModel.register(email, userName, password)
@@ -84,11 +84,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                         )
                     }
                     is RegisterEvent.Error -> {
-                        Snackbar.make(binding.root, event.message, Snackbar.LENGTH_LONG).show()
+                        binding.root.showSnackbar(event.message)
                     }
-                    else ->{
 
-                    }
                 }
             }
         }

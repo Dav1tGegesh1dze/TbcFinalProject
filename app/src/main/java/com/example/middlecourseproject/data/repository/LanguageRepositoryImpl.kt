@@ -1,8 +1,8 @@
 package com.example.middlecourseproject.data.repository
 
 import com.example.middlecourseproject.domain.repository.LanguageRepository
-import com.example.middlecourseproject.data.local.PreferencesHelper
-import com.example.middlecourseproject.data.local.LocaleHelper
+import com.example.middlecourseproject.data.local.sharedPreferences.PreferencesHelper
+import com.example.middlecourseproject.data.local.sharedPreferences.LocaleHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 

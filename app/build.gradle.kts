@@ -32,7 +32,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             buildConfigField("String", "BASE_URL", "\"http://54.93.212.178\"")
+            buildConfigField("String", "BASE_FOOD_URL", "\"https://forkify-api.herokuapp.com/api/\"")
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -40,6 +43,7 @@ android {
         }
         debug {
             buildConfigField("String", "BASE_URL", "\"http://54.93.212.178\"")
+            buildConfigField("String", "BASE_FOOD_URL", "\"https://forkify-api.herokuapp.com/api/\"")
         }
     }
     compileOptions {
@@ -53,6 +57,7 @@ android {
 
 dependencies {
     implementation ("com.google.android.material:material:<version>")
+    implementation (libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

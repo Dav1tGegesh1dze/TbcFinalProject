@@ -1,12 +1,14 @@
 package com.example.middlecourseproject.data.repository
 
-import com.example.middlecourseproject.data.local.DataStoreManager
+import com.example.middlecourseproject.data.local.datastore.DataStoreManager
 import com.example.middlecourseproject.data.remote.dtos.DetailsDto
 import com.example.middlecourseproject.data.remote.dtos.DetailsRequest
 import com.example.middlecourseproject.data.remote.services.ProfileService
 import com.example.middlecourseproject.domain.repository.UserProfileRepository
 import com.example.middlecourseproject.data.utils.ApiHelper
 import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.data.remote.dtos.LoginRequest
+import com.example.middlecourseproject.data.remote.dtos.ProfileDto
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +27,14 @@ class UserProfileRepositoryImpl @Inject constructor(
         println(token)
         return apiHelper.handleHttpRequest {
             profileService.updateDetails("Bearer $token", request)
+        }
+    }
+
+    override suspend fun getProfile(): Resource<ProfileDto> {
+        return apiHelper.handleHttpRequest {
+            val token = dataStoreManager.getToken().first() ?: ""
+
+            profileService.getProfile("Bearer $token")
         }
     }
 

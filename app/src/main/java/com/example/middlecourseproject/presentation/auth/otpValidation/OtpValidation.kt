@@ -13,7 +13,7 @@ import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentOtpValidationBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.data.local.Resource
-import com.google.android.material.snackbar.Snackbar
+import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -54,13 +54,13 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
                             binding.resendButton.isEnabled = true
                             binding.otpButtonLoader.visibility = View.GONE
                             binding.resendButton.setText(R.string.resend_otp)
-                            Snackbar.make(binding.otpRoot, "OTP resent successfully", Snackbar.LENGTH_SHORT).show()
+                            binding.root.showSnackbar(getString(R.string.otp_resend_successfully))
                         }
                         is Resource.Error -> {
                             binding.resendButton.isEnabled = true
                             binding.otpButtonLoader.visibility = View.GONE
                             binding.resendButton.setText(R.string.resend_otp)
-                            Snackbar.make(binding.otpRoot, state.message, Snackbar.LENGTH_LONG).show()
+                            binding.root.showSnackbar(state.message)
                         }
                         else -> {
                             binding.resendButton.isEnabled = true
@@ -119,9 +119,12 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
 
     private fun observeOtpErrorEvent() {
         viewLifecycleOwner.lifecycleScope.launch {
-            otpViewModel.otpErrorEvent.collect { errorMessage ->
-                Snackbar.make(binding.otpRoot, errorMessage, Snackbar.LENGTH_LONG).show()
-                clearOtpInputs()
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                otpViewModel.otpErrorEvent.collect { errorMessage ->
+                    binding.root.showSnackbar(errorMessage)
+
+                    clearOtpInputs()
+                }
             }
         }
     }

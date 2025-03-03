@@ -1,7 +1,7 @@
 package com.example.middlecourseproject.di
 
-import com.example.middlecourseproject.data.local.LocaleHelper
-import com.example.middlecourseproject.data.local.PreferencesHelper
+import com.example.middlecourseproject.data.local.sharedPreferences.LocaleHelper
+import com.example.middlecourseproject.data.local.sharedPreferences.PreferencesHelper
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

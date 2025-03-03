@@ -9,5 +9,4 @@ interface AuthRepository {
     suspend fun login(email: String, password: String): Resource<LoginDto>
     suspend fun register(email: String, userName: String, password: String): Resource<RegisterDto>
     suspend fun otpValidation(email: String, otp: String): Resource<OtpDto>
-//    suspend fun saveUserAuth(token: String)
 }

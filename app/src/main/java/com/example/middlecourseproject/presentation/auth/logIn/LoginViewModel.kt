@@ -29,7 +29,6 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val toggleLanguageUseCase: ToggleLanguageUseCase,
     private val getLanguageUseCase: GetLanguageUseCase,
-    private val saveLanguageUseCase: SaveLanguageUseCase
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)

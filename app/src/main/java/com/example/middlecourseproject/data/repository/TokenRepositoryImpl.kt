@@ -1,7 +1,7 @@
 package com.example.middlecourseproject.data.repository
 
 import com.example.middlecourseproject.domain.repository.TokenRepository
-import com.example.middlecourseproject.data.local.DataStoreManager
+import com.example.middlecourseproject.data.local.datastore.DataStoreManager
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,6 +15,10 @@ class TokenRepositoryImpl @Inject constructor(
     }
     override suspend fun saveUserAuth(token: String) {
         dataStoreManager.saveToken(token)
+    }
+
+    override suspend fun clearToken() {
+        dataStoreManager.clearJwtToken()
     }
 
 }

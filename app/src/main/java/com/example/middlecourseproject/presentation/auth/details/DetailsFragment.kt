@@ -1,6 +1,7 @@
 // DetailsFragment.kt
 package com.example.middlecourseproject.presentation.auth.details
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -10,10 +11,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Base64
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -25,8 +26,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentDetailsBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
+import com.example.middlecourseproject.utils.convertUriToBase64
+import com.example.middlecourseproject.utils.onItemSelected
+import com.example.middlecourseproject.utils.showSnackbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.Calendar
@@ -36,11 +41,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
 
     private val detailsViewModel: DetailsViewModel by viewModels()
 
-    // Data for spinners.
-    private val genderList = listOf("male" to 1, "female" to 2)
-    private val cityList = listOf("თბილისი" to 1, "ქუთაისი" to 2, "ბათუმი" to 3, "თელავი" to 4, "მცხეთა" to 5)
-    private val nationalityList = listOf("საქართველო" to 1, "გერმანია" to 2, "სლოვაკეთი" to 3, "დანია" to 4, "ჩინეთი" to 5)
-
+    // Selected IDs from spinners.
     private var selectedGenderId: Int? = null
     private var selectedCityId: Int? = null
     private var selectedNationalityId: Int? = null
@@ -57,47 +58,38 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun setupSpinners() {
-        // Gender spinner
+        // Gender spinner setup
         val genderAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            genderList.map { it.first }
+            detailsViewModel.genderList.map { it.first }
         )
         binding.genderSpinner.adapter = genderAdapter
         binding.genderSpinner.setSelection(-1)
-        binding.genderSpinner.setOnItemSelectedListener { index ->
-            selectedGenderId = genderList[index].second
+        binding.genderSpinner.onItemSelected { position ->
+            selectedGenderId = detailsViewModel.genderList[position].second
         }
-        // City spinner
+        // City spinner setup
         val cityAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            cityList.map { it.first }
+            detailsViewModel.cityList.map { it.first }
         )
         binding.citySpinner.adapter = cityAdapter
         binding.citySpinner.setSelection(-1)
-        binding.citySpinner.setOnItemSelectedListener { index ->
-            selectedCityId = cityList[index].second
+        binding.citySpinner.onItemSelected { position ->
+            selectedCityId = detailsViewModel.cityList[position].second
         }
-        // Nationality spinner
+        // Nationality spinner setup
         val nationAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            nationalityList.map { it.first }
+            detailsViewModel.nationalityList.map { it.first }
         )
         binding.nationalitySpinner.adapter = nationAdapter
         binding.nationalitySpinner.setSelection(-1)
-        binding.nationalitySpinner.setOnItemSelectedListener { index ->
-            selectedNationalityId = nationalityList[index].second
-        }
-    }
-
-    private fun Spinner.setOnItemSelectedListener(onItemSelected: (position: Int) -> Unit) {
-        this.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onItemSelected(position)
-            }
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        binding.nationalitySpinner.onItemSelected { position ->
+            selectedNationalityId = detailsViewModel.nationalityList[position].second
         }
     }
 
@@ -141,7 +133,12 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        uri?.let { convertUriToBase64(it) }
+        uri?.let {
+            // Use extension function on context to convert URI.
+            profilePhotoBase64 = requireContext().convertUriToBase64(it)
+            // Optionally update the image view.
+            binding.profileImage.setImageURI(it)
+        }
     }
 
     private fun pickFromGallery() {
@@ -159,16 +156,32 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun takePhoto() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-        } else {
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            cameraLauncher.launch(cameraIntent)
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
+                launchCamera()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                showPermissionRationaleDialog()
+            }
+            else -> {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
         }
+    }
+
+    private fun showPermissionRationaleDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.camera_permission_required))
+            .setMessage(getString(R.string.camera_permission_message))
+            .setPositiveButton(getString(R.string.go_to_settings)) { dialog, _ ->
+                dialog.dismiss()
+                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
     // Permission launcher for camera access.
@@ -176,24 +189,28 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            cameraLauncher.launch(cameraIntent)
+            launchCamera()
         } else {
-            showError("Camera permission was denied")
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showPermissionRationaleDialog()
+            } else {
+                binding.root.showSnackbar(getString(R.string.camera_permission_denied))
+            }
         }
     }
 
-    private fun convertUriToBase64(uri: Uri) {
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
-        updateProfileImage(bitmap)
+    private fun launchCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraLauncher.launch(cameraIntent)
     }
 
     private fun updateProfileImage(bitmap: Bitmap) {
+        // Convert bitmap to Base64 string.
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
         profilePhotoBase64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+        // Update the UI.
         binding.profileImage.setImageBitmap(bitmap)
-        println(profilePhotoBase64)
     }
 
     private fun onSaveClicked() {
@@ -201,7 +218,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         val lastName = binding.lastNameInput.text.toString().trim()
         val birthDate = binding.birthDateInput.text.toString().trim()
         if (selectedGenderId == null || selectedCityId == null || selectedNationalityId == null) {
-            showError("Please select gender, city, and nationality")
+            binding.root.showSnackbar("Please select gender, city, and nationality")
             return
         }
         detailsViewModel.updateDetails(
@@ -216,7 +233,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun observeViewModel() {
-        // Observe persistent loading state.
+        // Observe loading state.
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.loading.collect { isLoading ->
@@ -239,14 +256,9 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
                     is DetailsEvent.Success -> {
                         findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHome2())
                     }
-                    is DetailsEvent.Error -> showError(event.message)
-                    else -> {}
+                    is DetailsEvent.Error -> binding.root.showSnackbar(event.message)
                 }
             }
         }
-    }
-
-    private fun showError(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }
