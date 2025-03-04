@@ -1,5 +1,6 @@
 package com.example.middlecourseproject.presentation.auth.otpValidation
 
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -91,8 +92,40 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
                 otpViewModel.validateOtp(otp, args.email, args.password)
             }
         }
-    }
 
+        binding.otpDigit2.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                if (binding.otpDigit2.text!!.isEmpty()) {
+                    binding.otpDigit1.requestFocus()
+                    binding.otpDigit1.text?.clear()
+                    return@setOnKeyListener true
+                }
+            }
+            false
+        }
+
+        binding.otpDigit3.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                if (binding.otpDigit3.text!!.isEmpty()) {
+                    binding.otpDigit2.requestFocus()
+                    binding.otpDigit2.text?.clear()
+                    return@setOnKeyListener true
+                }
+            }
+            false
+        }
+
+        binding.otpDigit4.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                if (binding.otpDigit4.text!!.isEmpty()) {
+                    binding.otpDigit3.requestFocus()
+                    binding.otpDigit3.text?.clear()
+                    return@setOnKeyListener true
+                }
+            }
+            false
+        }
+    }
     private fun observeTimer() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
