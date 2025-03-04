@@ -2,14 +2,12 @@ package com.example.middlecourseproject.data.remote.services
 
 import com.example.middlecourseproject.data.remote.dtos.DetailsDto
 import com.example.middlecourseproject.data.remote.dtos.DetailsRequest
-import com.example.middlecourseproject.data.remote.dtos.FoodDto
 import com.example.middlecourseproject.data.remote.dtos.ProfileDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface ProfileService {
 

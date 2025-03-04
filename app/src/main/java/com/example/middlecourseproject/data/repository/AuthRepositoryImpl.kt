@@ -9,7 +9,7 @@ import com.example.middlecourseproject.data.remote.dtos.RegisterRequest
 import com.example.middlecourseproject.data.remote.dtos.OtpRequest
 import com.example.middlecourseproject.domain.repository.AuthRepository
 import com.example.middlecourseproject.data.utils.ApiHelper
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
 

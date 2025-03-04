@@ -1,4 +1,3 @@
-// LoginFragment.kt
 package com.example.middlecourseproject.presentation.auth.logIn
 
 import android.view.View
@@ -51,7 +50,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun observeLoginState() {
-        // Observe persistent loading state.
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 loginViewModel.loading.collect { isLoading ->
@@ -67,7 +65,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 }
             }
         }
-        // Observe one-time login events.
         viewLifecycleOwner.lifecycleScope.launch {
             loginViewModel.loginEvent.collect { event ->
                 when (event) {
@@ -109,15 +106,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 loginViewModel.language.collect { currentLang ->
-                    // Here, instead of showing the current language,
-                    // show the alternative language as the button label.
+
                     updateLanguageButton(currentLang)
                 }
             }
         }
     }
 
-    // Listen for one-time language toggle events.
     private fun observeLanguageToggle() {
         viewLifecycleOwner.lifecycleScope.launch {
             loginViewModel.languageToggleEvent.collect {
@@ -126,14 +121,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    // Set up the language toggle button.
     private fun setupLanguageToggleButton() {
         binding.langToggleButton.setOnClickListener {
             loginViewModel.toggleLanguage()
         }
     }
 
-    // Update the language button UI so it displays the alternative language.
     private fun updateLanguageButton(currentLang: String) {
         val alternativeLang = if (currentLang == "en") "ka" else "en"
         binding.languageText.text = when (alternativeLang) {

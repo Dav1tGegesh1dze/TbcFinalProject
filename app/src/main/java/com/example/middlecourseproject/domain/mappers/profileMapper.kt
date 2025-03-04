@@ -1,10 +1,7 @@
 package com.example.middlecourseproject.domain.mappers
 
-import com.example.middlecourseproject.data.remote.dtos.DishDto
 import com.example.middlecourseproject.data.remote.dtos.ProfileDto
-import com.example.middlecourseproject.domain.models.Dish
 import com.example.middlecourseproject.domain.models.Profile
-import kotlin.math.roundToInt
 
 fun ProfileDto.toProfile(): Profile {
     return Profile(

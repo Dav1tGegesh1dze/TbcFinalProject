@@ -18,7 +18,6 @@ class LanguageRepositoryImpl @Inject constructor(
 
     override suspend fun saveLanguage(language: String) {
         preferencesHelper.saveLanguage(language)
-        // Update locale as part of saving the new language.
         localeHelper.setLocale(language)
     }
 

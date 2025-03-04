@@ -1,4 +1,3 @@
-// RegisterFragment.kt
 package com.example.middlecourseproject.presentation.auth.register
 
 import android.view.View
@@ -74,7 +73,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                         val userName = binding.userNameInput.text.toString()
                         val password = binding.passwordInputRegister.text.toString()
 
-                        // Optionally clear backstack and navigate to OTP validation screen
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.loginFragment, true)
                             .build()

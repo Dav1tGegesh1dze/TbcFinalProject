@@ -1,4 +1,4 @@
-package com.example.middlecourseproject.data.local
+package com.example.middlecourseproject.domain.utils
 
 
 sealed class Resource<out T> {

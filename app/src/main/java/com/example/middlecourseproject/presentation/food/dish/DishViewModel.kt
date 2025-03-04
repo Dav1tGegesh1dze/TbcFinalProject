@@ -2,7 +2,7 @@ package com.example.middlecourseproject.presentation.food.dish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.models.Dish
 import com.example.middlecourseproject.domain.useCases.GetDishUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

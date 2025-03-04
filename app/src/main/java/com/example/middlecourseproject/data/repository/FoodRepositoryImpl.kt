@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.middlecourseproject.data.local.roomDB.database.AppDatabase
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.data.remote.FoodRemoteMediator
 import com.example.middlecourseproject.data.remote.dtos.FoodDto
 import com.example.middlecourseproject.data.remote.services.FoodService

@@ -1,4 +1,3 @@
-// DetailsFragment.kt
 package com.example.middlecourseproject.presentation.auth.details
 
 
@@ -11,7 +10,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Base64
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
@@ -29,9 +27,7 @@ import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.utils.convertUriToBase64
 import com.example.middlecourseproject.utils.onItemSelected
 import com.example.middlecourseproject.utils.showSnackbar
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.Calendar
@@ -41,12 +37,10 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
 
     private val detailsViewModel: DetailsViewModel by viewModels()
 
-    // Selected IDs from spinners.
     private var selectedGenderId: Int? = null
     private var selectedCityId: Int? = null
     private var selectedNationalityId: Int? = null
 
-    // Base64 string for the chosen/taken photo.
     private var profilePhotoBase64: String? = null
 
     override fun start() {
@@ -58,7 +52,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun setupSpinners() {
-        // Gender spinner setup
         val genderAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -69,7 +62,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         binding.genderSpinner.onItemSelected { position ->
             selectedGenderId = detailsViewModel.genderList[position].second
         }
-        // City spinner setup
         val cityAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -80,7 +72,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         binding.citySpinner.onItemSelected { position ->
             selectedCityId = detailsViewModel.cityList[position].second
         }
-        // Nationality spinner setup
         val nationAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -129,14 +120,11 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         }
     }
 
-    // Launcher to pick image from gallery.
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            // Use extension function on context to convert URI.
             profilePhotoBase64 = requireContext().convertUriToBase64(it)
-            // Optionally update the image view.
             binding.profileImage.setImageURI(it)
         }
     }
@@ -145,7 +133,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         galleryLauncher.launch("image/*")
     }
 
-    // Launcher for taking a photo.
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -184,7 +171,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
             .show()
     }
 
-    // Permission launcher for camera access.
     private val requestCameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -205,11 +191,9 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun updateProfileImage(bitmap: Bitmap) {
-        // Convert bitmap to Base64 string.
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
         profilePhotoBase64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-        // Update the UI.
         binding.profileImage.setImageBitmap(bitmap)
     }
 
@@ -233,7 +217,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
     }
 
     private fun observeViewModel() {
-        // Observe loading state.
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.loading.collect { isLoading ->
@@ -249,7 +232,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
                 }
             }
         }
-        // Observe one-time events.
         viewLifecycleOwner.lifecycleScope.launch {
             detailsViewModel.detailsEvent.collect { event ->
                 when (event) {

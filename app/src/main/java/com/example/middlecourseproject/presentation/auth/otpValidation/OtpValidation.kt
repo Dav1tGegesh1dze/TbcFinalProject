@@ -1,4 +1,3 @@
-// OtpValidationFragment.kt
 package com.example.middlecourseproject.presentation.auth.otpValidation
 
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentOtpValidationBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -45,6 +44,11 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 otpViewModel.resendEvent.collect { state ->
                     when (state) {
+                        is Resource.Idle ->{
+                            binding.resendButton.isEnabled = true
+                            binding.otpButtonLoader.visibility = View.GONE
+                            binding.resendButton.setText(R.string.resend_otp)
+                        }
                         is Resource.Loading -> {
                             binding.resendButton.isEnabled = false
                             binding.otpButtonLoader.visibility = View.VISIBLE
@@ -61,11 +65,6 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
                             binding.otpButtonLoader.visibility = View.GONE
                             binding.resendButton.setText(R.string.resend_otp)
                             binding.root.showSnackbar(state.message)
-                        }
-                        else -> {
-                            binding.resendButton.isEnabled = true
-                            binding.otpButtonLoader.visibility = View.GONE
-                            binding.resendButton.setText(R.string.resend_otp)
                         }
                     }
                 }
@@ -109,7 +108,6 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
     private fun observeOtpSuccessEvent() {
         viewLifecycleOwner.lifecycleScope.launch {
             otpViewModel.otpSuccessEvent.collect {
-                // Navigate on successful OTP validation and login
                 findNavController().navigate(
                     OtpValidationFragmentDirections.actionOtpValidationToDetailsFragment()
                 )

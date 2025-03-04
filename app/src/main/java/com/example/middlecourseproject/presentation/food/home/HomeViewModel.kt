@@ -1,4 +1,3 @@
-// HomeViewModel.kt
 package com.example.middlecourseproject.presentation.food.home
 
 
@@ -7,19 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.models.Food
 import com.example.middlecourseproject.domain.models.Recipe
-import com.example.middlecourseproject.domain.useCases.GetLanguageUseCase
 import com.example.middlecourseproject.domain.useCases.GetPagedFoodsUseCase
-import com.example.middlecourseproject.domain.useCases.ToggleLanguageUseCase
-import com.example.middlecourseproject.presentation.auth.logIn.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

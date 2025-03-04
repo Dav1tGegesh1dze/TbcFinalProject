@@ -14,16 +14,15 @@ data class DetailsRequest(
     val lastName: String,
     val genderId: Int,
     val homeStadiumId: Int,
-    // Use a simple ISO date string ("yyyy-MM-dd") for birthDate
     val birthDate: String,
     val cityId: Int,
     val nationalityId: Int,
-    val bio: String = "",           // Always null in your app
-    val height: Int = 0,           // Always null
-    val weight: Int = 0,           // Always null
-    val freeTimeStart: Time? = null,   // Always null
-    val freeTimeEnd: Time? = null,     // Always null
-    val profilePhoto: String?           // URL string (or null if not provided)
+    val bio: String = "",
+    val height: Int = 0,
+    val weight: Int = 0,
+    val freeTimeStart: Time? = null,
+    val freeTimeEnd: Time? = null,
+    val profilePhoto: String?
 )
 
 @Serializable

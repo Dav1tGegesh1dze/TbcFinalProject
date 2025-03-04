@@ -1,7 +1,7 @@
 package com.example.middlecourseproject.data.utils
 
 import android.content.Context
-import com.example.middlecourseproject.domain.StringProvider
+import com.example.middlecourseproject.domain.utils.StringProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

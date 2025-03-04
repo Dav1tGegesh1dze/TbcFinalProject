@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import java.util.Locale
 
 @Singleton
 class PreferencesHelper @Inject constructor(@ApplicationContext private val context: Context) {
@@ -22,6 +23,11 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
     }
 
     fun getLanguage(): String {
-        return prefs.getString(LANGUAGE_KEY, "en") ?: "en"
+        return prefs.getString(LANGUAGE_KEY, null) ?: getDefaultLanguageBasedOnSystem()
+    }
+
+    private fun getDefaultLanguageBasedOnSystem(): String {
+        val systemLanguage = Locale.getDefault().language
+        return if (systemLanguage.equals("ka", ignoreCase = true)) "ka" else "en"
     }
 }

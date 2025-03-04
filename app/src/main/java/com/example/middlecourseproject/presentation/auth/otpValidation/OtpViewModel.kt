@@ -1,9 +1,8 @@
-// OtpValidationViewModel.kt
 package com.example.middlecourseproject.presentation.auth.otpValidation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.ResendOtpUseCase
 import com.example.middlecourseproject.domain.useCases.ValidateOtpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,19 +22,15 @@ class OtpValidationViewModel @Inject constructor(
     private val resendOtpUseCase: ResendOtpUseCase
 ) : ViewModel() {
 
-    // Timer state (3 minutes) is persistent.
     private val _timerSeconds = MutableStateFlow(180)
     val timerSeconds: StateFlow<Int> get() = _timerSeconds
 
-    // For one-time events (e.g. navigation on success)
     private val _otpSuccessEvent = MutableSharedFlow<Unit>(replay = 0)
     val otpSuccessEvent = _otpSuccessEvent.asSharedFlow()
 
-    // Error events are one-time.
     private val _otpErrorEvent = MutableSharedFlow<String>(replay = 0)
     val otpErrorEvent = _otpErrorEvent.asSharedFlow()
 
-    // For resend calls.
     private val _resendEvent = MutableSharedFlow<Resource<Boolean>>(replay = 0)
     val resendEvent = _resendEvent.asSharedFlow()
 
@@ -47,7 +42,7 @@ class OtpValidationViewModel @Inject constructor(
 
     private fun startTimer() {
         timerJob?.cancel()
-        _timerSeconds.value = 180 // reset timer
+        _timerSeconds.value = 180
         timerJob = viewModelScope.launch(Dispatchers.IO) {
             while (_timerSeconds.value > 0) {
                 delay(1000)
@@ -76,7 +71,7 @@ class OtpValidationViewModel @Inject constructor(
             when (val result = resendOtpUseCase(email, username, password)) {
                 is Resource.Success -> {
                     _resendEvent.emit(Resource.Success(true))
-                    startTimer()  // restart the OTP timer
+                    startTimer()
                 }
                 is Resource.Error -> {
                     _otpErrorEvent.emit(result.message)

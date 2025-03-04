@@ -1,4 +1,3 @@
-// NetworkUtil.kt
 package com.example.middlecourseproject.utils
 
 import android.content.Context

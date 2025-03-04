@@ -7,7 +7,6 @@ import android.provider.MediaStore
 import android.util.Base64
 import java.io.ByteArrayOutputStream
 
-// Extension function on Context to convert a Uri into a Base64 string.
 fun Context.convertUriToBase64(uri: Uri): String? {
     return try {
         val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)

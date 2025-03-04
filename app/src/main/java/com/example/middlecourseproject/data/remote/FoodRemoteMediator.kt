@@ -30,24 +30,16 @@ class FoodRemoteMediator(
         try {
             val standardizedQuery = query.trim().lowercase()
 
-            // Check if offline
             if (!networkUtil.isNetworkAvailableFlow.first()) {
-                // Offline: Rely on database data, end pagination
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
 
-            // Online: Call API for fresh data
             val response = foodService.searchFoods(standardizedQuery)
             if (!response.isSuccessful) {
-                // API error: Don’t modify database, return error for UI to handle
                 return MediatorResult.Error(HttpException(response))
             }
 
-            val foodDto = response.body()
-            if (foodDto == null) {
-                // Null response body: Treat as error, don’t modify database
-                return MediatorResult.Error(Exception("No data"))
-            }
+            val foodDto = response.body() ?: return MediatorResult.Error(Exception("No data"))
 
             val recipeEntities = foodDto.recipes.map { recipeDto ->
                 RecipeEntity(
@@ -62,7 +54,6 @@ class FoodRemoteMediator(
                 )
             }
 
-            // Only clear and insert if API returns non-empty recipe list
             appDatabase.withTransaction {
                 if (recipeEntities.isNotEmpty()) {
                     appDatabase.foodDao().clearRecipes(standardizedQuery)
@@ -72,10 +63,8 @@ class FoodRemoteMediator(
 
             return MediatorResult.Success(endOfPaginationReached = true)
         } catch (e: IOException) {
-            // Network-related error: Don’t modify database
             return MediatorResult.Error(e)
         } catch (e: HttpException) {
-            // HTTP error: Don’t modify database
             return MediatorResult.Error(e)
         }
     }

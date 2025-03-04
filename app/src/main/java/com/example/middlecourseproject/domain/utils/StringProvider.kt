@@ -1,4 +1,4 @@
-package com.example.middlecourseproject.domain
+package com.example.middlecourseproject.domain.utils
 
 interface StringProvider {
     fun getString(resId: Int): String

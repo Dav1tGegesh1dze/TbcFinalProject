@@ -2,7 +2,7 @@ package com.example.middlecourseproject.domain.useCases
 
 
 import com.example.middlecourseproject.domain.repository.AuthRepository
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.data.remote.dtos.LoginDto
 import com.example.middlecourseproject.domain.repository.TokenRepository
 import javax.inject.Inject

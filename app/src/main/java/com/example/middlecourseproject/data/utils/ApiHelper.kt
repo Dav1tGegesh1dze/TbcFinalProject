@@ -1,11 +1,8 @@
 package com.example.middlecourseproject.data.utils
-import android.content.Context
-import android.util.Log
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.data.remote.dtos.ErrorResponse
-import com.example.middlecourseproject.data.local.Resource
-import com.example.middlecourseproject.domain.StringProvider
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.middlecourseproject.domain.utils.Resource
+import com.example.middlecourseproject.domain.utils.StringProvider
 import retrofit2.HttpException
 import retrofit2.Response
 import kotlinx.serialization.json.Json
@@ -47,7 +44,6 @@ class ApiHelper @Inject constructor(
                         stringProvider.getString(R.string.error_parsing)
                     }
                 } else {
-                    // No error body, fall back to HTTP status code
                     getErrorMessageFromType(null, response.code())
                 }
                 Resource.Error(errorMessage)

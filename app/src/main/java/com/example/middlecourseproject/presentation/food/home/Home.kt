@@ -1,4 +1,3 @@
-// Home.kt (Fragment)
 package com.example.middlecourseproject.presentation.food.home
 
 import android.view.View
@@ -62,15 +61,7 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
             findNavController().navigate(HomeDirections.actionHome2ToProfileFragment())
         }
     }
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        networkUtil.startNetworkCallback() // Start monitoring once per fragment instance
-//    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        networkUtil.stopNetworkCallback() // Stop monitoring when fragment is destroyed
-//    }
+
 
     private fun attachRecycler() {
         binding.foodRecycler.apply {
@@ -126,30 +117,24 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
             val sourceRefresh = loadState.source.refresh
             val mediatorRefresh = loadState.mediator?.refresh
 
-            // Handle UI based on the combined state
             when {
-                // Loading state: show progress bar, hide everything else
                 sourceRefresh is LoadState.Loading || mediatorRefresh is LoadState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.errorImage.visibility = View.GONE
                     binding.foodRecycler.visibility = View.GONE
                 }
-                // Source finished loading: decide based on data availability
                 sourceRefresh is LoadState.NotLoading -> {
-                    binding.progressBar.visibility = View.GONE // Hide loader immediately
+                    binding.progressBar.visibility = View.GONE
                     if (foodAdapter.itemCount > 0) {
-                        // Data available, show recycler view
                         binding.errorImage.visibility = View.GONE
                         binding.foodRecycler.visibility = View.VISIBLE
                     } else {
-                        // No data, show error image
                         binding.errorImage.visibility = View.VISIBLE
                         binding.foodRecycler.visibility = View.GONE
                     }
                 }
-                // Source error: show error image immediately
                 sourceRefresh is LoadState.Error -> {
-                    binding.progressBar.visibility = View.GONE // Hide loader immediately
+                    binding.progressBar.visibility = View.GONE
                     binding.errorImage.visibility = View.VISIBLE
                     binding.foodRecycler.visibility = View.GONE
                 }

@@ -1,8 +1,11 @@
 package com.example.middlecourseproject.presentation.base
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -21,27 +24,36 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    // Inject the CheckAuthTokenUseCase.
-    @Inject lateinit var checkAuthTokenUseCase: CheckAuthTokenUseCase
+    @Inject
+    lateinit var checkAuthTokenUseCase: CheckAuthTokenUseCase
 
-    // Flag to control when navigation is ready.
     @Volatile
     private var isNavigationReady: Boolean = false
 
     override fun attachBaseContext(newBase: Context) {
-        // Retrieve the entry point for locale-related helpers.
         val entryPoint = EntryPointAccessors.fromApplication(
             newBase.applicationContext, LocaleHelperEntryPoint::class.java
         )
-        val savedLang = entryPoint.preferencesHelper().getLanguage()
-        val configContext = entryPoint.localeHelper().applyLocale(newBase, savedLang)
+        val langCode = entryPoint.preferencesHelper().getLanguage()
+        val configContext = entryPoint.localeHelper().applyLocale(newBase, langCode)
         super.attachBaseContext(configContext)
     }
-
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            currentFocus?.let { focusedView ->
+                val outRect = Rect()
+                focusedView.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    focusedView.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Install the splash screen before super.onCreate().
         val splashScreen = installSplashScreen()
-        // Keep the splash screen on until isNavigationReady becomes true.
         splashScreen.setKeepOnScreenCondition { !isNavigationReady }
 
         super.onCreate(savedInstanceState)
@@ -67,7 +79,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "No valid token found. Navigating to Login")
             }
             navController.graph = navGraph
-            // Once navigation is set, update the flag to remove the splash.
             isNavigationReady = true
         }
     }

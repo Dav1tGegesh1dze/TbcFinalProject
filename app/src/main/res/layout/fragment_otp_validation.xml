@@ -19,7 +19,6 @@
         android:src="@drawable/logo_white1"
         />
 
-    <!-- Title -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/otpTitle"
         android:layout_width="0dp"
@@ -37,7 +36,6 @@
 
 
 
-    <!-- OTP input container -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/otpContainer"
         android:layout_width="wrap_content"
@@ -49,7 +47,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/timerTextView">
 
-        <!-- OTP Digit 1 -->
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/otpDigit1"
             style="?android:attr/editTextStyle"
@@ -62,7 +59,6 @@
             android:textSize="18sp"
             android:imeOptions="actionNext"/>
 
-        <!-- OTP Digit 2 -->
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/otpDigit2"
             style="?android:attr/editTextStyle"
@@ -76,7 +72,6 @@
             android:textSize="18sp"
             android:imeOptions="actionNext"/>
 
-        <!-- OTP Digit 3 -->
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/otpDigit3"
             style="?android:attr/editTextStyle"
@@ -90,7 +85,6 @@
             android:textSize="18sp"
             android:imeOptions="actionNext"/>
 
-        <!-- OTP Digit 4 -->
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/otpDigit4"
             style="?android:attr/editTextStyle"
@@ -105,7 +99,6 @@
             android:imeOptions="actionDone"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <!-- Countdown Timer -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
@@ -118,7 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/errorTextView"/>
 
-    <!-- Error Message -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/errorTextView"
         android:layout_width="0dp"

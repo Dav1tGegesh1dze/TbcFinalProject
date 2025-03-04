@@ -5,9 +5,6 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FoodRecyclerItemBinding
 import com.example.middlecourseproject.domain.imageLoading.ImageLoader
 import com.example.middlecourseproject.domain.models.Recipe

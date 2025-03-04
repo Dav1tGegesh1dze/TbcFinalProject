@@ -12,6 +12,6 @@ data class Recipe(
     val sourceUrl: String,
     val recipeId: String,
     val imageUrl: String,
-    val socialRank: Int,      // Rounded value
+    val socialRank: Int,
     val publisherUrl: String
 )

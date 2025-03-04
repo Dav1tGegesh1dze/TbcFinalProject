@@ -1,6 +1,6 @@
 package com.example.middlecourseproject.domain.useCases
 
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.mappers.toDish
 import com.example.middlecourseproject.domain.models.Dish
 import com.example.middlecourseproject.domain.repository.DishRepository

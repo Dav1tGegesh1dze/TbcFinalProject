@@ -2,7 +2,7 @@ package com.example.middlecourseproject.presentation.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.models.Profile
 import com.example.middlecourseproject.domain.useCases.ClearTokenUseCase
 import com.example.middlecourseproject.domain.useCases.GetProfileUseCase
@@ -20,7 +20,7 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 sealed class UpdateEvent {
-    object Success : UpdateEvent()
+    data object Success : UpdateEvent()
     data class Error(val message: String) : UpdateEvent()
 }
 
@@ -31,19 +31,15 @@ class ProfileViewModel @Inject constructor(
     private val updateDetailsUseCase: UpdateDetailsUseCase
 ) : ViewModel() {
 
-    // Holds the fetched profile.
     private val _profile = MutableStateFlow<Resource<Profile>>(Resource.Idle)
     val profile: StateFlow<Resource<Profile>> = _profile.asStateFlow()
 
-    // Update event for one-time update success or error.
     private val _updateEvent = MutableSharedFlow<UpdateEvent>(replay = 0)
     val updateEvent = _updateEvent.asSharedFlow()
 
-    // Persistent loading state (used for both fetch and update).
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> get() = _loading
 
-    // Keep the current profile so that non-edited fields are retained.
     private var currentProfile: Profile? = null
 
     fun fetchProfile() {
@@ -73,10 +69,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Updates profile with new firstName, lastName, and optionally a new profile image.
-     * Other fields (genderId, birthDate, cityId, nationalityId) are taken from the currentProfile.
-     */
+
     fun updateProfile(newFirstName: String, newLastName: String, newProfilePhotoBase64: String?) {
         val profile = currentProfile
         if (profile == null) {
@@ -85,14 +78,12 @@ class ProfileViewModel @Inject constructor(
         }
         _loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            // Format the image data if available.
             val finalPhoto = newProfilePhotoBase64?.let { "data:image/jpeg;base64,$it" }
-            // Build the request using new values for first and last names.
             val request = DetailsRequest(
                 firstName = newFirstName,
                 lastName = newLastName,
                 genderId = profile.genderId,
-                homeStadiumId = 0, // default value
+                homeStadiumId = 0,
                 birthDate = profile.birthDate,
                 cityId = profile.cityId,
                 nationalityId = profile.nationalityId,
@@ -105,7 +96,6 @@ class ProfileViewModel @Inject constructor(
             )
             when (val result = updateDetailsUseCase(request)) {
                 is Resource.Success -> {
-                    // Update the current profile with the new names and image.
                     currentProfile = profile.copy(
                         firstName = newFirstName,
                         lastName = newLastName,

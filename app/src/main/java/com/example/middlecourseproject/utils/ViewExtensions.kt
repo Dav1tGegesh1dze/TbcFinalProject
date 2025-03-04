@@ -9,7 +9,6 @@ fun View.showSnackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     Snackbar.make(this, message, duration).show()
 }
 
-// Extension function to set an item selected listener for Spinner.
 fun Spinner.onItemSelected(onItemSelected: (position: Int) -> Unit) {
     this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(

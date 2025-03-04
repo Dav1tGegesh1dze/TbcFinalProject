@@ -1,13 +1,10 @@
-// LoginViewModel.kt
 package com.example.middlecourseproject.presentation.auth.logIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.middlecourseproject.domain.repository.AuthRepository
-import com.example.middlecourseproject.data.local.Resource
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.GetLanguageUseCase
 import com.example.middlecourseproject.domain.useCases.LoginUseCase
-import com.example.middlecourseproject.domain.useCases.SaveLanguageUseCase
 import com.example.middlecourseproject.domain.useCases.ToggleLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -6,8 +6,7 @@ import com.example.middlecourseproject.data.remote.dtos.DetailsRequest
 import com.example.middlecourseproject.data.remote.services.ProfileService
 import com.example.middlecourseproject.domain.repository.UserProfileRepository
 import com.example.middlecourseproject.data.utils.ApiHelper
-import com.example.middlecourseproject.data.local.Resource
-import com.example.middlecourseproject.data.remote.dtos.LoginRequest
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.data.remote.dtos.ProfileDto
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
