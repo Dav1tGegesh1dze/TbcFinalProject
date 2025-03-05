@@ -2,9 +2,11 @@ package com.example.middlecourseproject.presentation.auth.otpValidation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.middlecourseproject.R
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.ResendOtpUseCase
 import com.example.middlecourseproject.domain.useCases.ValidateOtpUseCase
+import com.example.middlecourseproject.domain.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,10 +21,11 @@ import javax.inject.Inject
 @HiltViewModel
 class OtpValidationViewModel @Inject constructor(
     private val validateOtpUseCase: ValidateOtpUseCase,
-    private val resendOtpUseCase: ResendOtpUseCase
+    private val resendOtpUseCase: ResendOtpUseCase,
+    private val stringProvider: StringProvider
 ) : ViewModel() {
 
-    private val _timerSeconds = MutableStateFlow(180)
+    private val _timerSeconds = MutableStateFlow(180) // 3 minute
     val timerSeconds: StateFlow<Int> get() = _timerSeconds
 
     private val _otpSuccessEvent = MutableSharedFlow<Unit>(replay = 0)
@@ -53,7 +56,7 @@ class OtpValidationViewModel @Inject constructor(
 
     fun validateOtp(otp: String, email: String, password: String) {
         if (_timerSeconds.value <= 0) {
-            viewModelScope.launch { _otpErrorEvent.emit("OTP expired. Please resend.") }
+            viewModelScope.launch { _otpErrorEvent.emit(stringProvider.getString(R.string.otp_expired)) }
             return
         }
         viewModelScope.launch(Dispatchers.IO) {

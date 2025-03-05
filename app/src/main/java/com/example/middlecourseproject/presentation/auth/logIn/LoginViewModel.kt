@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 sealed class LoginEvent {
-    object Success : LoginEvent()
+    data object Success : LoginEvent()
     data class Error(val message: String) : LoginEvent()
 }
 
@@ -46,22 +46,18 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    // Expose the current language code to update the UI.
     private val _language = MutableStateFlow("en")
     val language: StateFlow<String> get() = _language
 
-    // One-time event to notify the view to recreate the activity.
     private val _languageToggleEvent = MutableSharedFlow<String>(replay = 0)
     val languageToggleEvent = _languageToggleEvent.asSharedFlow()
 
-    // Load the current language using the repository.
     fun loadLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
             _language.value = getLanguageUseCase()
         }
     }
 
-    // Toggle language by calling the toggle use case.
     fun toggleLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
             val newLang = toggleLanguageUseCase()

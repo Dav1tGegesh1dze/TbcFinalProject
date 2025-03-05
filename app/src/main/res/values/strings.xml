@@ -171,5 +171,6 @@
     <string name="view_source">view source</string>
     <string name="no_app_for_url">No application found to open URL.</string>
     <string name="invalid_url">Invalid URL.</string>
+    <string name="otp_expired">OTP expired. Please resend</string>
 
 </resources>

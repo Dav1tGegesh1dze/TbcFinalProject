@@ -167,5 +167,8 @@
     <string name="empty_response">ცარიელი პასუხი</string>
     <string name="request_timed_out">მოთხოვნის დრო ამოიწურა. გთხოვთ, სცადეთ კიდევ ერთხელ.</string>
     <string name="internet_error">ინტერნეტ კავშირი არ არის. გთხოვთ, შეამოწმეთ თქვენი ქსელი.</string>
-
+    <string name="view_source">ნახე ავტორი</string>
+    <string name="no_app_for_url">ლინკის გახსნა ვერ მოხერხდა</string>
+    <string name="invalid_url">არასწორი ლინკი.</string>
+    <string name="otp_expired">კოდი ვადაგასულია, გთხოვთ გააგზავნოთ თავიდან</string>
 </resources>
