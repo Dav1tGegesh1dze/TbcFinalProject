@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.RegisterUseCase
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,8 @@ sealed class RegisterEvent {
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val errorMapper: ErrorMapper
 
 ) : ViewModel() {
 
@@ -35,7 +37,10 @@ class RegisterViewModel @Inject constructor(
             _loading.value = true
             when (val result = registerUseCase(email, userName, password)) {
                 is Resource.Success -> _registerEvent.emit(RegisterEvent.Success)
-                is Resource.Error -> _registerEvent.emit(RegisterEvent.Error(result.message))
+                is Resource.Error -> {
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+                    _registerEvent.emit(RegisterEvent.Error(errorMessage))
+                }
                 else -> Unit
             }
             _loading.value = false

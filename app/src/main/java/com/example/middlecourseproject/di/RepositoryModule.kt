@@ -8,14 +8,17 @@ import com.example.middlecourseproject.data.repository.LanguageRepositoryImpl
 import com.example.middlecourseproject.data.repository.TokenRepositoryImpl
 import com.example.middlecourseproject.domain.repository.UserProfileRepository
 import com.example.middlecourseproject.data.repository.UserProfileRepositoryImpl
-import com.example.middlecourseproject.data.utils.StringProviderImpl
-import com.example.middlecourseproject.domain.utils.StringProvider
+import com.example.middlecourseproject.presentation.utils.StringProviderImpl
 import com.example.middlecourseproject.domain.repository.DishRepository
 import com.example.middlecourseproject.domain.repository.FoodRepository
 import com.example.middlecourseproject.domain.repository.LanguageRepository
 import com.example.middlecourseproject.domain.repository.TokenRepository
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
+import com.example.middlecourseproject.presentation.utils.ErrorMapperImpl
+import com.example.middlecourseproject.presentation.utils.StringProvider
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -65,4 +68,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindStringProvider(defaultStringProvider: StringProviderImpl): StringProvider
+
+
 }

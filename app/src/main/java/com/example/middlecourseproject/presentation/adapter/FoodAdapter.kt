@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.middlecourseproject.databinding.FoodRecyclerItemBinding
-import com.example.middlecourseproject.domain.imageLoading.ImageLoader
+import com.example.middlecourseproject.presentation.imageLoading.ImageLoader
 import com.example.middlecourseproject.domain.models.Recipe
 
 class FoodAdapter (

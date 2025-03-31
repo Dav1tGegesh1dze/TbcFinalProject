@@ -1,8 +1,9 @@
 package com.example.middlecourseproject.data.utils
-import com.example.middlecourseproject.R
+
 import com.example.middlecourseproject.data.remote.dtos.ErrorResponse
+import com.example.middlecourseproject.domain.utils.AppError
+import com.example.middlecourseproject.domain.utils.ErrorType
 import com.example.middlecourseproject.domain.utils.Resource
-import com.example.middlecourseproject.domain.utils.StringProvider
 import retrofit2.HttpException
 import retrofit2.Response
 import kotlinx.serialization.json.Json
@@ -10,52 +11,51 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class ApiHelper @Inject constructor(
-    private val stringProvider: StringProvider
+class ApiHelper @Inject constructor() {
 
-
-) {
-    private fun getErrorMessageFromType(errorType: String?, httpCode: Int? = null): String {
-        return when {
-
-            errorType == "NOT_CORRECT_EMAIL_OR_PASSWORD" -> stringProvider.getString(R.string.incorect_email_or_password)
-            errorType == "ALREADY_USED_EMAILADDRESS" -> stringProvider.getString(R.string.already_registered_email)
-            errorType == "OTP_ERROR_VALID" -> stringProvider.getString(R.string.invalid_otp)
-            errorType == "OTP_ERROR_CORRECT" -> stringProvider.getString(R.string.invalid_otp1)
-            httpCode == 401 -> stringProvider.getString(R.string.expired_jwt)
-            else -> stringProvider.getString(R.string.other_error)
+    private fun parseErrorType(errorType: String?): ErrorType {
+        return when (errorType) {
+            "NOT_CORRECT_EMAIL_OR_PASSWORD" -> ErrorType.NOT_CORRECT_EMAIL_OR_PASSWORD
+            "ALREADY_USED_EMAILADDRESS" -> ErrorType.ALREADY_USED_EMAILADDRESS
+            "OTP_ERROR_VALID" -> ErrorType.OTP_ERROR_VALID
+            "OTP_ERROR_CORRECT" -> ErrorType.OTP_ERROR_CORRECT
+            else -> ErrorType.OTHER
         }
     }
+
     suspend fun <T> handleHttpRequest(httpCall: suspend () -> Response<T>): Resource<T> {
         return try {
             val response = httpCall.invoke()
             if (response.isSuccessful) {
                 response.body()?.let {
                     Resource.Success(it)
-                } ?: Resource.Error(stringProvider.getString(R.string.empty_response))
+                } ?: Resource.Error(AppError.ApiError(ErrorType.OTHER))
             } else {
                 val errorBody = response.errorBody()?.string()
-                val errorMessage = if (!errorBody.isNullOrBlank()) {
+                val appError = if (!errorBody.isNullOrBlank()) {
                     try {
                         val errorResponse = Json { ignoreUnknownKeys = true }
                             .decodeFromString<ErrorResponse>(errorBody)
-                        getErrorMessageFromType(errorResponse.errorType, response.code())
+                        AppError.ApiError(parseErrorType(errorResponse.errorType), errorResponse.errorMessage)
                     } catch (e: Exception) {
-                        stringProvider.getString(R.string.error_parsing)
+                        AppError.ApiError(ErrorType.OTHER)
                     }
                 } else {
-                    getErrorMessageFromType(null, response.code())
+                    when (response.code()) {
+                        401 -> AppError.ApiError(ErrorType.EXPIRED_JWT)
+                        else -> AppError.ApiError(ErrorType.OTHER)
+                    }
                 }
-                Resource.Error(errorMessage)
+                Resource.Error(appError)
             }
         } catch (e: Exception) {
-            val errorMessage = when (e) {
-                is SocketTimeoutException -> stringProvider.getString(R.string.request_timed_out)
-                is UnknownHostException -> stringProvider.getString(R.string.internet_error)
-                is HttpException -> "Server error: ${e.message()}"
-                else -> "Unexpected error: ${e.localizedMessage ?: "Please try again"}"
+            val appError = when (e) {
+                is SocketTimeoutException -> AppError.TimeoutError
+                is UnknownHostException -> AppError.NetworkError("No internet connection")
+                is HttpException -> AppError.ApiError(ErrorType.OTHER)
+                else -> AppError.ApiError(ErrorType.OTHER)
             }
-            Resource.Error(errorMessage)
+            Resource.Error(appError)
         }
     }
 }

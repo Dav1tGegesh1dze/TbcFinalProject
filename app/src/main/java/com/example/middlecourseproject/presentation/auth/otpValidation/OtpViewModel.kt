@@ -6,7 +6,8 @@ import com.example.middlecourseproject.R
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.ResendOtpUseCase
 import com.example.middlecourseproject.domain.useCases.ValidateOtpUseCase
-import com.example.middlecourseproject.domain.utils.StringProvider
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
+import com.example.middlecourseproject.presentation.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,8 +23,9 @@ import javax.inject.Inject
 class OtpValidationViewModel @Inject constructor(
     private val validateOtpUseCase: ValidateOtpUseCase,
     private val resendOtpUseCase: ResendOtpUseCase,
-    private val stringProvider: StringProvider
-) : ViewModel() {
+    private val stringProvider: StringProvider,
+    private val errorMapper: ErrorMapper
+    ) : ViewModel() {
 
     private val _timerSeconds = MutableStateFlow(180) // 3 minute
     val timerSeconds: StateFlow<Int> get() = _timerSeconds
@@ -62,7 +64,10 @@ class OtpValidationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = validateOtpUseCase(otp,email,password)) {
                 is Resource.Success -> _otpSuccessEvent.emit(Unit)
-                is Resource.Error -> _otpErrorEvent.emit(result.message)
+                is Resource.Error -> {
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+                    _otpErrorEvent.emit(errorMessage)
+                }
                 else -> Unit
             }
         }
@@ -77,7 +82,8 @@ class OtpValidationViewModel @Inject constructor(
                     startTimer()
                 }
                 is Resource.Error -> {
-                    _otpErrorEvent.emit(result.message)
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+                    _otpErrorEvent.emit(errorMessage)
                     _resendEvent.emit(result)
                 }
                 else -> Unit

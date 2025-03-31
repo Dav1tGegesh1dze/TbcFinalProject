@@ -15,10 +15,11 @@ import com.example.middlecourseproject.R
 
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.databinding.FragmentDishBinding
-import com.example.middlecourseproject.domain.imageLoading.ImageLoader
-import com.example.middlecourseproject.domain.models.Dish
+import com.example.middlecourseproject.presentation.imageLoading.ImageLoader
 import com.example.middlecourseproject.presentation.adapter.DishAdapter
 import com.example.middlecourseproject.presentation.base.BaseFragment
+import com.example.middlecourseproject.presentation.models.Dish
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -33,6 +34,8 @@ class DishFragment : BaseFragment<FragmentDishBinding>(FragmentDishBinding::infl
 
     @Inject
     lateinit var imageLoader: ImageLoader
+    @Inject
+    lateinit var errorMapper: ErrorMapper
 
     private val dishViewModel : DishViewModel by viewModels ()
 
@@ -64,7 +67,8 @@ class DishFragment : BaseFragment<FragmentDishBinding>(FragmentDishBinding::infl
 
                         is Resource.Error -> {
                             binding.progressBar.visibility = View.GONE
-                            binding.root.showSnackbar(resource.message)
+                            val errorMessage = errorMapper.mapToMessage(resource.message)
+                            binding.root.showSnackbar(errorMessage)
                         }
                     }
                 }

@@ -69,8 +69,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             loginViewModel.loginEvent.collect { event ->
                 when (event) {
                     is LoginEvent.Success -> navigateToHome()
-                    is LoginEvent.Error ->
-                        binding.root.showSnackbar(event.message)
+                    is LoginEvent.Error -> binding.root.showSnackbar(event.message)
                 }
             }
         }

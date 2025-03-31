@@ -2,10 +2,11 @@ package com.example.middlecourseproject.presentation.auth.logIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.GetLanguageUseCase
 import com.example.middlecourseproject.domain.useCases.LoginUseCase
 import com.example.middlecourseproject.domain.useCases.ToggleLanguageUseCase
+import com.example.middlecourseproject.domain.utils.Resource
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 sealed class LoginEvent {
     data object Success : LoginEvent()
@@ -26,6 +26,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val toggleLanguageUseCase: ToggleLanguageUseCase,
     private val getLanguageUseCase: GetLanguageUseCase,
+    private val errorMapper: ErrorMapper
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -39,7 +40,10 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = loginUseCase(email, password)) {
                 is Resource.Success -> _loginEvent.emit(LoginEvent.Success)
-                is Resource.Error -> _loginEvent.emit(LoginEvent.Error(result.message))
+                is Resource.Error -> {
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+                    _loginEvent.emit(LoginEvent.Error(errorMessage))
+                }
                 else -> Unit
             }
             _loading.value = false
@@ -65,6 +69,4 @@ class LoginViewModel @Inject constructor(
             _languageToggleEvent.emit(newLang)
         }
     }
-
-
 }

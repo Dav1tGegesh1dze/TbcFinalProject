@@ -19,8 +19,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.databinding.FragmentProfileBinding
-import com.example.middlecourseproject.domain.models.Profile
 import com.example.middlecourseproject.presentation.base.BaseFragment
+import com.example.middlecourseproject.presentation.imageLoading.ImageLoader
+import com.example.middlecourseproject.presentation.models.Profile
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import com.example.middlecourseproject.utils.convertUriToBase64
 import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,10 +34,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private val profileViewModel: ProfileViewModel by viewModels()
     @Inject
-    lateinit var imageLoader: com.example.middlecourseproject.domain.imageLoading.ImageLoader
+    lateinit var imageLoader: ImageLoader
 
     private var isEditing = false
     private var newProfilePhotoBase64: String? = null
+
+    @Inject
+    lateinit var errorMapper: ErrorMapper
 
     override fun start() {
         profileViewModel.fetchProfile()
@@ -196,7 +201,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                         }
                         is Resource.Error -> {
                             binding.progressBar.visibility = View.GONE
-                            binding.root.showSnackbar(resource.message)
+                            val errorMessage = errorMapper.mapToMessage(resource.message)
+
+                            binding.root.showSnackbar(errorMessage)
                         }
                     }
                 }
@@ -241,7 +248,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                         is Resource.Error -> {
                             binding.logOut.text = getString(R.string.log_out)
                             binding.logOut.isEnabled = true
-                            binding.root.showSnackbar(state.message)
+                            val errorMessage = errorMapper.mapToMessage(state.message)
+                            binding.root.showSnackbar(errorMessage)
                         }
                     }
                 }

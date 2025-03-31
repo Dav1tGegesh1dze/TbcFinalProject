@@ -13,9 +13,11 @@ import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentOtpValidationBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.domain.utils.Resource
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(FragmentOtpValidationBinding::inflate) {
@@ -23,6 +25,8 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
     private val otpViewModel: OtpValidationViewModel by viewModels()
 
     private val args: OtpValidationFragmentArgs by navArgs()
+    @Inject
+    lateinit var errorMapper: ErrorMapper
 
     override fun start() {
         setupOtpInputs()
@@ -65,7 +69,9 @@ class OtpValidationFragment : BaseFragment<FragmentOtpValidationBinding>(Fragmen
                             binding.resendButton.isEnabled = true
                             binding.otpButtonLoader.visibility = View.GONE
                             binding.resendButton.setText(R.string.resend_otp)
-                            binding.root.showSnackbar(state.message)
+                            val errorMessage = errorMapper.mapToMessage(state.message)
+
+                            binding.root.showSnackbar(errorMessage)
                         }
                     }
                 }

@@ -13,11 +13,10 @@ import com.example.middlecourseproject.R
 import com.example.middlecourseproject.utils.NetworkUtil
 import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.databinding.FragmentHomeBinding
-import com.example.middlecourseproject.domain.imageLoading.ImageLoader
+import com.example.middlecourseproject.presentation.imageLoading.ImageLoader
 import com.example.middlecourseproject.presentation.adapter.FoodAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -95,7 +94,6 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
                 Toast.makeText(requireContext(), getString(R.string.fill_all_fields), Toast.LENGTH_LONG).show()
             } else {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    delay(300) // Simple debounce
                     homeViewModel.searchFood(query)
                 }
             }

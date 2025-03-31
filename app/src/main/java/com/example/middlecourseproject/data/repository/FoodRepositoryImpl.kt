@@ -12,7 +12,7 @@ import com.example.middlecourseproject.data.remote.dtos.FoodDto
 import com.example.middlecourseproject.data.remote.services.FoodService
 import com.example.middlecourseproject.data.utils.ApiHelper
 import com.example.middlecourseproject.utils.NetworkUtil
-import com.example.middlecourseproject.domain.mappers.toRecipe
+import com.example.middlecourseproject.data.mappers.toRecipe
 import com.example.middlecourseproject.domain.models.Recipe
 import com.example.middlecourseproject.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +31,7 @@ class FoodRepositoryImpl @Inject constructor(
             foodService.searchFoods(query)
         }
     }
+
     @OptIn(ExperimentalPagingApi::class)
     override fun getPagedFoods(query: String): Flow<PagingData<Recipe>> {
         return Pager(

@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.middlecourseproject.data.local.roomDB.database.AppDatabase
 import com.example.middlecourseproject.data.local.roomDB.dao.FoodDao
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
+import com.example.middlecourseproject.presentation.utils.ErrorMapperImpl
+import com.example.middlecourseproject.presentation.utils.StringProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +25,9 @@ object DatabaseModule {
 
     @Provides
     fun provideFoodDao(appDatabase: AppDatabase): FoodDao = appDatabase.foodDao()
+    @Provides
+    @Singleton
+    fun provideErrorMapper(stringProvider: StringProvider): ErrorMapper {
+        return ErrorMapperImpl(stringProvider)
+    }
 }

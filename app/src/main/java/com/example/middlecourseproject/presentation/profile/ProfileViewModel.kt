@@ -3,11 +3,15 @@ package com.example.middlecourseproject.presentation.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.middlecourseproject.domain.utils.Resource
-import com.example.middlecourseproject.domain.models.Profile
 import com.example.middlecourseproject.domain.useCases.ClearTokenUseCase
 import com.example.middlecourseproject.domain.useCases.GetProfileUseCase
 import com.example.middlecourseproject.domain.useCases.UpdateDetailsUseCase
 import com.example.middlecourseproject.data.remote.dtos.DetailsRequest
+import com.example.middlecourseproject.domain.utils.AppError
+import com.example.middlecourseproject.domain.utils.ErrorType
+import com.example.middlecourseproject.presentation.mappers.toProfile
+import com.example.middlecourseproject.presentation.models.Profile
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,7 +32,9 @@ sealed class UpdateEvent {
 class ProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
     private val clearTokenUseCase: ClearTokenUseCase,
-    private val updateDetailsUseCase: UpdateDetailsUseCase
+    private val updateDetailsUseCase: UpdateDetailsUseCase,
+    private val errorMapper: ErrorMapper
+
 ) : ViewModel() {
 
     private val _profile = MutableStateFlow<Resource<Profile>>(Resource.Idle)
@@ -47,9 +53,22 @@ class ProfileViewModel @Inject constructor(
             _profile.value = Resource.Loading
             val result = getProfileUseCase()
             if (result is Resource.Success) {
-                currentProfile = result.data
+                currentProfile = result.data.toProfile()
             }
-            _profile.value = result
+            when (result) {
+                is Resource.Success -> {
+                    _profile.value = Resource.Success(result.data.toProfile())
+                }
+                is Resource.Error -> {
+                    _profile.value = Resource.Error(result.message)
+                }
+                is Resource.Loading ->{
+                    _profile.value = Resource.Loading
+                }
+                is Resource.Idle ->{
+                    _profile.value = Resource.Idle
+                }
+            }
         }
     }
 
@@ -64,7 +83,7 @@ class ProfileViewModel @Inject constructor(
                 delay(1000)
                 _logoutState.value = Resource.Success(Unit)
             } catch (e: Exception) {
-                _logoutState.value = Resource.Error(e.message ?: "An error occurred")
+                _logoutState.value = Resource.Error(AppError.ApiError(ErrorType.OTHER,e.message ?: "something went wrong"))
             }
         }
     }
@@ -87,12 +106,7 @@ class ProfileViewModel @Inject constructor(
                 birthDate = profile.birthDate,
                 cityId = profile.cityId,
                 nationalityId = profile.nationalityId,
-                profilePhoto = finalPhoto,
-                bio = "",
-                height = 0,
-                weight = 0,
-                freeTimeStart = null,
-                freeTimeEnd = null
+                profilePhoto = finalPhoto
             )
             when (val result = updateDetailsUseCase(request)) {
                 is Resource.Success -> {
@@ -104,7 +118,9 @@ class ProfileViewModel @Inject constructor(
                     _updateEvent.emit(UpdateEvent.Success)
                 }
                 is Resource.Error -> {
-                    _updateEvent.emit(UpdateEvent.Error(result.message))
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+
+                    _updateEvent.emit(UpdateEvent.Error(errorMessage))
                 }
                 else -> Unit
             }

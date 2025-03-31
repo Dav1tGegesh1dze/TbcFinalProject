@@ -11,6 +11,7 @@ class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenRepository: TokenRepository
 ) {
+
     suspend operator fun invoke(email: String, password: String): Resource<LoginDto> {
         val result = authRepository.login(email, password)
         if (result is Resource.Success) {

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.middlecourseproject.domain.useCases.UpdateDetailsUseCase
+import com.example.middlecourseproject.presentation.utils.ErrorMapper
 
 
 sealed class DetailsEvent {
@@ -22,7 +23,8 @@ sealed class DetailsEvent {
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val updateDetailsUseCase: UpdateDetailsUseCase
+    private val updateDetailsUseCase: UpdateDetailsUseCase,
+    private val errorMapper: ErrorMapper
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -81,7 +83,10 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = updateDetailsUseCase( request)) {
                 is Resource.Success -> _detailsEvent.emit(DetailsEvent.Success)
-                is Resource.Error -> _detailsEvent.emit(DetailsEvent.Error(result.message))
+                is Resource.Error ->{
+                    val errorMessage = errorMapper.mapToMessage(result.message)
+                    _detailsEvent.emit(DetailsEvent.Error(errorMessage))
+                }
                 else -> Unit
             }
             _loading.value = false

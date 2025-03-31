@@ -3,6 +3,8 @@ package com.example.middlecourseproject.domain.useCases
 import com.example.middlecourseproject.domain.repository.AuthRepository
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.repository.TokenRepository
+import com.example.middlecourseproject.domain.utils.AppError
+import com.example.middlecourseproject.domain.utils.ErrorType
 import javax.inject.Inject
 
 class ValidateOtpUseCase @Inject constructor(
@@ -24,7 +26,8 @@ class ValidateOtpUseCase @Inject constructor(
                 loginResult as Resource.Error
             }
         } else {
-            Resource.Error((otpResult as? Resource.Error)?.message ?: "OTP is not valid.")
+//            Resource.Error((otpResult as? Resource.Error)?.message ?: "OTP is not valid.")
+            Resource.Error(AppError.ApiError(ErrorType.OTP_ERROR_VALID,))
         }
     }
 }
