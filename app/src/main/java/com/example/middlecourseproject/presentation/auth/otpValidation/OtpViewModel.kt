@@ -3,19 +3,20 @@ package com.example.middlecourseproject.presentation.auth.otpValidation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.middlecourseproject.R
-import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.useCases.ResendOtpUseCase
 import com.example.middlecourseproject.domain.useCases.ValidateOtpUseCase
+import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import com.example.middlecourseproject.presentation.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,19 +26,17 @@ class OtpValidationViewModel @Inject constructor(
     private val resendOtpUseCase: ResendOtpUseCase,
     private val stringProvider: StringProvider,
     private val errorMapper: ErrorMapper
-    ) : ViewModel() {
+) : ViewModel() {
 
-    private val _timerSeconds = MutableStateFlow(180) // 3 minute
-    val timerSeconds: StateFlow<Int> get() = _timerSeconds
+    private val _state = MutableStateFlow(OtpValidationState())
+    val state: StateFlow<OtpValidationState> = _state.asStateFlow()
 
-    private val _otpSuccessEvent = MutableSharedFlow<Unit>(replay = 0)
-    val otpSuccessEvent = _otpSuccessEvent.asSharedFlow()
+    private val _sideEffect = MutableSharedFlow<OtpValidationSideEffect>(replay = 0)
+    val sideEffect: SharedFlow<OtpValidationSideEffect> = _sideEffect.asSharedFlow()
 
-    private val _otpErrorEvent = MutableSharedFlow<String>(replay = 0)
-    val otpErrorEvent = _otpErrorEvent.asSharedFlow()
-
-    private val _resendEvent = MutableSharedFlow<Resource<Boolean>>(replay = 0)
-    val resendEvent = _resendEvent.asSharedFlow()
+    private var email: String = ""
+    private var username: String = ""
+    private var password: String = ""
 
     private var timerJob: Job? = null
 
@@ -45,49 +44,85 @@ class OtpValidationViewModel @Inject constructor(
         startTimer()
     }
 
+    fun setCredentials(email: String, username: String, password: String) {
+        this.email = email
+        this.username = username
+        this.password = password
+    }
+
     private fun startTimer() {
         timerJob?.cancel()
-        _timerSeconds.value = 180
-        timerJob = viewModelScope.launch(Dispatchers.IO) {
-            while (_timerSeconds.value > 0) {
+        _state.value = _state.value.copy(timerSeconds = 180)
+        timerJob = viewModelScope.launch {
+            while (_state.value.timerSeconds > 0) {
                 delay(1000)
-                _timerSeconds.value -= 1
+                _state.value = _state.value.copy(timerSeconds = _state.value.timerSeconds - 1)
             }
         }
     }
 
-    fun validateOtp(otp: String, email: String, password: String) {
-        if (_timerSeconds.value <= 0) {
-            viewModelScope.launch { _otpErrorEvent.emit(stringProvider.getString(R.string.otp_expired)) }
+    fun processIntent(intent: OtpValidationIntent) {
+        when (intent) {
+            is OtpValidationIntent.SubmitOtp -> handleSubmitOtp(intent.otp)
+            is OtpValidationIntent.ResendOtp -> handleResendOtp()
+        }
+    }
+
+    private fun handleSubmitOtp(otp: String) {
+        if (_state.value.timerSeconds <= 0) {
+            viewModelScope.launch {
+                _sideEffect.emit(
+                    OtpValidationSideEffect.ShowValidationError(
+                        stringProvider.getString(R.string.otp_expired)
+                    )
+                )
+            }
             return
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val result = validateOtpUseCase(otp,email,password)) {
-                is Resource.Success -> _otpSuccessEvent.emit(Unit)
-                is Resource.Error -> {
-                    val errorMessage = errorMapper.mapToMessage(result.message)
-                    _otpErrorEvent.emit(errorMessage)
+        viewModelScope.launch {
+            validateOtpUseCase.invoke(otp, email, password).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(isValidating = resource.isLoading)
+                    }
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(isValidating = false)
+                        _sideEffect.emit(OtpValidationSideEffect.NavigateToDetails)
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(isValidating = false)
+                        val errorMessage = errorMapper.mapToMessage(resource.message)
+                        _sideEffect.emit(OtpValidationSideEffect.ShowValidationError(errorMessage))
+                    }
                 }
-                else -> Unit
             }
         }
     }
 
-    fun resendOtp(email: String, username: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _resendEvent.emit(Resource.Loading)
-            when (val result = resendOtpUseCase(email, username, password)) {
-                is Resource.Success -> {
-                    _resendEvent.emit(Resource.Success(true))
-                    startTimer()
+    private fun handleResendOtp() {
+        viewModelScope.launch {
+            resendOtpUseCase.invoke(email, username, password).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(isResending = resource.isLoading)
+                    }
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(isResending = false)
+                        startTimer()
+                        _sideEffect.emit(OtpValidationSideEffect.ShowResendSuccess)
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(isResending = false)
+                        val errorMessage = errorMapper.mapToMessage(resource.message)
+                        _sideEffect.emit(OtpValidationSideEffect.ShowResendError(errorMessage))
+                    }
                 }
-                is Resource.Error -> {
-                    val errorMessage = errorMapper.mapToMessage(result.message)
-                    _otpErrorEvent.emit(errorMessage)
-                    _resendEvent.emit(result)
-                }
-                else -> Unit
             }
         }
+    }
+
+    override fun onCleared() {
+        timerJob?.cancel()
+        super.onCleared()
     }
 }

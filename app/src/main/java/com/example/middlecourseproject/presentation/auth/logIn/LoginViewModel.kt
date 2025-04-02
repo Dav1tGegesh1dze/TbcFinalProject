@@ -8,18 +8,16 @@ import com.example.middlecourseproject.domain.useCases.ToggleLanguageUseCase
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.presentation.utils.ErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class LoginEvent {
-    data object Success : LoginEvent()
-    data class Error(val message: String) : LoginEvent()
-}
+
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -29,44 +27,85 @@ class LoginViewModel @Inject constructor(
     private val errorMapper: ErrorMapper
 ) : ViewModel() {
 
-    private val _loading = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> get() = _loading
+    private val _state = MutableStateFlow(LoginState())
+    val state: StateFlow<LoginState> = _state.asStateFlow()
 
-    private val _loginEvent = MutableSharedFlow<LoginEvent>(replay = 0)
-    val loginEvent = _loginEvent.asSharedFlow()
+    private val _sideEffect = MutableSharedFlow<LoginSideEffect>(replay = 0)
+    val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect.asSharedFlow()
 
-    fun login(email: String, password: String) {
-        _loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val result = loginUseCase(email, password)) {
-                is Resource.Success -> _loginEvent.emit(LoginEvent.Success)
-                is Resource.Error -> {
-                    val errorMessage = errorMapper.mapToMessage(result.message)
-                    _loginEvent.emit(LoginEvent.Error(errorMessage))
-                }
-                else -> Unit
+    init {
+        loadLanguage()
+    }
+
+    private fun loadLanguage() {
+        viewModelScope.launch {
+            val lang = getLanguageUseCase()
+            _state.value = _state.value.copy(currentLanguage = lang)
+        }
+    }
+
+    fun processIntent(intent: LoginIntent) {
+        when (intent) {
+            is LoginIntent.EnterEmail -> _state.value = _state.value.copy(
+                email = intent.email,
+                emailError = null
+            )
+            is LoginIntent.EnterPassword -> _state.value = _state.value.copy(
+                password = intent.password,
+                passwordError = null
+            )
+            is LoginIntent.ClickLogin -> handleLogin()
+            is LoginIntent.ClickRegister -> viewModelScope.launch {
+                _sideEffect.emit(LoginSideEffect.NavigateToRegister)
             }
-            _loading.value = false
+            is LoginIntent.ToggleLanguage -> toggleLanguage()
         }
     }
 
-    private val _language = MutableStateFlow("en")
-    val language: StateFlow<String> get() = _language
+    private fun handleLogin() {
+        val email = _state.value.email
+        val password = _state.value.password
 
-    private val _languageToggleEvent = MutableSharedFlow<String>(replay = 0)
-    val languageToggleEvent = _languageToggleEvent.asSharedFlow()
+        val emailError = when {
+            email.isEmpty() -> "Email cannot be empty"
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email"
+            else -> null
+        }
+        val passwordError = if (password.isEmpty()) "Password cannot be empty" else null
 
-    fun loadLanguage() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _language.value = getLanguageUseCase()
+        if (emailError != null || passwordError != null) {
+            _state.value = _state.value.copy(
+                emailError = emailError,
+                passwordError = passwordError
+            )
+            return
+        }
+
+        viewModelScope.launch {
+            loginUseCase(email, password).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(isLoading = resource.isLoading)
+                    }
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(isLoading = false)
+                        _sideEffect.emit(LoginSideEffect.NavigateToHome)
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(isLoading = false)
+                        val errorMessage = errorMapper.mapToMessage(resource.message)
+                        _sideEffect.emit(LoginSideEffect.ShowSnackbar(errorMessage))
+                    }
+                }
+            }
         }
     }
 
-    fun toggleLanguage() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun toggleLanguage() {
+        viewModelScope.launch {
             val newLang = toggleLanguageUseCase()
-            _language.value = newLang
-            _languageToggleEvent.emit(newLang)
+            _state.value = _state.value.copy(currentLanguage = newLang)
+            _sideEffect.emit(LoginSideEffect.LanguageToggled(newLang))
         }
     }
 }

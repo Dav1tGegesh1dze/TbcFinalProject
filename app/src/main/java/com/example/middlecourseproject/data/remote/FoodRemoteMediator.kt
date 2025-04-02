@@ -9,7 +9,7 @@ import com.example.middlecourseproject.data.local.roomDB.database.AppDatabase
 import com.example.middlecourseproject.data.local.roomDB.entity.RecipeEntity
 import com.example.middlecourseproject.data.remote.services.FoodService
 import com.example.middlecourseproject.utils.NetworkUtil
-import com.example.middlecourseproject.data.mappers.truncate
+import com.example.middlecourseproject.utils.truncate
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import java.io.IOException

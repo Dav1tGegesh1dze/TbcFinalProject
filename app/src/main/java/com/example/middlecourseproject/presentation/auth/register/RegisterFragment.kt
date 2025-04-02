@@ -13,6 +13,9 @@ import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.core.widget.addTextChangedListener
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
@@ -20,37 +23,40 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun start() {
-        observeLoading()
-        observeRegisterEvents()
-        onRegister()
+        setupListeners()
+        observeState()
+        observeSideEffects()
         togglePasswordVisibility()
-        toLogin()
     }
 
-    private fun onRegister() {
+    private fun setupListeners() {
+        binding.emailInputRegister.addTextChangedListener { text ->
+            registerViewModel.processIntent(RegisterIntent.EnterEmail(text.toString()))
+        }
+        binding.userNameInput.addTextChangedListener { text ->
+                registerViewModel.processIntent(RegisterIntent.EnterUserName(text.toString()))
+        }
+        binding.passwordInputRegister.addTextChangedListener { text ->
+                registerViewModel.processIntent(RegisterIntent.EnterPassword(text.toString()))
+        }
         binding.registerButton.setOnClickListener {
-            val email = binding.emailInputRegister.text.toString()
-            val password = binding.passwordInputRegister.text.toString()
-            val userName = binding.userNameInput.text.toString()
-            when {
-                email.isEmpty() || password.isEmpty() || userName.isEmpty() -> {
-                    binding.root.showSnackbar(getString(R.string.fill_all_fields))
-                }
-                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    binding.root.showSnackbar(getString(R.string.valid_email))
-                }
-                else -> {
-                    registerViewModel.register(email, userName, password)
-                }
-            }
+            registerViewModel.processIntent(RegisterIntent.ClickRegister)
+        }
+        binding.toLoginPage.setOnClickListener {
+            registerViewModel.processIntent(RegisterIntent.ClickLogin)
         }
     }
 
-    private fun observeLoading() {
+    private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                registerViewModel.loading.collect { isLoading ->
-                    if (isLoading) {
+                registerViewModel.state.collect { state ->
+                    binding.emailInputRegister.error = state.emailError
+                    binding.userNameInput.error = state.userNameError
+                    binding.passwordInputRegister.error = state.passwordError
+
+                    // Update loading state
+                    if (state.isLoading) {
                         binding.registerButton.isEnabled = false
                         binding.registerButton.text = ""
                         binding.registerButtonLoader.visibility = View.VISIBLE
@@ -64,27 +70,27 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         }
     }
 
-    private fun observeRegisterEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
-            registerViewModel.registerEvent.collect { event ->
-                when (event) {
-                    is RegisterEvent.Success -> {
-                        val email = binding.emailInputRegister.text.toString()
-                        val userName = binding.userNameInput.text.toString()
-                        val password = binding.passwordInputRegister.text.toString()
-
+            registerViewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is RegisterSideEffect.ShowSnackbar -> binding.root.showSnackbar(effect.message)
+                    is RegisterSideEffect.NavigateToOtpValidation -> {
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.loginFragment, true)
                             .build()
                         findNavController().navigate(
-                            RegisterFragmentDirections.actionRegisterFragmentToOtpValidation(email,userName,password),
+                            RegisterFragmentDirections.actionRegisterFragmentToOtpValidation(
+                                effect.email,
+                                effect.userName,
+                                effect.password
+                            ),
                             navOptions
                         )
                     }
-                    is RegisterEvent.Error -> {
-                        binding.root.showSnackbar(event.message)
+                    is RegisterSideEffect.NavigateToLogin -> {
+                        findNavController().popBackStack()
                     }
-
                 }
             }
         }
@@ -103,12 +109,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 
             binding.passwordInputRegister.setSelection(binding.passwordInputRegister.text?.length ?: 0)
-        }
-    }
-
-    private fun toLogin() {
-        binding.toLoginPage.setOnClickListener {
-            parentFragmentManager.popBackStack()
         }
     }
 }

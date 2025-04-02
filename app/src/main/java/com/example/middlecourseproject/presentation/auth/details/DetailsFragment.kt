@@ -1,6 +1,5 @@
 package com.example.middlecourseproject.presentation.auth.details
 
-
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -12,14 +11,12 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentDetailsBinding
@@ -27,6 +24,7 @@ import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.utils.convertUriToBase64
 import com.example.middlecourseproject.utils.onItemSelected
 import com.example.middlecourseproject.utils.showSnackbar
+import com.example.middlecourseproject.utils.toBase64
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -37,18 +35,51 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
 
     private val detailsViewModel: DetailsViewModel by viewModels()
 
-    private var selectedGenderId: Int? = null
-    private var selectedCityId: Int? = null
-    private var selectedNationalityId: Int? = null
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            val base64 = requireContext().convertUriToBase64(it)
+            if (base64!!.isNotEmpty()) {
+                detailsViewModel.processIntent(DetailsIntent.UpdateProfilePhoto(base64))
+            } else {
+                binding.root.showSnackbar("Failed to process image")
+            }
+        }
+    }
 
-    private var profilePhotoBase64: String? = null
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val bitmap = result.data?.extras?.get("data") as? Bitmap
+            bitmap?.let {
+                val base64 = it.toBase64()
+                if (base64.isNotEmpty()) {
+                    detailsViewModel.processIntent(DetailsIntent.UpdateProfilePhoto(base64))
+                    binding.profileImage.setImageBitmap(it)
+                } else {
+                    binding.root.showSnackbar("Failed to process image")
+                }
+            }
+        }
+    }
+
+    private val requestCameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
+            launchCamera()
+        } else {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                detailsViewModel.processIntent(DetailsIntent.RequestCameraPermission)
+            } else {
+                binding.root.showSnackbar(getString(R.string.camera_permission_denied))
+            }
+        }
+    }
 
     override fun start() {
         setupSpinners()
         setupBirthDatePicker()
         setupProfileImageClick()
-        observeViewModel()
-        binding.saveButton.setOnClickListener { onSaveClicked() }
+        setupListeners()
+        observeState()
+        observeSideEffects()
     }
 
     private fun setupSpinners() {
@@ -58,30 +89,29 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
             detailsViewModel.genderList.map { it.first }
         )
         binding.genderSpinner.adapter = genderAdapter
-        binding.genderSpinner.setSelection(-1)
-        binding.genderSpinner.onItemSelected { position ->
-            selectedGenderId = detailsViewModel.genderList[position].second
-        }
+        binding.genderSpinner.onItemSelected(onItemSelected = { position ->
+            detailsViewModel.processIntent(DetailsIntent.UpdateGender(detailsViewModel.genderList[position].second))
+        })
+
         val cityAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
             detailsViewModel.cityList.map { it.first }
         )
         binding.citySpinner.adapter = cityAdapter
-        binding.citySpinner.setSelection(-1)
-        binding.citySpinner.onItemSelected { position ->
-            selectedCityId = detailsViewModel.cityList[position].second
-        }
+        binding.citySpinner.onItemSelected(onItemSelected = { position ->
+            detailsViewModel.processIntent(DetailsIntent.UpdateCity(detailsViewModel.cityList[position].second))
+        })
+
         val nationAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
             detailsViewModel.nationalityList.map { it.first }
         )
         binding.nationalitySpinner.adapter = nationAdapter
-        binding.nationalitySpinner.setSelection(-1)
-        binding.nationalitySpinner.onItemSelected { position ->
-            selectedNationalityId = detailsViewModel.nationalityList[position].second
-        }
+        binding.nationalitySpinner.onItemSelected(onItemSelected = { position ->
+            detailsViewModel.processIntent(DetailsIntent.UpdateNationality(detailsViewModel.nationalityList[position].second))
+        })
     }
 
     private fun setupBirthDatePicker() {
@@ -89,10 +119,12 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
             val calendar = Calendar.getInstance()
             DatePickerDialog(
                 requireContext(),
-                { _: DatePicker, y: Int, m: Int, d: Int ->
-                    val mm = (m + 1).toString().padStart(2, '0')
-                    val dd = d.toString().padStart(2, '0')
-                    binding.birthDateInput.setText("$y-$mm-$dd")
+                { _, year, month, day ->
+                    val mm = (month + 1).toString().padStart(2, '0')
+                    val dd = day.toString().padStart(2, '0')
+                    val date = "$year-$mm-$dd"
+                    detailsViewModel.processIntent(DetailsIntent.UpdateBirthDate(date))
+                    binding.birthDateInput.setText(date)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -112,47 +144,74 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
                 .setTitle(getString(R.string.select_image))
                 .setItems(options) { dialog, which ->
                     when (which) {
-                        0 -> pickFromGallery()
-                        1 -> takePhoto()
+                        0 -> detailsViewModel.processIntent(DetailsIntent.PickImageFromGallery)
+                        1 -> detailsViewModel.processIntent(DetailsIntent.TakePhoto)
                         2 -> dialog.dismiss()
                     }
                 }.show()
         }
     }
 
-    private val galleryLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            profilePhotoBase64 = requireContext().convertUriToBase64(it)
-            binding.profileImage.setImageURI(it)
+    private fun setupListeners() {
+        binding.firstNameInput.addTextChangedListener { text ->
+            detailsViewModel.processIntent(DetailsIntent.UpdateFirstName(text.toString()))
+        }
+        binding.lastNameInput.addTextChangedListener { text ->
+            detailsViewModel.processIntent(DetailsIntent.UpdateLastName(text.toString()))
+        }
+        binding.saveButton.setOnClickListener {
+            detailsViewModel.processIntent(DetailsIntent.SaveDetails)
         }
     }
 
-    private fun pickFromGallery() {
-        galleryLauncher.launch("image/*")
-    }
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            detailsViewModel.state.collect { state ->
+                binding.firstNameInput.error = state.firstNameError
+                binding.lastNameInput.error = state.lastNameError
+                binding.birthDateInput.error = state.birthDateError
+                if (state.genderError != null) binding.genderSpinner.tag = state.genderError
+                if (state.cityError != null) binding.citySpinner.tag = state.cityError
+                if (state.nationalityError != null) binding.nationalitySpinner.tag = state.nationalityError
 
-    private val cameraLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val bitmap = result.data?.extras?.get("data") as? Bitmap
-            bitmap?.let { updateProfileImage(it) }
+                if (state.isLoading) {
+                    binding.saveButton.isEnabled = false
+                    binding.detailsButtonLoader.visibility = View.VISIBLE
+                    binding.saveButton.text = ""
+                } else {
+                    binding.saveButton.isEnabled = true
+                    binding.detailsButtonLoader.visibility = View.GONE
+                    binding.saveButton.setText(R.string.save)
+                }
+            }
         }
     }
 
-    private fun takePhoto() {
-        when {
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
-                launchCamera()
+    private fun observeSideEffects() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            detailsViewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is DetailsSideEffect.ShowError -> binding.root.showSnackbar(effect.message)
+                    is DetailsSideEffect.NavigateToHome -> {
+                        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHome2())
+                    }
+                    is DetailsSideEffect.LaunchGalleryPicker -> galleryLauncher.launch("image/*")
+                    is DetailsSideEffect.LaunchCamera -> launchCamera()
+                    is DetailsSideEffect.ShowCameraPermissionRationale -> showPermissionRationaleDialog()
+                    is DetailsSideEffect.ShowCameraPermissionDenied -> {
+                        binding.root.showSnackbar(getString(R.string.camera_permission_denied))
+                    }
+                }
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                showPermissionRationaleDialog()
-            }
-            else -> {
-                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
+        }
+    }
+
+    private fun launchCamera() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            cameraLauncher.launch(cameraIntent)
+        } else {
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
 
@@ -160,8 +219,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.camera_permission_required))
             .setMessage(getString(R.string.camera_permission_message))
-            .setPositiveButton(getString(R.string.go_to_settings)) { dialog, _ ->
-                dialog.dismiss()
+            .setPositiveButton(getString(R.string.go_to_settings)) { _, _ ->
                 val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", requireContext().packageName, null)
                 }
@@ -169,78 +227,5 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             .show()
-    }
-
-    private val requestCameraPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            launchCamera()
-        } else {
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showPermissionRationaleDialog()
-            } else {
-                binding.root.showSnackbar(getString(R.string.camera_permission_denied))
-            }
-        }
-    }
-
-    private fun launchCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(cameraIntent)
-    }
-
-    private fun updateProfileImage(bitmap: Bitmap) {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-        profilePhotoBase64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-        binding.profileImage.setImageBitmap(bitmap)
-    }
-
-    private fun onSaveClicked() {
-        val firstName = binding.firstNameInput.text.toString().trim()
-        val lastName = binding.lastNameInput.text.toString().trim()
-        val birthDate = binding.birthDateInput.text.toString().trim()
-        if (selectedGenderId == null || selectedCityId == null || selectedNationalityId == null) {
-            binding.root.showSnackbar("Please select gender, city, and nationality")
-            return
-        }
-        detailsViewModel.updateDetails(
-            firstName = firstName,
-            lastName = lastName,
-            genderId = selectedGenderId!!,
-            birthDate = birthDate,
-            cityId = selectedCityId!!,
-            nationalityId = selectedNationalityId!!,
-            profilePhotoBase64 = profilePhotoBase64
-        )
-    }
-
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.loading.collect { isLoading ->
-                    if (isLoading) {
-                        binding.saveButton.isEnabled = false
-                        binding.detailsButtonLoader.visibility = View.VISIBLE
-                        binding.saveButton.text = ""
-                    } else {
-                        binding.saveButton.isEnabled = true
-                        binding.detailsButtonLoader.visibility = View.GONE
-                        binding.saveButton.setText(R.string.save)
-                    }
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            detailsViewModel.detailsEvent.collect { event ->
-                when (event) {
-                    is DetailsEvent.Success -> {
-                        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHome2())
-                    }
-                    is DetailsEvent.Error -> binding.root.showSnackbar(event.message)
-                }
-            }
-        }
     }
 }

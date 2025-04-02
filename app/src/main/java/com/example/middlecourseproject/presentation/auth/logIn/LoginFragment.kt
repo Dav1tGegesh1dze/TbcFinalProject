@@ -1,13 +1,13 @@
 package com.example.middlecourseproject.presentation.auth.logIn
 
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
-
 import com.example.middlecourseproject.databinding.FragmentLoginBinding
 import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.utils.showSnackbar
@@ -19,41 +19,49 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val loginViewModel: LoginViewModel by viewModels()
 
-
     override fun start() {
-        loginViewModel.loadLanguage()
-        observeLoginState()
-        onLogin()
-        togglePasswordVisibility()
-        navigateToRegister()
-        setupLanguageToggleButton()
-        observeLanguageState()
-        observeLanguageToggle()
+        setupListeners()
+        observeState()
+        observeSideEffects()
     }
 
-    private fun onLogin() {
+    private fun setupListeners() {
+        binding.emailInputLogin.addTextChangedListener { text ->
+
+            loginViewModel.processIntent(LoginIntent.EnterEmail(text.toString()))
+        }
+        binding.passwordInputLogin.addTextChangedListener { text ->
+            loginViewModel.processIntent(LoginIntent.EnterPassword(text.toString()))
+        }
         binding.loginButton.setOnClickListener {
-            val email = binding.emailInputLogin.text.toString()
-            val password = binding.passwordInputLogin.text.toString()
-            when {
-                email.isEmpty() || password.isEmpty() -> {
-                    binding.root.showSnackbar(getString(R.string.fill_all_fields))
-                }
-                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    binding.root.showSnackbar(getString(R.string.valid_email))
-                }
-                else -> {
-                    loginViewModel.login(email, password)
-                }
-            }
+            loginViewModel.processIntent(LoginIntent.ClickLogin)
+        }
+        binding.toRegisterPage.setOnClickListener {
+            loginViewModel.processIntent(LoginIntent.ClickRegister)
+        }
+        binding.langToggleButton.setOnClickListener {
+            loginViewModel.processIntent(LoginIntent.ToggleLanguage)
+        }
+        binding.passwordToggleLogin.setOnClickListener {
+            togglePasswordVisibility()
         }
     }
 
-    private fun observeLoginState() {
+    private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.loading.collect { isLoading ->
-                    if (isLoading) {
+                loginViewModel.state.collect { state ->
+                    if (state.emailError != null) {
+                        binding.emailInputLogin.error = state.emailError
+                    } else {
+                        binding.emailInputLogin.error = null
+                    }
+                    if (state.passwordError != null) {
+                        binding.passwordInputLogin.error = state.passwordError
+                    } else {
+                        binding.passwordInputLogin.error = null
+                    }
+                    if (state.isLoading) {
                         binding.loginButton.isEnabled = false
                         binding.loginButton.text = ""
                         binding.loginButtonLoader.visibility = View.VISIBLE
@@ -62,14 +70,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         binding.loginButtonLoader.visibility = View.GONE
                         binding.loginButton.setText(R.string.log_in)
                     }
+                    updateLanguageButton(state.currentLanguage)
                 }
             }
         }
+    }
+
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
-            loginViewModel.loginEvent.collect { event ->
-                when (event) {
-                    is LoginEvent.Success -> navigateToHome()
-                    is LoginEvent.Error -> binding.root.showSnackbar(event.message)
+            loginViewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is LoginSideEffect.ShowSnackbar -> binding.root.showSnackbar(effect.message)
+                    is LoginSideEffect.NavigateToHome -> navigateToHome()
+                    is LoginSideEffect.NavigateToRegister -> navigateToRegister()
+                    is LoginSideEffect.LanguageToggled -> requireActivity().recreate()
                 }
             }
         }
@@ -79,51 +93,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHome2())
     }
 
-    private fun togglePasswordVisibility() {
-        binding.passwordToggleLogin.setOnClickListener {
-            val isPasswordVisible = binding.passwordInputLogin.inputType and
-                    android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD == android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-
-            binding.passwordInputLogin.inputType = if (isPasswordVisible) {
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-            } else {
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            }
-            binding.passwordInputLogin.setSelection(binding.passwordInputLogin.text?.length ?: 0)
-        }
-    }
-
-
-
     private fun navigateToRegister() {
-        binding.toRegisterPage.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
-        }
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
     }
 
-    private fun observeLanguageState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.language.collect { currentLang ->
+    private fun togglePasswordVisibility() {
+        val isPasswordVisible = binding.passwordInputLogin.inputType and
+                android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD == android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 
-                    updateLanguageButton(currentLang)
-                }
-            }
+        binding.passwordInputLogin.inputType = if (isPasswordVisible) {
+            android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+        } else {
+            android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
-    }
-
-    private fun observeLanguageToggle() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            loginViewModel.languageToggleEvent.collect {
-                requireActivity().recreate()
-            }
-        }
-    }
-
-    private fun setupLanguageToggleButton() {
-        binding.langToggleButton.setOnClickListener {
-            loginViewModel.toggleLanguage()
-        }
+        binding.passwordInputLogin.setSelection(binding.passwordInputLogin.text?.length ?: 0)
     }
 
     private fun updateLanguageButton(currentLang: String) {

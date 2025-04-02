@@ -45,12 +45,8 @@
         android:name="com.example.middlecourseproject.presentation.food.home.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home2_to_dishFragment"
-            app:destination="@id/dishFragment" />
-        <action
-            android:id="@+id/action_home2_to_profileFragment"
-            app:destination="@id/profileFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/otpValidation"
@@ -86,27 +82,8 @@
             app:popUpTo="@id/detailsFragment"
             app:popUpToInclusive="true"/>
     </fragment>
-    <fragment
-        android:id="@+id/dishFragment"
-        android:name="com.example.middlecourseproject.presentation.food.dish.DishFragment"
-        android:label="fragment_dish"
-        tools:layout="@layout/fragment_dish" >
-        <argument
-            android:name="id"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.middlecourseproject.presentation.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/profileFragment"
-            app:popUpToInclusive="true"
-            />
-    </fragment>
+
+
 
 
 </navigation>

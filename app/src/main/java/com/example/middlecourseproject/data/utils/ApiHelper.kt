@@ -4,6 +4,8 @@ import com.example.middlecourseproject.data.remote.dtos.ErrorResponse
 import com.example.middlecourseproject.domain.utils.AppError
 import com.example.middlecourseproject.domain.utils.ErrorType
 import com.example.middlecourseproject.domain.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
 import kotlinx.serialization.json.Json
@@ -23,13 +25,16 @@ class ApiHelper @Inject constructor() {
         }
     }
 
-    suspend fun <T> handleHttpRequest(httpCall: suspend () -> Response<T>): Resource<T> {
-        return try {
+    fun <T> handleHttpRequest(httpCall: suspend () -> Response<T>): Flow<Resource<T>> = flow {
+
+        emit(Resource.Loading(isLoading = true))
+
+        try {
             val response = httpCall.invoke()
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Resource.Success(it)
-                } ?: Resource.Error(AppError.ApiError(ErrorType.OTHER))
+                    emit(Resource.Success(response.body()!!))
+                } ?: emit(Resource.Error(AppError.ApiError(ErrorType.OTHER)))
             } else {
                 val errorBody = response.errorBody()?.string()
                 val appError = if (!errorBody.isNullOrBlank()) {
@@ -46,8 +51,9 @@ class ApiHelper @Inject constructor() {
                         else -> AppError.ApiError(ErrorType.OTHER)
                     }
                 }
-                Resource.Error(appError)
+                emit(Resource.Error(appError))
             }
+            emit(Resource.Loading(isLoading = false))
         } catch (e: Exception) {
             val appError = when (e) {
                 is SocketTimeoutException -> AppError.TimeoutError
@@ -55,7 +61,8 @@ class ApiHelper @Inject constructor() {
                 is HttpException -> AppError.ApiError(ErrorType.OTHER)
                 else -> AppError.ApiError(ErrorType.OTHER)
             }
-            Resource.Error(appError)
+            emit(Resource.Error(appError))
         }
+        emit(Resource.Loading(isLoading = false))
     }
 }

@@ -5,29 +5,35 @@ import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.repository.TokenRepository
 import com.example.middlecourseproject.domain.utils.AppError
 import com.example.middlecourseproject.domain.utils.ErrorType
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+
 
 class ValidateOtpUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenRepository: TokenRepository
 ) {
 
-    suspend operator fun invoke(otp: String, email: String, password: String ): Resource<Unit> {
-
+    fun invoke(otp: String, email: String, password: String): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading(true))
         val otpResult = authRepository.otpValidation(email, otp)
-        return if (otpResult is Resource.Success && otpResult.data.result) {
+            .first { it is Resource.Success || it is Resource.Error }
+        if (otpResult is Resource.Success && otpResult.data.result) {
             val loginResult = authRepository.login(email, password)
+                .first { it is Resource.Success || it is Resource.Error }
             if (loginResult is Resource.Success) {
                 loginResult.data.result?.accessToken?.let { token ->
                     tokenRepository.saveUserAuth(token)
                 }
-                Resource.Success(Unit)
+                emit(Resource.Success(Unit))
             } else {
-                loginResult as Resource.Error
+                emit(loginResult as Resource.Error)
             }
         } else {
-//            Resource.Error((otpResult as? Resource.Error)?.message ?: "OTP is not valid.")
-            Resource.Error(AppError.ApiError(ErrorType.OTP_ERROR_VALID,))
+            emit(otpResult as Resource.Error)
         }
+        emit(Resource.Loading(false))
     }
 }
