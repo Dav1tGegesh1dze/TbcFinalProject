@@ -82,8 +82,10 @@
             app:popUpTo="@id/detailsFragment"
             app:popUpToInclusive="true"/>
     </fragment>
-
-
+    <fragment
+        android:id="@+id/restaurantFragment"
+        android:name="com.example.middlecourseproject.presentation.restaurant.fragment.RestaurantFragment"
+        android:label="RestaurantFragment" />
 
 
 </navigation>

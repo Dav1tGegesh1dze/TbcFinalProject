@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="566" />
-                            <option name="y" value="-115" />
+                            <option name="x" value="619" />
+                            <option name="y" value="-104" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -29,18 +29,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="dishFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="366" />
-                            <option name="y" value="210" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="home2">
                     <value>
                       <LayoutPositions>
@@ -49,20 +37,6 @@
                             <option name="x" value="146" />
                             <option name="y" value="209" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_home2_to_dishFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_home2_to_profileFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -78,11 +52,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_loginFragment_to_detailsFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="action_loginFragment_to_home2">
                               <value>
                                 <LayoutPositions />
@@ -119,18 +88,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="profileFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="160" />
-                            <option name="y" value="548" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="registerFragment">
                     <value>
                       <LayoutPositions>
@@ -148,6 +105,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="restaurantFragment3">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="858" />
+                            <option name="y" value="-49" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

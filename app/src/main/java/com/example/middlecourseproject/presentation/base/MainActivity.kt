@@ -69,6 +69,19 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val navGraph = navController.navInflater.inflate(R.navigation.nag_graph)
 
+        // Set start destination to RestaurantFragment
+        navGraph.setStartDestination(R.id.restaurantFragment)
+
+        // Apply the graph immediately
+        navController.graph = navGraph
+
+        // Set navigation ready so splash screen can dismiss
+        isNavigationReady = true
+
+        Log.d("MainActivity", "Navigating to Restaurant Fragment")
+
+        // No need to run this code since we're bypassing authentication
+        /*
         lifecycleScope.launch {
             val isValid = checkAuthTokenUseCase()
             if (isValid) {
@@ -81,5 +94,6 @@ class MainActivity : AppCompatActivity() {
             navController.graph = navGraph
             isNavigationReady = true
         }
+        */
     }
 }
