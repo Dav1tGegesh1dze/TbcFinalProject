@@ -11,4 +11,9 @@
     <color name="card_background">#1C191A</color>
     <color name="main_red1">#B63146</color>
 
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorAccent">#FF9800</color>
+    <color name="colorInactive">#757575</color>
+
 </resources>

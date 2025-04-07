@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Auth Fragments (Existing) -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.middlecourseproject.presentation.auth.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_otpValidation"
+            app:destination="@id/otpValidation"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.middlecourseproject.presentation.auth.logIn.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_home2"
+            app:destination="@id/home2"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <!-- New action to restaurant fragment after login -->
+        <action
+            android:id="@+id/action_loginFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.middlecourseproject.presentation.food.home.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/otpValidation"
+        android:name="com.example.middlecourseproject.presentation.auth.otpValidation.OtpValidationFragment"
+        android:label="fragment_otp_validation"
+        tools:layout="@layout/fragment_otp_validation" >
+        <action
+            android:id="@+id/action_otpValidation_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:popUpTo="@id/otpValidation"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.middlecourseproject.presentation.auth.details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <action
+            android:id="@+id/action_detailsFragment_to_home2"
+            app:destination="@id/home2"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_detailsFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <!-- Bottom Navigation Fragments -->
+    <fragment
+        android:id="@+id/restaurantFragment"
+        android:name="com.example.middlecourseproject.presentation.restaurant.fragment.RestaurantFragment"
+        android:label="RestaurantFragment" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.middlecourseproject.SearchFragment"
+        android:label="SearchFragment" />
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.middlecourseproject.CardFragment"
+        android:label="CartFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.middlecourseproject.ProfileFragment"
+        android:label="ProfileFragment" />
+</navigation>

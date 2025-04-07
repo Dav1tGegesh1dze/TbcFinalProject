@@ -5,18 +5,19 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.ActivityMainBinding
 import com.example.middlecourseproject.di.LocaleHelperEntryPoint
 import com.example.middlecourseproject.domain.useCases.CheckAuthTokenUseCase
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         val configContext = entryPoint.localeHelper().applyLocale(newBase, langCode)
         super.attachBaseContext(configContext)
     }
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action == MotionEvent.ACTION_DOWN) {
             currentFocus?.let { focusedView ->
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
         return super.dispatchTouchEvent(ev)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition { !isNavigationReady }
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         setUpNavigation()
         Log.d("MainActivity", "onCreate: created")
     }
@@ -67,20 +71,32 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val navGraph = navController.navInflater.inflate(R.navigation.nag_graph)
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
 
-        // Set start destination to RestaurantFragment
+        // Bottom Navigation
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment, R.id.registerFragment,
+                R.id.otpValidation, R.id.detailsFragment -> {
+                    bottomNavigationView.visibility = View.GONE
+                }
+                else -> {
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        // Start
         navGraph.setStartDestination(R.id.restaurantFragment)
-
-        // Apply the graph immediately
         navController.graph = navGraph
-
-        // Set navigation ready so splash screen can dismiss
         isNavigationReady = true
 
         Log.d("MainActivity", "Navigating to Restaurant Fragment")
 
-        // No need to run this code since we're bypassing authentication
+        //Commented that
         /*
         lifecycleScope.launch {
             val isValid = checkAuthTokenUseCase()
