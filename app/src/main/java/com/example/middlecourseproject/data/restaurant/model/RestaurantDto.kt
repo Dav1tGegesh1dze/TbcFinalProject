@@ -11,6 +11,7 @@ data class RestaurantDto(
     val categoryId: String,
     @SerialName("categoryName")
     val categoryName: NameDto,
+    val categoryImage: String,
     val rating: Double,
     val mainImage: String,
     val additionalImages: List<String>,

@@ -15,6 +15,7 @@ fun RestaurantDto.toDomain(): Restaurant {
         categoryId = this.categoryId,
         categoryName = this.categoryName.en,
         categoryNameKa = this.categoryName.ka,
+        categoryImage = this.categoryImage,
         rating = this.rating,
         mainImage = this.mainImage,
         additionalImages = this.additionalImages,
@@ -60,7 +61,7 @@ fun List<RestaurantDto>.extractCategories(): List<Category> {
             id = it.categoryId,
             name = it.categoryName.en,
             nameKa = it.categoryName.ka,
-            imageUrl = it.mainImage
+            imageUrl = it.categoryImage
         )
     }.distinctBy { it.id }
 }

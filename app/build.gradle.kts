@@ -8,6 +8,7 @@ plugins {
     id ("com.google.protobuf") version "0.9.4"
     id ("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -85,12 +86,6 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation (libs.material.v190)
 
-
-
-
-
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -99,6 +94,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //new ones
+
+
 }
 
 

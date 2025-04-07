@@ -89,7 +89,11 @@
     <fragment
         android:id="@+id/restaurantFragment"
         android:name="com.example.middlecourseproject.presentation.restaurant.fragment.RestaurantFragment"
-        android:label="RestaurantFragment" />
+        android:label="RestaurantFragment" >
+        <action
+            android:id="@+id/action_restaurantFragment_to_dishesFragment"
+            app:destination="@id/dishesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
@@ -105,4 +109,15 @@
         android:id="@+id/profileFragment"
         android:name="com.example.middlecourseproject.ProfileFragment"
         android:label="ProfileFragment" />
+
+    <fragment
+        android:id="@+id/dishesFragment"
+        android:name="com.example.middlecourseproject.presentation.restaurant.fragment.DishesFragment"
+        android:label="Dishes">
+
+        <argument
+            android:name="restaurantId"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

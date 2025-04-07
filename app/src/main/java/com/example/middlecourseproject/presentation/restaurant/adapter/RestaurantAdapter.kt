@@ -2,6 +2,7 @@ package com.example.middlecourseproject.presentation.restaurant.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.ItemRestaurantBinding
 import com.example.middlecourseproject.domain.restaurant.model.Restaurant
+import com.example.middlecourseproject.presentation.restaurant.fragment.RestaurantFragmentDirections
 
 class RestaurantAdapter(
     private val onRestaurantClicked: (String) -> Unit
@@ -38,6 +40,12 @@ class RestaurantAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     val restaurant = getItem(position)
                     onRestaurantClicked(restaurant.id)
+
+                    // Navigate to dishes screen
+                    val action = RestaurantFragmentDirections
+                        .actionRestaurantFragmentToDishesFragment(restaurant.id)
+                    it.findNavController().navigate(action)
+
                 }
             }
         }
@@ -70,8 +78,9 @@ class RestaurantAdapter(
                 Glide.with(root.context)
                     .load(restaurant.mainImage)
                     .centerCrop()
-                    .placeholder(R.drawable.ic_launcher_foreground) //CHANGE
-                    .error(R.drawable.ic_launcher_foreground) // CHANGE
+                    //later
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
                     .into(ivRestaurantImage)
             }
         }

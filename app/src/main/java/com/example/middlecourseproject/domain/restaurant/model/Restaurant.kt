@@ -9,6 +9,7 @@ data class Restaurant(
     val categoryNameKa: String,
     val rating: Double,
     val mainImage: String,
+    val categoryImage: String,
     val additionalImages: List<String>,
     val location: Location,
     val fullDescription: String,
