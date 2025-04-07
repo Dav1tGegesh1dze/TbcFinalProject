@@ -1,10 +1,7 @@
 package com.example.middlecourseproject.presentation.restaurant.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
+
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -12,19 +9,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentDishesBinding
+import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.presentation.restaurant.adapter.DishAdapter
 import com.example.middlecourseproject.presentation.restaurant.viewmodel.DishesViewModel
-
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DishesFragment : Fragment() {
-
-    private var _binding: FragmentDishesBinding? = null
-    private val binding get() = _binding!!
-
+class DishesFragment : BaseFragment<FragmentDishesBinding>(
+    FragmentDishesBinding::inflate
+) {
     private val viewModel: DishesViewModel by viewModels()
     private val args: DishesFragmentArgs by navArgs()
 
@@ -32,28 +27,16 @@ class DishesFragment : Fragment() {
         // Handle add click after for card or something like that
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDishesBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun start() {
         setupRecyclerView()
         viewModel.loadRestaurantDetails(args.restaurantId)
-
         observeState()
     }
 
     private fun setupRecyclerView() {
         binding.rvDishes.apply {
             adapter = dishAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2) // 2 columns
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
 
@@ -71,7 +54,6 @@ class DishesFragment : Fragment() {
 
                     binding.tvLocation.text = restaurant.location.address
 
-
                     Glide.with(requireContext())
                         .load(restaurant.mainImage)
                         .centerCrop()
@@ -81,21 +63,15 @@ class DishesFragment : Fragment() {
                         .error(R.drawable.ic_launcher_foreground)
                         .into(binding.ivRestaurantImage)
 
-                    // Flatten all dishes from all menu categories
+                    // menu from cateories
                     val allDishes = restaurant.menu.flatMap { it.dishes }
                     dishAdapter.submitList(allDishes)
                 }
-
 
                 state.error?.let { error ->
                     // Show error message
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
