@@ -4,6 +4,6 @@ import com.example.middlecourseproject.data.restaurant.model.RestaurantDto
 import retrofit2.http.GET
 
 interface RestaurantApi {
-    @GET("5f41fc35-a4bf-49aa-b09d-95d68f755bb6")
+    @GET("93a9dc7d-2863-4849-90a6-355b2d0bf092")
     suspend fun getRestaurants(): List<RestaurantDto>
 }

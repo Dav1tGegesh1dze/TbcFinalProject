@@ -9,10 +9,11 @@ import com.bumptech.glide.Glide
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.ItemDishBinding
 import com.example.middlecourseproject.domain.restaurant.model.Dish
-
+import java.text.NumberFormat
+import java.util.Locale
 
 class DishAdapter(
-    private val onAddClicked: (String) -> Unit
+    private val onAddToCartClick: (Dish) -> Unit
 ) : ListAdapter<Dish, DishAdapter.DishViewHolder>(DishDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
@@ -25,45 +26,45 @@ class DishAdapter(
     }
 
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
-        val dish = getItem(position)
-        holder.bind(dish)
+        holder.bind(getItem(position))
     }
 
     inner class DishViewHolder(
         private val binding: ItemDishBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.btnAddToCart.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val dish = getItem(position)
-                    onAddClicked(dish.id)
-                }
-            }
-        }
-
         fun bind(dish: Dish) {
             binding.apply {
                 tvDishName.text = dish.name
-                tvDishPrice.text = "$${dish.price}"
-                tvDeliveryTime.text = "${dish.deliveryTime} min"
 
+                // Join ingredients with commas
                 val ingredientsText = dish.ingredients.joinToString(", ")
                 tvIngredients.text = ingredientsText
 
-                // Later
-                Glide.with(root.context)
+                // Format price with currency
+                val formatter = NumberFormat.getCurrencyInstance(Locale.US)
+                tvDishPrice.text = formatter.format(dish.price)
+
+                // Set delivery time
+                tvDeliveryTime.text = "${dish.deliveryTime} min"
+
+                // Load image
+                Glide.with(itemView.context)
                     .load(dish.image)
                     .centerCrop()
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
                     .into(ivDishImage)
+
+                // Set Add to cart button click listener
+                btnAddToCart.setOnClickListener {
+                    onAddToCartClick(dish)
+                }
             }
         }
     }
 
-    private class DishDiffCallback : DiffUtil.ItemCallback<Dish>() {
+    class DishDiffCallback : DiffUtil.ItemCallback<Dish>() {
         override fun areItemsTheSame(oldItem: Dish, newItem: Dish): Boolean {
             return oldItem.id == newItem.id
         }
