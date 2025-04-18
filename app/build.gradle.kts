@@ -19,6 +19,9 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    configurations.all {
+        exclude(group = "com.android.support")
+    }
 
     defaultConfig {
         applicationId = "com.example.middlecourseproject"
@@ -96,6 +99,15 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //new ones
+    // ARCore (3D)
+    implementation("io.github.sceneview:arsceneview:0.10.0")
+
+    // Location
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
+    // Material Components
+    implementation ("com.google.android.material:material:1.12.0")
+    
+
 
 
 }

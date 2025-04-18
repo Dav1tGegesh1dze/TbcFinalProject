@@ -43,7 +43,23 @@ class RestaurantViewModel @Inject constructor(
                 loadRestaurants(event.categoryId)
             }
             is RestaurantEvent.RestaurantSelected -> {
-                //NAvigarion, details and future update
+                // FUTURE CHANIGN
+            }
+            is RestaurantEvent.LocationUpdated -> {
+                _state.update {
+                    it.copy(
+                        userLatitude = event.latitude,
+                        userLongitude = event.longitude,
+                        userAddress = event.address
+                    )
+                }
+                loadNearbyRestaurants(event.latitude, event.longitude)
+            }
+            is RestaurantEvent.NotificationPermissionGranted -> {
+                _state.update { it.copy(notificationsEnabled = true) }
+            }
+            is RestaurantEvent.NotificationPermissionDenied -> {
+                _state.update { it.copy(notificationsEnabled = false) }
             }
         }
     }
@@ -76,5 +92,11 @@ class RestaurantViewModel @Inject constructor(
                 }
                 .launchIn(this)
         }
+    }
+
+    private fun loadNearbyRestaurants(latitude: Double, longitude: Double) {
+        // Guture functionality
+
+        loadRestaurants(state.value.selectedCategoryId)
     }
 }

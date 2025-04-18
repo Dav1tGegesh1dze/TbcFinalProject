@@ -9,5 +9,5 @@ data class Dish(
     val ingredients: List<String>,
     val ingredientsKa: List<String>,
     val deliveryTime: Int,
-    val image: String
+    val image: String,
 )

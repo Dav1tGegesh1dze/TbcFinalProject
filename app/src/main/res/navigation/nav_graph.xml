@@ -112,7 +112,7 @@
 
     <fragment
         android:id="@+id/dishesFragment"
-        android:name="com.example.middlecourseproject.presentation.restaurant.fragment.DishesFragment"
+        android:name="com.example.middlecourseproject.presentation.dish.fragment.DishesFragment"
         android:label="Dishes">
 
         <argument

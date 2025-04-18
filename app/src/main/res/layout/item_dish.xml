@@ -36,6 +36,20 @@
                 app:fabSize="mini"
                 app:srcCompat="@android:drawable/ic_input_add"
                 app:tint="@color/colorPrimary" />
+
+            <!-- 3D -->
+            <Button
+                android:id="@+id/btnViewIn3d"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="8dp"
+                android:text="3D"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:minWidth="48dp"
+                android:minHeight="36dp"
+                android:backgroundTint="#FF5722" />
         </FrameLayout>
 
         <TextView

@@ -5,4 +5,12 @@ sealed class RestaurantEvent {
     data object LoadAllRestaurants : RestaurantEvent()
     data class CategorySelected(val categoryId: String) : RestaurantEvent()
     data class RestaurantSelected(val restaurantId: String) : RestaurantEvent()
+    //LOCATION AND PERMISSIONS
+    data class LocationUpdated(
+        val latitude: Double,
+        val longitude: Double,
+        val address: String? = null
+    ) : RestaurantEvent()
+    data object NotificationPermissionGranted : RestaurantEvent()
+    data object NotificationPermissionDenied : RestaurantEvent()
 }
