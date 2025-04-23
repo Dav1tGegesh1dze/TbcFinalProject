@@ -78,9 +78,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            //change another way cause else Is only 4 fragments other may become more
             when (destination.id) {
                 R.id.loginFragment, R.id.registerFragment,
-                R.id.otpValidation, R.id.detailsFragment -> {
+                R.id.otpValidation, R.id.detailsFragment,
+                R.id.checkoutFragment, R.id.orderConfirmationFragment, R.id.paymentFragment-> {
                     bottomNavigationView.visibility = View.GONE
                 }
                 else -> {

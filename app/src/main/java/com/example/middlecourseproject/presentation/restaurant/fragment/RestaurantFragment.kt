@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,7 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentRestaurantBinding
+import com.example.middlecourseproject.domain.checkout.manager.OrderManager
 import com.example.middlecourseproject.presentation.base.BaseFragment
 import com.example.middlecourseproject.presentation.restaurant.adapter.CategoryAdapter
 import com.example.middlecourseproject.presentation.restaurant.adapter.RestaurantAdapter
@@ -24,11 +29,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
     FragmentRestaurantBinding::inflate
 ) {
+    @Inject
+    lateinit var orderManager: OrderManager
 
     private val viewModel: RestaurantViewModel by viewModels()
 
@@ -41,6 +50,16 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    // Update timer
+    private val handler = Handler(Looper.getMainLooper())
+    private val updateOrderTimeRunnable = object : Runnable {
+        override fun run() {
+            updateActiveOrderButton()
+            // Schedule next update in 1 second
+            handler.postDelayed(this, 1000)
+        }
+    }
 
     // Permission
     private val locationPermissionRequest = registerForActivityResult(
@@ -99,9 +118,23 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
         setupRecyclerViews()
         observeState()
         setupLocationBar()
+        setupActiveOrderButton()
 
         viewModel.onEvent(RestaurantEvent.LoadCategories)
         viewModel.onEvent(RestaurantEvent.LoadAllRestaurants)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Start updating the active order button time
+        updateActiveOrderButton()
+        handler.postDelayed(updateOrderTimeRunnable, 1000)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Stop the timer updates when fragment is not visible
+        handler.removeCallbacks(updateOrderTimeRunnable)
     }
 
     private fun setupRecyclerViews() {
@@ -117,8 +150,44 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
         if (hasLocationPermission()) {
             getLocationAndUpdate()
         } else {
-
             binding.tvLocation.text = "Select location"
+        }
+    }
+
+    private fun setupActiveOrderButton() {
+        binding.btnActiveOrder.setOnClickListener {
+            // Navigate to the OrderConfirmationFragment
+            findNavController().navigate(R.id.action_restaurantFragment_to_orderConfirmationFragment)
+        }
+
+        // Update button visibility and timer
+        updateActiveOrderButton()
+    }
+
+    private fun updateActiveOrderButton() {
+        if (orderManager.hasActiveOrder()) {
+            // Show the button
+            binding.btnActiveOrder.visibility = View.VISIBLE
+
+            // Get remaining time
+            val remainingTimeMillis = orderManager.getRemainingTimeMillis() ?: 0L
+
+            if (remainingTimeMillis > 0) {
+                // Convert to minutes and seconds
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMillis)
+                val seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMillis) % 60
+
+                // Format time and show on button
+                val timeText = String.format("%02d:%02d", minutes, seconds)
+                binding.tvRemainingTimeSmall.text = timeText
+                binding.tvRemainingTimeSmall.visibility = View.VISIBLE
+            } else {
+                // If delivery time has passed, just show the icon (no timer)
+                binding.tvRemainingTimeSmall.visibility = View.GONE
+            }
+        } else {
+            // No active order, hide the button
+            binding.btnActiveOrder.visibility = View.INVISIBLE
         }
     }
 
@@ -260,7 +329,7 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
                 categoryAdapter.setSelectedCategory(state.selectedCategoryId)
                 restaurantAdapter.submitList(state.restaurants)
 
-                // Rrrors handlong
+                // Errors handling
                 state.error?.let { errorMessage ->
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }

@@ -193,7 +193,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
                 when (effect) {
                     is DetailsSideEffect.ShowError -> binding.root.showSnackbar(effect.message)
                     is DetailsSideEffect.NavigateToHome -> {
-                        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHome2())
+                        //findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHome2())
                     }
                     is DetailsSideEffect.LaunchGalleryPicker -> galleryLauncher.launch("image/*")
                     is DetailsSideEffect.LaunchCamera -> launchCamera()

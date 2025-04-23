@@ -1,10 +1,12 @@
 package com.example.middlecourseproject.di
 
+import com.example.middlecourseproject.data.checkout.repository.CheckoutRepositoryImpl
 import com.example.middlecourseproject.domain.repository.AuthRepository
 import com.example.middlecourseproject.data.repository.AuthRepositoryImpl
 import com.example.middlecourseproject.data.repository.LanguageRepositoryImpl
 import com.example.middlecourseproject.data.repository.TokenRepositoryImpl
 import com.example.middlecourseproject.data.repository.UserProfileRepositoryImpl
+import com.example.middlecourseproject.domain.checkout.repository.CheckoutRepository
 import com.example.middlecourseproject.presentation.utils.StringProviderImpl
 import com.example.middlecourseproject.domain.repository.LanguageRepository
 import com.example.middlecourseproject.domain.repository.TokenRepository
@@ -56,5 +58,9 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindStringProvider(defaultStringProvider: StringProviderImpl): StringProvider
 
-
+    @Binds
+    @Singleton
+    abstract fun bindCheckoutRepository(
+        checkoutRepositoryImpl: CheckoutRepositoryImpl
+    ): CheckoutRepository
 }

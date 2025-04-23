@@ -1,12 +1,15 @@
 package com.example.middlecourseproject.di.restaurant
 
+import android.content.Context
 import com.example.middlecourseproject.data.restaurant.api.RestaurantApi
 import com.example.middlecourseproject.data.restaurant.api.RetrofitClient
 import com.example.middlecourseproject.data.restaurant.repository.RestaurantRepositoryImpl
+import com.example.middlecourseproject.domain.checkout.manager.OrderManager
 import com.example.middlecourseproject.domain.restaurant.repository.RestaurantRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -27,5 +30,10 @@ object AppModule {
     @Singleton
     fun provideRestaurantRepository(api: RestaurantApi): RestaurantRepository {
         return RestaurantRepositoryImpl(api)
+    }
+    @Provides
+    @Singleton
+    fun provideOrderManager(@ApplicationContext context: Context): OrderManager {
+        return OrderManager(context)
     }
 }
