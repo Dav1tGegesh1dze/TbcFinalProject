@@ -15,10 +15,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.FragmentRestaurantBinding
 import com.example.middlecourseproject.domain.checkout.manager.OrderManager
+import com.example.middlecourseproject.domain.restaurant.model.AdBanner
 import com.example.middlecourseproject.presentation.base.BaseFragment
+import com.example.middlecourseproject.presentation.restaurant.adapter.AdBannerAdapter
 import com.example.middlecourseproject.presentation.restaurant.adapter.CategoryAdapter
 import com.example.middlecourseproject.presentation.restaurant.adapter.RestaurantAdapter
 import com.example.middlecourseproject.presentation.restaurant.event.RestaurantEvent
@@ -43,6 +46,10 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
 
     private val categoryAdapter = CategoryAdapter { categoryId ->
         viewModel.onEvent(RestaurantEvent.CategorySelected(categoryId))
+    }
+
+    private val adBannerAdapter = AdBannerAdapter { adBanner ->
+        handleAdBannerClick(adBanner)
     }
 
     private val restaurantAdapter = RestaurantAdapter { restaurantId ->
@@ -122,6 +129,7 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
 
         viewModel.onEvent(RestaurantEvent.LoadCategories)
         viewModel.onEvent(RestaurantEvent.LoadAllRestaurants)
+        viewModel.onEvent(RestaurantEvent.LoadAdBanners)
     }
 
     override fun onResume() {
@@ -138,8 +146,28 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
     }
 
     private fun setupRecyclerViews() {
-        binding.rvCategories.adapter = categoryAdapter
-        binding.rvRestaurants.adapter = restaurantAdapter
+        // Setup Categories RecyclerView
+        binding.rvCategories.apply {
+            adapter = categoryAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        // Setup Ad Banners RecyclerView
+        binding.rvAdBanners.apply {
+            adapter = adBannerAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        // Setup Restaurants RecyclerView
+        binding.rvRestaurants.apply {
+            adapter = restaurantAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        // Setup See All button for ads
+        binding.tvSeeAllAds.setOnClickListener {
+            Toast.makeText(requireContext(), "See all promotions (coming soon)", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupLocationBar() {
@@ -188,6 +216,47 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
         } else {
             // No active order, hide the button
             binding.btnActiveOrder.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun handleAdBannerClick(adBanner: AdBanner) {
+        // Handle different action types
+        when (adBanner.actionType) {
+            "restaurant" -> {
+                // Navigate to restaurant details
+                val restaurantId = adBanner.actionTarget
+                viewModel.onEvent(RestaurantEvent.RestaurantSelected(restaurantId))
+            }
+            "category" -> {
+                // Navigate to category
+                val categoryId = adBanner.actionTarget
+                viewModel.onEvent(RestaurantEvent.CategorySelected(categoryId))
+            }
+            "promo" -> {
+                // Handle promo code or special offer
+                Toast.makeText(
+                    requireContext(),
+                    "Promo applied: ${adBanner.title}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // You might want to pass the promo code to a service or viewmodel
+            }
+            "collection" -> {
+                // Navigate to a collection (future feature)
+                Toast.makeText(
+                    requireContext(),
+                    "Viewing collection: ${adBanner.title}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {
+                // Default action - just show details
+                Toast.makeText(
+                    requireContext(),
+                    adBanner.description,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -327,6 +396,7 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
                 // Update adapters
                 categoryAdapter.submitList(state.categories)
                 categoryAdapter.setSelectedCategory(state.selectedCategoryId)
+                adBannerAdapter.submitList(state.adBanners)
                 restaurantAdapter.submitList(state.restaurants)
 
                 // Errors handling

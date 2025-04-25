@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/restaurantFragment"
-        android:icon="@drawable/avatari1"
+        android:icon="@drawable/ic_nav_restaurant"
         android:title="Restaurants" />
     <item
         android:id="@+id/searchFragment"
-        android:icon="@drawable/baseline_arrow_back_ios_new_24"
+        android:icon="@drawable/ic_nav_search"
         android:title="Search" />
     <item
         android:id="@+id/cartFragment"
-        android:icon="@drawable/dish_overlay"
+        android:icon="@drawable/ic_nav_cart"
         android:title="Cart" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/error_food"
+        android:icon="@drawable/ic_nav_profile"
         android:title="Profile" />
 </menu>

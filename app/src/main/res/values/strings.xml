@@ -173,4 +173,12 @@
     <string name="invalid_url">Invalid URL.</string>
     <string name="otp_expired">OTP expired. Please resend</string>
 
+    <!-- New notification-related string resources -->
+    <string name="notification_channel_name">Order Updates</string>
+    <string name="notification_channel_description">Notifications about your order status</string>
+
+    <string name="default_notification_channel_id">order_status_channel</string>
+
+
+
 </resources>

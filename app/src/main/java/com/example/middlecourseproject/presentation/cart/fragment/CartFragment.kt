@@ -32,6 +32,14 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
         setupRecyclerView()
         setupListeners()
         observeState()
+        setupBackButton()
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.bringToFront() // Make sure button is on top
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

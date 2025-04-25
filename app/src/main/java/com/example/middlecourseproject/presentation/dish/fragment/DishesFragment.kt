@@ -36,6 +36,14 @@ class DishesFragment : BaseFragment<FragmentDishesBinding>(
         setupMenu()
         viewModel.loadRestaurantDetails(args.restaurantId)
         observeState()
+        setupBackButton()
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.bringToFront()
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -103,7 +111,7 @@ class DishesFragment : BaseFragment<FragmentDishesBinding>(
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_dishes, menu)
-        cartMenuItem = menu.findItem(R.id.action_cart)
+        cartMenuItem  = menu.findItem(R.id.action_cart)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

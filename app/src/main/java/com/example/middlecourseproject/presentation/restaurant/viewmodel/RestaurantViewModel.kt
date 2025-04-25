@@ -2,6 +2,7 @@ package com.example.middlecourseproject.presentation.restaurant.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.middlecourseproject.domain.restaurant.usecase.GetAdBannersUseCase
 import com.example.middlecourseproject.domain.restaurant.usecase.GetCategoriesUseCase
 import com.example.middlecourseproject.domain.restaurant.usecase.GetRestaurantsByCategoryUseCase
 import com.example.middlecourseproject.presentation.restaurant.event.RestaurantEvent
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RestaurantViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val getRestaurantsByCategoryUseCase: GetRestaurantsByCategoryUseCase
+    private val getRestaurantsByCategoryUseCase: GetRestaurantsByCategoryUseCase,
+    private val getAdBannersUseCase: GetAdBannersUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RestaurantState())
@@ -28,6 +30,7 @@ class RestaurantViewModel @Inject constructor(
     init {
         onEvent(RestaurantEvent.LoadCategories)
         onEvent(RestaurantEvent.LoadAllRestaurants)
+        onEvent(RestaurantEvent.LoadAdBanners)
     }
 
     fun onEvent(event: RestaurantEvent) {
@@ -35,16 +38,39 @@ class RestaurantViewModel @Inject constructor(
             is RestaurantEvent.LoadCategories -> {
                 loadCategories()
             }
+
             is RestaurantEvent.LoadAllRestaurants -> {
                 loadRestaurants(null)
             }
+
+            is RestaurantEvent.LoadAdBanners -> {
+                loadAdBanners()
+            }
+
             is RestaurantEvent.CategorySelected -> {
                 _state.update { it.copy(selectedCategoryId = event.categoryId) }
                 loadRestaurants(event.categoryId)
             }
+
             is RestaurantEvent.RestaurantSelected -> {
-                // FUTURE CHANIGN
+                // Future implementation
             }
+
+            is RestaurantEvent.AdBannerSelected -> {
+                // Handle ad banner click here
+                val adBanner = _state.value.adBanners.find { it.id == event.adId }
+                adBanner?.let { banner ->
+                    when (banner.actionType) {
+                        "restaurant" -> {
+                            // If the action type is restaurant, we can use the actionTarget as restaurantId
+                            val restaurantId = banner.actionTarget
+                            // Future implementation: Navigate to restaurant details
+                        }
+                        // Handle other action types as needed
+                    }
+                }
+            }
+
             is RestaurantEvent.LocationUpdated -> {
                 _state.update {
                     it.copy(
@@ -55,9 +81,11 @@ class RestaurantViewModel @Inject constructor(
                 }
                 loadNearbyRestaurants(event.latitude, event.longitude)
             }
+
             is RestaurantEvent.NotificationPermissionGranted -> {
                 _state.update { it.copy(notificationsEnabled = true) }
             }
+
             is RestaurantEvent.NotificationPermissionDenied -> {
                 _state.update { it.copy(notificationsEnabled = false) }
             }
@@ -79,6 +107,19 @@ class RestaurantViewModel @Inject constructor(
         }
     }
 
+    private fun loadAdBanners() {
+        viewModelScope.launch {
+            getAdBannersUseCase()
+                .onEach { adBanners ->
+                    _state.update { it.copy(adBanners = adBanners) }
+                }
+                .catch { error ->
+                    _state.update { it.copy(error = error.message) }
+                }
+                .launchIn(this)
+        }
+    }
+
     private fun loadRestaurants(categoryId: String?) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -95,8 +136,7 @@ class RestaurantViewModel @Inject constructor(
     }
 
     private fun loadNearbyRestaurants(latitude: Double, longitude: Double) {
-        // Guture functionality
-
+        // Future functionality - can be implemented later to filter restaurants by location
         loadRestaurants(state.value.selectedCategoryId)
     }
 }

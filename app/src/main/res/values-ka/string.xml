@@ -171,4 +171,10 @@
     <string name="no_app_for_url">ლინკის გახსნა ვერ მოხერხდა</string>
     <string name="invalid_url">არასწორი ლინკი.</string>
     <string name="otp_expired">კოდი ვადაგასულია, გთხოვთ გააგზავნოთ თავიდან</string>
+
+    <string name="notification_channel_name">შეკვეთის განახლება</string>
+    <string name="notification_channel_description">შეტყობინებები შეკვეთის სტატუსის ცვლილების შესახებ</string>
+
+    <string name="default_notification_channel_id">შეკვეთის_სტატუსი</string>
+
 </resources>
