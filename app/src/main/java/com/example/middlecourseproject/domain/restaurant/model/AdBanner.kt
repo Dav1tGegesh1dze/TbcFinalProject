@@ -1,6 +1,9 @@
 package com.example.middlecourseproject.domain.restaurant.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AdBanner(
     val id: String,
     val title: String,
@@ -11,4 +14,4 @@ data class AdBanner(
     val actionType: String,
     val actionTarget: String,
     val backgroundColor: String? = null
-)
+): Parcelable

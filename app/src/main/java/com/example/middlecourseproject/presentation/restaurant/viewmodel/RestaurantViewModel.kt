@@ -57,18 +57,8 @@ class RestaurantViewModel @Inject constructor(
             }
 
             is RestaurantEvent.AdBannerSelected -> {
-                // Handle ad banner click here
-                val adBanner = _state.value.adBanners.find { it.id == event.adId }
-                adBanner?.let { banner ->
-                    when (banner.actionType) {
-                        "restaurant" -> {
-                            // If the action type is restaurant, we can use the actionTarget as restaurantId
-                            val restaurantId = banner.actionTarget
-                            // Future implementation: Navigate to restaurant details
-                        }
-                        // Handle other action types as needed
-                    }
-                }
+                // Do nothing - we only want to display the details
+                // The navigation to the detail screen is handled directly in the fragment
             }
 
             is RestaurantEvent.LocationUpdated -> {

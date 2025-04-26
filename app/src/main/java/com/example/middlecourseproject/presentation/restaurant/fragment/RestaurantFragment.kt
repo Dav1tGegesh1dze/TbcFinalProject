@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -219,45 +220,14 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
         }
     }
 
+
     private fun handleAdBannerClick(adBanner: AdBanner) {
-        // Handle different action types
-        when (adBanner.actionType) {
-            "restaurant" -> {
-                // Navigate to restaurant details
-                val restaurantId = adBanner.actionTarget
-                viewModel.onEvent(RestaurantEvent.RestaurantSelected(restaurantId))
-            }
-            "category" -> {
-                // Navigate to category
-                val categoryId = adBanner.actionTarget
-                viewModel.onEvent(RestaurantEvent.CategorySelected(categoryId))
-            }
-            "promo" -> {
-                // Handle promo code or special offer
-                Toast.makeText(
-                    requireContext(),
-                    "Promo applied: ${adBanner.title}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                // You might want to pass the promo code to a service or viewmodel
-            }
-            "collection" -> {
-                // Navigate to a collection (future feature)
-                Toast.makeText(
-                    requireContext(),
-                    "Viewing collection: ${adBanner.title}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            else -> {
-                // Default action - just show details
-                Toast.makeText(
-                    requireContext(),
-                    adBanner.description,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+        // Tell the ViewModel about the selection if needed
+        viewModel.onEvent(RestaurantEvent.AdBannerSelected(adBanner.id))
+
+        // Use the generated NavDirections class
+        val action = RestaurantFragmentDirections.actionRestaurantFragmentToAdDetailFragment(adBanner)
+        findNavController().navigate(action)
     }
 
     private fun showLocationBottomSheet() {
