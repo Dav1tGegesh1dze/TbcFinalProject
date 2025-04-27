@@ -90,8 +90,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun navigateToHome() {
-        //fix later
-        //findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHome2())
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRestaurantFragment())
     }
 
     private fun navigateToRegister() {

@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
@@ -35,10 +33,7 @@ class RegisterViewModel @Inject constructor(
                 email = intent.email,
                 emailError = null
             )
-            is RegisterIntent.EnterUserName -> _state.value = _state.value.copy(
-                userName = intent.userName,
-                userNameError = null
-            )
+
             is RegisterIntent.EnterPassword -> _state.value = _state.value.copy(
                 password = intent.password,
                 passwordError = null
@@ -52,36 +47,33 @@ class RegisterViewModel @Inject constructor(
 
     private fun handleRegister() {
         val email = _state.value.email
-        val userName = _state.value.userName
         val password = _state.value.password
 
-        // Basic validation
         val emailError = when {
             email.isEmpty() -> "Email cannot be empty"
             !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email format"
             else -> null
         }
-        val userNameError = if (userName.isEmpty()) "Username cannot be empty" else null
         val passwordError = if (password.isEmpty()) "Password cannot be empty" else null
 
-        if (emailError != null || userNameError != null || passwordError != null) {
+        if (emailError != null  || passwordError != null) {
             _state.value = _state.value.copy(
                 emailError = emailError,
-                userNameError = userNameError,
                 passwordError = passwordError
             )
             return
         }
 
         viewModelScope.launch {
-            registerUseCase(email, userName, password).collect { resource ->
+            registerUseCase(email, password).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         _state.value = _state.value.copy(isLoading = true)
                     }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(isLoading = false)
-                        _sideEffect.emit(RegisterSideEffect.NavigateToOtpValidation(email, userName, password))
+                        _sideEffect.emit(RegisterSideEffect.ShowSnackbar("Registration successful, please log in"))
+                        _sideEffect.emit(RegisterSideEffect.NavigateToLogin)
                     }
                     is Resource.Error -> {
                         _state.value = _state.value.copy(isLoading = false)

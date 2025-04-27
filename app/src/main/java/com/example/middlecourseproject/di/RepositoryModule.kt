@@ -5,7 +5,6 @@ import com.example.middlecourseproject.domain.repository.AuthRepository
 import com.example.middlecourseproject.data.repository.AuthRepositoryImpl
 import com.example.middlecourseproject.data.repository.LanguageRepositoryImpl
 import com.example.middlecourseproject.data.repository.TokenRepositoryImpl
-import com.example.middlecourseproject.data.repository.UserProfileRepositoryImpl
 import com.example.middlecourseproject.domain.checkout.repository.CheckoutRepository
 import com.example.middlecourseproject.presentation.utils.StringProviderImpl
 import com.example.middlecourseproject.domain.repository.LanguageRepository
@@ -45,11 +44,6 @@ abstract class RepositoryModule {
         languageRepositoryImpl: LanguageRepositoryImpl
     ) : LanguageRepository
 
-    @Binds
-    @Singleton
-    abstract fun bindProfileRepositoryImpl(
-        userProfileRepositoryImpl: UserProfileRepositoryImpl
-    ) : UserProfileRepository
 
 
 

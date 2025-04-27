@@ -5,6 +5,8 @@ import com.example.middlecourseproject.data.restaurant.api.RestaurantApi
 import com.example.middlecourseproject.data.restaurant.api.RetrofitClient
 import com.example.middlecourseproject.data.restaurant.repository.RestaurantRepositoryImpl
 import com.example.middlecourseproject.domain.checkout.manager.OrderManager
+import com.example.middlecourseproject.domain.checkout.notification.NotificationService
+
 import com.example.middlecourseproject.domain.restaurant.repository.RestaurantRepository
 import dagger.Module
 import dagger.Provides
@@ -31,9 +33,19 @@ object AppModule {
     fun provideRestaurantRepository(api: RestaurantApi): RestaurantRepository {
         return RestaurantRepositoryImpl(api)
     }
+
     @Provides
     @Singleton
-    fun provideOrderManager(@ApplicationContext context: Context): OrderManager {
-        return OrderManager(context)
+    fun provideNotificationService(@ApplicationContext context: Context): NotificationService {
+        return NotificationService(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderManager(
+        @ApplicationContext context: Context,
+        notificationService: NotificationService
+    ): OrderManager {
+        return OrderManager(context, notificationService)
     }
 }

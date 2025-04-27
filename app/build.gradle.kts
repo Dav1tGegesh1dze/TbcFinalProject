@@ -8,6 +8,7 @@ plugins {
     id ("com.google.protobuf") version "0.9.4"
     id ("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 
 }
 
@@ -106,6 +107,13 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:21.3.0")
     // Material Components
     implementation ("com.google.android.material:material:1.12.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-auth-ktx")
     
 
 

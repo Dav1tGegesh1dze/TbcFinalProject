@@ -7,8 +7,6 @@ import com.example.middlecourseproject.presentation.models.Register
 
 fun RegisterDomain.toPresentation ( ) : Register {
     return Register (
-        errorType = this.errorType,
-        errorMessage = this.errorMessage,
-        result = this.result
+        success = this.success
     )
 }

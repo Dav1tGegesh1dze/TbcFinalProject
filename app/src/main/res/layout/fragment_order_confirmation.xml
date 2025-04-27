@@ -2,20 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
+    <!-- Top padding to avoid notch and status bar -->
+    <Space
+        android:id="@+id/topSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Success image adjusted to maintain proper spacing -->
     <ImageView
         android:id="@+id/ivSuccess"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@android:drawable/ic_dialog_info"
         android:tint="#00BFFF"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSpacer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvOrderConfirmed"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- Rest of the content remains the same -->
 
     <TextView
         android:id="@+id/tvOrderConfirmed"

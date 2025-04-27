@@ -33,11 +33,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         binding.emailInputRegister.addTextChangedListener { text ->
             registerViewModel.processIntent(RegisterIntent.EnterEmail(text.toString()))
         }
-        binding.userNameInput.addTextChangedListener { text ->
-                registerViewModel.processIntent(RegisterIntent.EnterUserName(text.toString()))
-        }
+
         binding.passwordInputRegister.addTextChangedListener { text ->
-                registerViewModel.processIntent(RegisterIntent.EnterPassword(text.toString()))
+            registerViewModel.processIntent(RegisterIntent.EnterPassword(text.toString()))
         }
         binding.registerButton.setOnClickListener {
             registerViewModel.processIntent(RegisterIntent.ClickRegister)
@@ -52,7 +50,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 registerViewModel.state.collect { state ->
                     binding.emailInputRegister.error = state.emailError
-                    binding.userNameInput.error = state.userNameError
                     binding.passwordInputRegister.error = state.passwordError
 
                     // Update loading state
@@ -76,17 +73,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                 when (effect) {
                     is RegisterSideEffect.ShowSnackbar -> binding.root.showSnackbar(effect.message)
                     is RegisterSideEffect.NavigateToOtpValidation -> {
-                        val navOptions = NavOptions.Builder()
-                            .setPopUpTo(R.id.loginFragment, true)
-                            .build()
-                        findNavController().navigate(
-                            RegisterFragmentDirections.actionRegisterFragmentToOtpValidation(
-                                effect.email,
-                                effect.userName,
-                                effect.password
-                            ),
-                            navOptions
-                        )
                     }
                     is RegisterSideEffect.NavigateToLogin -> {
                         findNavController().popBackStack()

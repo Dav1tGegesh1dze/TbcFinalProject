@@ -1,7 +1,9 @@
 package com.example.middlecourseproject.presentation.restaurant.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.ItemRestaurantBinding
 import com.example.middlecourseproject.domain.restaurant.model.Restaurant
-import com.example.middlecourseproject.presentation.restaurant.fragment.RestaurantFragmentDirections
 
 class RestaurantAdapter(
     private val onRestaurantClicked: (String) -> Unit
@@ -41,11 +42,28 @@ class RestaurantAdapter(
                     val restaurant = getItem(position)
                     onRestaurantClicked(restaurant.id)
 
-                    // Navigate to dishes screen
-                    val action = RestaurantFragmentDirections
-                        .actionRestaurantFragmentToDishesFragment(restaurant.id)
-                    it.findNavController().navigate(action)
+                    // Navigate to dishes screen with safe navigation
+                    try {
+                        // Direct navigation using bundle instead of action
+                        val bundle = Bundle().apply {
+                            putString("restaurantId", restaurant.id)
+                        }
 
+                        // Get the current destination ID
+                        val navController = it.findNavController()
+                        val currentDestId = navController.currentDestination?.id
+
+                        // Only navigate if we're not already in dishesFragment
+                        if (currentDestId != R.id.dishesFragment) {
+                            navController.navigate(R.id.dishesFragment, bundle)
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            binding.root.context,
+                            "Navigation error: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

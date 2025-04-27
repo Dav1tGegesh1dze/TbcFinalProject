@@ -6,8 +6,6 @@ import com.example.middlecourseproject.presentation.models.LogIn
 
 fun LogInDomain.toPresentation ( ) : LogIn {
     return LogIn (
-        errorType = this.errorType,
-        errorMessage = this.errorMessage,
-        result = this.result
+        uid = this.uid
     )
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mySecondApp</string>
+    <string name="app_name">PontiDelivery</string>
     <string name="action">action</string>
     <string name="info">Profile Info</string>
     <string name="image">image</string>
@@ -172,5 +172,12 @@
     <string name="no_app_for_url">No application found to open URL.</string>
     <string name="invalid_url">Invalid URL.</string>
     <string name="otp_expired">OTP expired. Please resend</string>
+
+    <!-- New notification-related string resources -->
+    <string name="notification_channel_name">Order Updates</string>
+    <string name="notification_channel_description">Notifications about your order status</string>
+
+    <string name="default_notification_channel_id">order_status_channel</string>
+
 
 </resources>

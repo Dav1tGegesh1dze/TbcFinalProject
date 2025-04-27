@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ჩემი მეორე აპლიკაცია</string>
+    <string name="app_name">პონტი დელივერი</string>
     <string name="action">მოქმედება</string>
     <string name="info">პროფილის ინფორმაცია</string>
     <string name="image">სურათი</string>
@@ -171,4 +171,10 @@
     <string name="no_app_for_url">ლინკის გახსნა ვერ მოხერხდა</string>
     <string name="invalid_url">არასწორი ლინკი.</string>
     <string name="otp_expired">კოდი ვადაგასულია, გთხოვთ გააგზავნოთ თავიდან</string>
-</resources>
+
+    <string name="notification_channel_name">შეკვეთის განახლება</string>
+    <string name="notification_channel_description">შეტყობინებები შეკვეთის სტატუსის ცვლილების შესახებ</string>
+
+    <string name="default_notification_channel_id">შეკვეთის_სტატუსი</string>
+
+ </resources>

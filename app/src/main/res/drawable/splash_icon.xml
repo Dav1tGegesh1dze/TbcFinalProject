@@ -2,6 +2,6 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:inset="16dp">
     <bitmap
-        android:src="@drawable/logo_white1"
+        android:src="@drawable/logo"
         android:gravity="center" />
 </inset>

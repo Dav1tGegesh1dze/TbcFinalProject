@@ -79,11 +79,14 @@
         <action
             android:id="@+id/action_restaurantFragment_to_orderConfirmationFragment"
             app:destination="@id/orderConfirmationFragment" />
+        <action
+            android:id="@+id/action_restaurantFragment_to_adDetailFragment"
+            app:destination="@id/adDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.middlecourseproject.SearchFragment"
+        android:name="com.example.middlecourseproject.presentation.search.fragment.SearchFragment"
         android:label="SearchFragment" />
 
     <fragment
@@ -135,5 +138,14 @@
         android:id="@+id/paymentFragment"
         android:name="com.example.middlecourseproject.presentation.checkout.fragment.PaymentFragment"
         android:label="PaymentFragment" />
+    <fragment
+        android:id="@+id/adDetailFragment"
+        android:name="com.example.middlecourseproject.presentation.restaurant.fragment.AdDetailFragment"
+        android:label="AdDetailFragment">
+
+        <argument
+            android:name="adBanner"
+            app:argType="com.example.middlecourseproject.domain.restaurant.model.AdBanner" />
+    </fragment>
 
 </navigation>

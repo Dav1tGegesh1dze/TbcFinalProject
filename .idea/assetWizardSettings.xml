@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\tazon\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/jz/lz5tg0dn3c9_tzvr35wc66840000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -67,7 +67,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\tazon\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/jz/lz5tg0dn3c9_tzvr35wc66840000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -79,7 +79,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\tazon\Downloads\logo_icon.png" />
+                                                <entry key="imagePath" value="$PROJECT_DIR$/../../png/ponti_logo.png" />
                                                 <entry key="scalingPercent" value="53" />
                                               </map>
                                             </option>
@@ -113,7 +113,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="8c1d2f" />
+                                      <entry key="backgroundColor" value="e6e6e6" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -130,7 +130,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\tazon\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/jz/lz5tg0dn3c9_tzvr35wc66840000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -174,7 +174,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\tazon\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/jz/lz5tg0dn3c9_tzvr35wc66840000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -238,7 +238,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\tazon\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/jz/lz5tg0dn3c9_tzvr35wc66840000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -307,7 +307,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/done/baseline_done_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/circle_notifications/baseline_circle_notifications_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -318,8 +318,8 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="af9096" />
-                            <entry key="outputName" value="baseline_done_24" />
-                            <entry key="sourceFile" value="C:\Users\tazon\AndroidStudioProjects\MiddleCourseProject" />
+                            <entry key="outputName" value="ic_notification" />
+                            <entry key="sourceFile" value="/C:\Users\tazon\AndroidStudioProjects\MiddleCourseProject" />
                           </map>
                         </option>
                       </PersistentState>

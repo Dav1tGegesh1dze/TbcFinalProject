@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun login(email: String, password: String): Flow<Resource<LogInDomain>>
-    suspend fun register(email: String, userName: String, password: String): Flow<Resource<RegisterDomain>>
-    suspend fun otpValidation(email: String, otp: String): Flow<Resource<OtpDomain>>
+    suspend fun register(email: String,  password: String): Flow<Resource<RegisterDomain>>
 }
