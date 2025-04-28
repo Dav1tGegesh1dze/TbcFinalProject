@@ -30,4 +30,12 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
         val systemLanguage = Locale.getDefault().language
         return if (systemLanguage.equals("ka", ignoreCase = true)) "ka" else "en"
     }
+    // Add these methods to your PreferencesHelper class
+    fun saveThemeMode(isDarkMode: Boolean) {
+        prefs.edit().putBoolean("app_theme", isDarkMode).apply()
+    }
+
+    fun isDarkThemeEnabled(): Boolean {
+        return prefs.getBoolean("app_theme", false)
+    }
 }

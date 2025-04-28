@@ -3,6 +3,7 @@ package com.example.middlecourseproject.data.repository
 import com.example.middlecourseproject.domain.models.LogInDomain
 import com.example.middlecourseproject.domain.models.RegisterDomain
 import com.example.middlecourseproject.domain.repository.AuthRepository
+import com.example.middlecourseproject.domain.repository.TokenRepository
 import com.example.middlecourseproject.domain.utils.Resource
 import com.example.middlecourseproject.domain.utils.AppError
 import com.example.middlecourseproject.domain.utils.ErrorType
@@ -16,8 +17,10 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val tokenRepository: TokenRepository
 ) : AuthRepository {
+
 
     override suspend fun register(email: String,  password: String): Flow<Resource<RegisterDomain>> {
         return flow {
@@ -48,7 +51,16 @@ class AuthRepositoryImpl @Inject constructor(
                 val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
                 val user = result.user
                 if (user != null) {
-                    emit(Resource.Success(LogInDomain(uid = user.uid)))
+                    // Get and save the token
+                    val tokenResult = user.getIdToken(false).await()
+                    val token = tokenResult.token
+                    if (token != null) {
+                        // Save the token
+                        tokenRepository.saveUserAuth(token)
+                        emit(Resource.Success(LogInDomain(uid = user.uid)))
+                    } else {
+                        emit(Resource.Error(AppError.ApiError(ErrorType.OTHER, "Failed to get auth token")))
+                    }
                 } else {
                     emit(Resource.Error(AppError.ApiError(ErrorType.OTHER, "Login failed")))
                 }
@@ -59,7 +71,8 @@ class AuthRepositoryImpl @Inject constructor(
                 emit(Resource.Error(AppError.ApiError(ErrorType.OTHER, e.message ?: "Unknown error")))
             }
         }
-    }
+      }
+
 
     private fun mapFirebaseErrorToErrorType(errorCode: String): ErrorType {
         return when (errorCode) {

@@ -177,4 +177,19 @@
 
     <string name="default_notification_channel_id">შეკვეთის_სტატუსი</string>
 
+    <!-- Profile Fragment (Georgian) -->
+    <string name="profile">პროფილი</string>
+    <string name="dark_mode">მუქი რეჟიმი</string>
+    <string name="light_mode">ნათელი რეჟიმი</string>
+    <string name="language">ენა</string>
+    <string name="sign_out">გასვლა</string>
+    <string name="theme_icon">თემის ხატულა</string>
+    <string name="language_icon">ენის ხატულა</string>
+    <string name="orders_icon">შეკვეთების ხატულა</string>
+    <string name="go_to_orders">შეკვეთებზე გადასვლა</string>
+    <string name="sign_out_confirmation">დარწმუნებული ხართ, რომ გსურთ გასვლა?</string>
+    <string name="yes">დიახ</string>
+    <string name="no">არა</string>
+    <string name="sign_out_success">წარმატებით გამოხვედით</string>
+
  </resources>

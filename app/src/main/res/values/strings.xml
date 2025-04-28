@@ -179,5 +179,20 @@
 
     <string name="default_notification_channel_id">order_status_channel</string>
 
+    <!-- Profile Fragment -->
+    <string name="profile">Profile</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="language">Language</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="theme_icon">Theme Icon</string>
+    <string name="language_icon">Language Icon</string>
+    <string name="orders_icon">Orders Icon</string>
+    <string name="go_to_orders">Go to Orders</string>
+    <string name="sign_out_confirmation">Are you sure you want to sign out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sign_out_success">Signed out successfully</string>
+
 
 </resources>

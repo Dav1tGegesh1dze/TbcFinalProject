@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.middlecourseproject.R
@@ -18,6 +19,7 @@ import com.example.middlecourseproject.domain.useCases.CheckAuthTokenUseCase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -71,14 +73,34 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        // Important: Create a new NavGraph instance but don't set it immediately
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
 
         // Bottom Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
 
+        // Check authentication status before setting the start destination
+        lifecycleScope.launch {
+            val isLoggedIn = checkAuthTokenUseCase()
+
+            // Set the appropriate start destination based on login status
+            if (isLoggedIn) {
+                navGraph.setStartDestination(R.id.restaurantFragment)
+                Log.d("MainActivity", "User is logged in, navigating to Restaurant Fragment")
+            } else {
+                navGraph.setStartDestination(R.id.loginFragment)
+                Log.d("MainActivity", "User is not logged in, navigating to Login Fragment")
+            }
+
+            // Apply the navigation graph AFTER setting the start destination
+            navController.graph = navGraph
+            isNavigationReady = true
+        }
+
+        // Set up destination changed listener for showing/hiding bottom nav
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            //change another way cause else Is only 4 fragments other may become more
             when (destination.id) {
                 R.id.loginFragment, R.id.registerFragment,
                 R.id.otpValidation, R.id.detailsFragment, R.id.adDetailFragment,
@@ -90,28 +112,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        // Start
-        //navGraph.setStartDestination(R.id.restaurantFragment)
-        navController.graph = navGraph
-        isNavigationReady = true
-
-        Log.d("MainActivity", "Navigating to Restaurant Fragment")
-
-        //Commented that
-        /*
-        lifecycleScope.launch {
-            val isValid = checkAuthTokenUseCase()
-            if (isValid) {
-                navGraph.setStartDestination(R.id.home2)
-                Log.d("MainActivity", "Token is valid. Navigating to Home")
-            } else {
-                navGraph.setStartDestination(R.id.loginFragment)
-                Log.d("MainActivity", "No valid token found. Navigating to Login")
-            }
-            navController.graph = navGraph
-            isNavigationReady = true
-        }
-        */
     }
 }
