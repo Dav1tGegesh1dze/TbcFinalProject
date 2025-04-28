@@ -363,8 +363,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="5" />
-                            <option name="y" value="-425" />
+                            <option name="x" value="109" />
+                            <option name="y" value="-392" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -402,6 +402,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_restaurantFragment_to_adDetailFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_restaurantFragment_to_dishesFragment">
                               <value>
                                 <LayoutPositions />

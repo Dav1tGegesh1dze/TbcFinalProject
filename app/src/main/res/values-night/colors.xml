@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Dark theme versions of your colors -->
+    <color name="green_500">#4CAF50</color> <!-- Could remain the same -->
+    <color name="red_required">#FF5252</color> <!-- Slightly lighter red for dark theme -->
+    <color name="main_background">#121212</color> <!-- Darker background for dark theme -->
+    <color name="main_red">#D13F54</color> <!-- Brighter red for visibility -->
+    <color name="second_background">#2C2C2C</color> <!-- Dark background instead of light C6B0B4 -->
+    <color name="header">#D13F54</color> <!-- Brighter to stand out -->
+    <color name="card_background">#1D1D1D</color> <!-- Similar but slightly lighter than main background -->
+    <color name="main_red1">#E05568</color> <!-- Brighter for visibility -->
+    <color name="bottom_navigation_color">#0B0B0B</color>
+    <color name="colorPrimary">#FF7043</color> <!-- Slightly lighter -->
+    <color name="colorPrimaryDark">#FF5722</color> <!-- Brighter in dark mode -->
+    <color name="colorAccent">#FFB74D</color> <!-- Lighter orange for dark theme -->
+    <color name="colorInactive">#9E9E9E</color> <!-- Lighter gray for dark theme -->
+    <color name="color_background_category">#454545</color> <!-- Lighter gray for dark theme -->
+    <color name="activeStatus">#40C4FF</color> <!-- Brighter blue for visibility -->
+</resources>

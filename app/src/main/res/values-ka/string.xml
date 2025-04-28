@@ -191,5 +191,6 @@
     <string name="yes">დიახ</string>
     <string name="no">არა</string>
     <string name="sign_out_success">წარმატებით გამოხვედით</string>
+    <string name="categories">კატეგორიები</string>
 
  </resources>

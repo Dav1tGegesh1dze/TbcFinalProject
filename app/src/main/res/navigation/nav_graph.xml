@@ -100,8 +100,12 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.middlecourseproject.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:name="com.example.middlecourseproject.presentation.profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/dishesFragment"

@@ -193,6 +193,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="sign_out_success">Signed out successfully</string>
+    <string name="categories">Categories</string>
 
 
 </resources>

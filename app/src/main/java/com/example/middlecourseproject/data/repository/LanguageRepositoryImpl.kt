@@ -1,5 +1,6 @@
 package com.example.middlecourseproject.data.repository
 
+import android.util.Log
 import com.example.middlecourseproject.domain.repository.LanguageRepository
 import com.example.middlecourseproject.data.local.sharedPreferences.PreferencesHelper
 import com.example.middlecourseproject.data.local.sharedPreferences.LocaleHelper
@@ -17,12 +18,15 @@ class LanguageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveLanguage(language: String) {
+
         preferencesHelper.saveLanguage(language)
     }
 
     override suspend fun toggleLanguage(): String {
         val currentLang = getLanguage()
+        Log.d("LanguageRepository", "Current language: $currentLang")
         val newLang = if (currentLang == "en") "ka" else "en"
+        Log.d("LanguageRepository", "Switching to: $newLang")
         saveLanguage(newLang)
         return newLang
     }

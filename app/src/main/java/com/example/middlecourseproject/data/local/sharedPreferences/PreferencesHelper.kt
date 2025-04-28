@@ -12,12 +12,14 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
     companion object {
         private const val PREFS_NAME = "MyPrefs"
         private const val LANGUAGE_KEY = "language_key"
+        private const val THEME_KEY = "app_theme"
     }
 
     private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
+    // Language methods
     fun saveLanguage(langCode: String) {
         prefs.edit().putString(LANGUAGE_KEY, langCode).apply()
     }
@@ -30,12 +32,22 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
         val systemLanguage = Locale.getDefault().language
         return if (systemLanguage.equals("ka", ignoreCase = true)) "ka" else "en"
     }
-    // Add these methods to your PreferencesHelper class
-    fun saveThemeMode(isDarkMode: Boolean) {
-        prefs.edit().putBoolean("app_theme", isDarkMode).apply()
+
+    // Theme methods
+    fun saveBooleanValue(key: String, value: Boolean) {
+        prefs.edit().putBoolean(key, value).apply()
     }
 
+    fun getBooleanValue(key: String, defaultValue: Boolean): Boolean {
+        return prefs.getBoolean(key, defaultValue)
+    }
+
+    // Shorthand methods for theme
     fun isDarkThemeEnabled(): Boolean {
-        return prefs.getBoolean("app_theme", false)
+        return getBooleanValue(THEME_KEY, false)
+    }
+
+    fun saveThemeMode(isDarkMode: Boolean) {
+        saveBooleanValue(THEME_KEY, isDarkMode)
     }
 }

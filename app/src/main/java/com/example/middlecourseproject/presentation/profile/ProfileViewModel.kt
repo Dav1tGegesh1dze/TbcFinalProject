@@ -1,5 +1,6 @@
 package com.example.middlecourseproject.presentation.profile
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.middlecourseproject.domain.useCases.GetLanguageUseCase
@@ -38,13 +39,19 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadInitialState() {
         viewModelScope.launch {
-            val currentLanguage = getLanguageUseCase()
-            val isDarkMode = getThemeUseCase()
+            try {
+                val currentLanguage = getLanguageUseCase()
+                val isDarkMode = getThemeUseCase()
 
-            _state.value = _state.value.copy(
-                currentLanguage = currentLanguage,
-                isDarkMode = isDarkMode
-            )
+                Log.d("ProfileViewModel", "Initial state - language: $currentLanguage, dark mode: $isDarkMode")
+
+                _state.value = _state.value.copy(
+                    currentLanguage = currentLanguage,
+                    isDarkMode = isDarkMode
+                )
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error loading initial state", e)
+            }
         }
     }
 
@@ -73,16 +80,27 @@ class ProfileViewModel @Inject constructor(
 
     private fun toggleTheme() {
         viewModelScope.launch {
-            val isDarkMode = themeToggleUseCase()
-            _state.value = _state.value.copy(isDarkMode = isDarkMode)
+            try {
+                Log.d("ProfileViewModel", "Toggling theme")
+                val isDarkMode = themeToggleUseCase()
+                Log.d("ProfileViewModel", "Theme toggled, new value: $isDarkMode")
+                _state.value = _state.value.copy(isDarkMode = isDarkMode)
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error toggling theme", e)
+                _sideEffect.emit(ProfileSideEffect.ShowSnackbar("Error toggling theme: ${e.message}"))
+            }
         }
     }
 
     private fun toggleLanguage() {
         viewModelScope.launch {
-            val newLang = toggleLanguageUseCase()
-            _state.value = _state.value.copy(currentLanguage = newLang)
-            _sideEffect.emit(ProfileSideEffect.LanguageToggled(newLang))
+            try {
+                val newLang = toggleLanguageUseCase()
+                _state.value = _state.value.copy(currentLanguage = newLang)
+                _sideEffect.emit(ProfileSideEffect.LanguageToggled(newLang))
+            } catch (e: Exception) {
+                _sideEffect.emit(ProfileSideEffect.ShowSnackbar("Error toggling language: ${e.message}"))
+            }
         }
     }
 }

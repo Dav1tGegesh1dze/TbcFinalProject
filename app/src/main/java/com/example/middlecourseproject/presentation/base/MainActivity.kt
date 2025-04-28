@@ -1,13 +1,16 @@
 package com.example.middlecourseproject.presentation.base
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.middlecourseproject.R
 import com.example.middlecourseproject.databinding.ActivityMainBinding
 import com.example.middlecourseproject.di.LocaleHelperEntryPoint
+import com.example.middlecourseproject.domain.theme.ThemeManager
 import com.example.middlecourseproject.domain.useCases.CheckAuthTokenUseCase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var checkAuthTokenUseCase: CheckAuthTokenUseCase
+
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     @Volatile
     private var isNavigationReady: Boolean = false
@@ -66,7 +73,52 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpNavigation()
+        observeThemeChanges()
         Log.d("MainActivity", "onCreate: created")
+    }
+
+    private fun observeThemeChanges() {
+        lifecycleScope.launch {
+            themeManager.isDarkMode.collect { isDarkMode ->
+                Log.d("MainActivity", "Theme changed to dark mode: $isDarkMode")
+                updateBottomNavigationTheme()
+            }
+        }
+    }
+
+    private fun updateBottomNavigationTheme() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        // Force recreation of the bottom navigation colors
+        bottomNav.itemIconTintList = null
+        bottomNav.itemIconTintList = AppCompatResources.getColorStateList(
+            this,
+            R.color.bottom_nav_item_color
+        )
+
+        bottomNav.itemTextColor = null
+        bottomNav.itemTextColor = AppCompatResources.getColorStateList(
+            this,
+            R.color.bottom_nav_item_color
+        )
+
+        // Update background
+        bottomNav.setBackgroundResource(0) // Clear existing background
+        val typedValue = TypedValue()
+        theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
+        bottomNav.setBackgroundColor(typedValue.data)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // This will be called when the UI mode changes (dark/light)
+        Log.d("MainActivity", "Configuration changed: ${newConfig.uiMode}")
+
+        // Update bottom navigation when configuration changes
+        if ((newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES ||
+            (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_NO) {
+            updateBottomNavigationTheme()
+        }
     }
 
     private fun setUpNavigation() {
