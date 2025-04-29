@@ -44,14 +44,12 @@ class RestaurantRepositoryImpl @Inject constructor(
             val adBanners = response.adBanners.map { it.toDomain() }
             emit(adBanners)
         } catch (e: Exception) {
-            // Fallback to mock data if API fails
             val fallbackBanners = createFallbackAdBanners()
             emit(fallbackBanners)
         }
     }
 
     private fun createFallbackAdBanners(): List<AdBanner> {
-        // This is just a fallback if the API call fails
         return listOf(
             AdBanner(
                 id = "fallback_1",

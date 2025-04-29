@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Top padding to avoid notch and status bar -->
     <Space
         android:id="@+id/topSpacer"
         android:layout_width="match_parent"
@@ -20,26 +19,24 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/circle_background"
-        android:contentDescription="Back"
+        android:contentDescription="@string/back"
         android:padding="8dp"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topSpacer" />
 
-    <!-- Title - adjusted to align with back button -->
     <TextView
         android:id="@+id/tvCartTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Your Cart"
+        android:text="@string/your_cart"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack" />
 
-    <!-- Empty cart group -->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupEmptyCart"
         android:layout_width="wrap_content"
@@ -51,7 +48,7 @@
         android:id="@+id/ivEmptyCart"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/ic_cart"
         app:layout_constraintBottom_toTopOf="@id/tvEmptyCartMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,14 +60,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Your cart is empty"
+        android:text="@string/your_cart_is_empty"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivEmptyCart" />
 
-    <!-- Cart content group -->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupCartContent"
         android:layout_width="wrap_content"
@@ -110,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Total:"
+        android:text="@string/total"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/btnCheckout"
@@ -137,7 +133,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="120dp"
         android:background="@drawable/rounded_button_bg"
-        android:text="Checkout"
+        android:text="@string/checkout"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -145,7 +141,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

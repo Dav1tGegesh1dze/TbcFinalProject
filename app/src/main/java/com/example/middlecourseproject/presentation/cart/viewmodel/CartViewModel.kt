@@ -39,7 +39,6 @@ class CartViewModel @Inject constructor(
     private val _state = MutableStateFlow(CartState(isLoading = true))
     val state: StateFlow<CartState> = _state
 
-    // Use a class property instead of a constructor parameter
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     init {

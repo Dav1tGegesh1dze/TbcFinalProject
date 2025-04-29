@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Remove item"
+        android:contentDescription="@string/remove_item"
         android:padding="8dp"
         android:src="@android:drawable/ic_menu_delete"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Decrease quantity"
+            android:contentDescription="@string/decrease_quantity"
             android:src="@android:drawable/presence_video_away"
             app:tint="@color/colorPrimary" />
 
@@ -84,7 +84,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Increase quantity"
+            android:contentDescription="@string/increase_quantity"
             android:src="@android:drawable/ic_menu_add"
             app:tint="@color/colorPrimary" />
     </LinearLayout>

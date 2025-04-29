@@ -19,7 +19,6 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    // Language methods
     fun saveLanguage(langCode: String) {
         prefs.edit().putString(LANGUAGE_KEY, langCode).apply()
     }
@@ -33,7 +32,6 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
         return if (systemLanguage.equals("ka", ignoreCase = true)) "ka" else "en"
     }
 
-    // Theme methods
     fun saveBooleanValue(key: String, value: Boolean) {
         prefs.edit().putBoolean(key, value).apply()
     }
@@ -42,7 +40,6 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
         return prefs.getBoolean(key, defaultValue)
     }
 
-    // Shorthand methods for theme
     fun isDarkThemeEnabled(): Boolean {
         return getBooleanValue(THEME_KEY, false)
     }

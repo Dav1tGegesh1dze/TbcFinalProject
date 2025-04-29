@@ -24,7 +24,7 @@ class DishAdapter(
     fun setRestaurantInfo(categoryId: String, name: String) {
         this.restaurantCategoryId = categoryId
         this.restaurantName = name
-        notifyDataSetChanged() // Change that Just using for future
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
@@ -56,7 +56,6 @@ class DishAdapter(
 
                 tvDeliveryTime.text = "${dish.deliveryTime} min"
 
-                // Load image
                 Glide.with(itemView.context)
                     .load(dish.image)
                     .centerCrop()
@@ -64,12 +63,10 @@ class DishAdapter(
                     .error(R.drawable.ic_launcher_foreground)
                     .into(ivDishImage)
 
-                // Add to card setonclick listener
                 btnAddToCart.setOnClickListener {
                     onAddToCartClick(dish)
                 }
 
-                // Listeners for 3d
                 btnViewIn3d.setOnClickListener {
                     val intent = Intent(itemView.context, FoodArActivity::class.java).apply {
                         putExtra("DISH_ID", dish.id)

@@ -28,18 +28,15 @@ class AdDetailFragment : BaseFragment<FragmentAdDetailBinding>(
     private fun setupUI() {
         val adBanner = args.adBanner
 
-        // Set title and description
+
         binding.tvAdTitle.text = adBanner.title
         binding.tvAdDescription.text = adBanner.description
 
-        // Hide the action button since we don't want it to be clickable
         binding.btnAction.visibility = View.GONE
 
-        // Show static image
         binding.ivAdImage.visibility = View.VISIBLE
         binding.videoContainer.visibility = View.GONE
 
-        // Load image - keep it simple
         Glide.with(requireContext())
             .load(adBanner.thumbnailUrl ?: adBanner.mediaUrl)
             .placeholder(R.drawable.ic_launcher_background)

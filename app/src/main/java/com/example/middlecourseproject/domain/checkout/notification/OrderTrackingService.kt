@@ -45,10 +45,7 @@ class OrderTrackingService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "Service started")
 
-        // Start service in foreground to keep it running
         startForeground(FOREGROUND_NOTIFICATION_ID, createForegroundNotification())
-
-        // Start tracking if there's an active order
         if (orderManager.hasActiveOrder()) {
             startOrderTracking()
         } else {
@@ -67,14 +64,13 @@ class OrderTrackingService : Service() {
                     return
                 }
 
-                // Calculate progress
+
                 val orderStartTime = orderManager.getOrderPlacedTimeMillis()
                 val orderEndTime = orderManager.getDeliveryTimeMillis()
                 val currentTime = System.currentTimeMillis()
                 val totalDuration = orderEndTime - orderStartTime
                 val timeElapsed = currentTime - orderStartTime
 
-                // Guard against division by zero or negative time
                 if (totalDuration <= 0L) {
                     stopSelf()
                     return
@@ -85,17 +81,14 @@ class OrderTrackingService : Service() {
 
                 Log.d(TAG, "Progress: $progress%, Status: ${orderStatus.name}")
 
-                // Check if status has changed
+
                 if (orderStatus.value != lastStatusValue) {
-                    // Update stored status
                     orderManager.updateOrderStatus(orderStatus)
                     lastStatusValue = orderStatus.value
 
-                    // Send notification about the status change
                     sendStatusNotification(orderStatus.title, orderStatus.message)
                 }
 
-                // Check if order is complete
                 if (progress >= 100) {
                     Log.d(TAG, "Order complete")
                     orderManager.completeOrder()
@@ -104,12 +97,10 @@ class OrderTrackingService : Service() {
                     return
                 }
 
-                // Schedule next update
                 handler.postDelayed(this, updateIntervalMillis)
             }
         }
 
-        // Start the periodic updates
         handler.post(updateRunnable)
     }
 
@@ -127,7 +118,7 @@ class OrderTrackingService : Service() {
             .setContentText("Tracking your order...")
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
-            .setSilent(true) // Don't make sound for this ongoing notification
+            .setSilent(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }

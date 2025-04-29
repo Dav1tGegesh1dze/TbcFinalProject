@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    // BASE MOCKY, We might change later for updates
+    //Base
     private const val BASE_URL = "https://run.mocky.io/v3/"
 
     @Provides

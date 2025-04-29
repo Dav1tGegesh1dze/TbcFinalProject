@@ -55,18 +55,16 @@ class CartAdapter(
 
                     tvQuantity.text = item.quantity.toString()
 
-                    // Use safer Glide configuration
                     Glide.with(itemView.context.applicationContext)
                         .load(item.image)
                         .apply(RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.ic_launcher_foreground)
                             .error(R.drawable.ic_launcher_foreground)
-                            .dontAnimate() // Reduce animation overhead
+                            .dontAnimate()
                         )
                         .into(ivItemImage)
 
-                    // Use simple click listeners
                     btnIncrease.setOnClickListener {
                         val position = bindingAdapterPosition
                         if (position != RecyclerView.NO_POSITION) {
@@ -89,17 +87,14 @@ class CartAdapter(
                     }
                 }
             } catch (e: Exception) {
-                // Log but don't crash
                 android.util.Log.e("CartAdapter", "Error binding item: ${e.message}", e)
             }
         }
 
         fun unbind() {
             try {
-                // Clear Glide resources to prevent memory leaks
                 Glide.with(itemView.context.applicationContext).clear(binding.ivItemImage)
 
-                // Remove click listeners
                 binding.btnIncrease.setOnClickListener(null)
                 binding.btnDecrease.setOnClickListener(null)
                 binding.btnRemove.setOnClickListener(null)

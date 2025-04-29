@@ -12,11 +12,12 @@
     <color name="header">#D13F54</color> <!-- Brighter to stand out -->
     <color name="card_background">#1D1D1D</color> <!-- Similar but slightly lighter than main background -->
     <color name="main_red1">#E05568</color> <!-- Brighter for visibility -->
-    <color name="bottom_navigation_color">#0B0B0B</color>
+    <color name="bottom_navigation_color">#242424</color>
     <color name="colorPrimary">#FF7043</color> <!-- Slightly lighter -->
     <color name="colorPrimaryDark">#FF5722</color> <!-- Brighter in dark mode -->
     <color name="colorAccent">#FFB74D</color> <!-- Lighter orange for dark theme -->
     <color name="colorInactive">#9E9E9E</color> <!-- Lighter gray for dark theme -->
     <color name="color_background_category">#454545</color> <!-- Lighter gray for dark theme -->
     <color name="activeStatus">#40C4FF</color> <!-- Brighter blue for visibility -->
+    <color name="color_navigation_logos">#FFFFFF</color>
 </resources>

@@ -24,17 +24,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: ${remoteMessage.from}")
 
-        // Check if message contains data payload
         remoteMessage.data.isNotEmpty().let {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
 
-            // Handle order status updates
             if (remoteMessage.data.containsKey("order_status")) {
                 handleOrderStatusUpdate(remoteMessage.data)
             }
         }
 
-        // Check if message contains notification payload
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Title: ${it.title}")
             Log.d(TAG, "Message Notification Body: ${it.body}")
@@ -50,17 +47,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun handleOrderStatusUpdate(data: Map<String, String>) {
         val statusValue = data["order_status"]?.toIntOrNull() ?: return
 
-        // Only process if we have an active order
         if (orderManager.hasActiveOrder()) {
             try {
-                // Find the order status enum by value
                 val status = OrderManager.OrderStatus.values()
                     .find { it.value == statusValue } ?: return
 
-                // Update the order status
                 orderManager.updateOrderStatus(status)
 
-                // Broadcast intent to update UI if app is in foreground
                 val intent = Intent("com.example.middlecourseproject.ORDER_STATUS_UPDATED")
                 intent.putExtra("status_value", statusValue)
                 sendBroadcast(intent)
@@ -73,8 +66,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
-
-        // Send the token to your server if needed
-        // You could store this in SharedPreferences or send to your backend
     }
 }

@@ -10,12 +10,13 @@
     <color name="header">#58121D</color>
     <color name="card_background">#1C191A</color>
     <color name="main_red1">#B63146</color>
-    <color name="bottom_navigation_color">#FFFFFF</color>
+    <color name="bottom_navigation_color">#DCD1D1</color>
     <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryDark">#E64A19</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorInactive">#757575</color>
     <color name="color_background_category">#E0DEDE</color> <!-- Lighter gray for dark theme -->
+    <color name="color_navigation_logos">#000000</color> <!-- Lighter gray for dark theme -->
 
 
     <color name="activeStatus">#00BFFF</color>

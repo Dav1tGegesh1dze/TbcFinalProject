@@ -45,7 +45,6 @@ class PaymentViewModel @Inject constructor(
                     )
                 }
 
-                // Validate input
                 val validationResult = validateCardInput(cardNumber, expiryDate, cvv, cardholderName)
 
                 if (!validationResult.isValid) {
@@ -61,7 +60,6 @@ class PaymentViewModel @Inject constructor(
                     return@launch
                 }
 
-                // Create payment method
                 val cardType = detectCardType(cardNumber)
                 val lastFour = cardNumber.takeLast(4)
                 val (expiryMonth, expiryYear) = parseExpiryDate(expiryDate)
@@ -75,10 +73,8 @@ class PaymentViewModel @Inject constructor(
                     cardholderName = cardholderName
                 )
 
-                // Add payment method
                 addPaymentMethodUseCase(paymentMethod, true)
 
-                // Update state
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -104,7 +100,6 @@ class PaymentViewModel @Inject constructor(
     ): ValidationResult {
         val result = ValidationResult()
 
-        // Validate card number
         if (cardNumber.isEmpty()) {
             result.cardNumberError = "Card number is required"
         } else if (cardNumber.length < 13 || cardNumber.length > 19) {
@@ -115,7 +110,6 @@ class PaymentViewModel @Inject constructor(
             result.cardNumberError = "Invalid card number"
         }
 
-        // Validate expiry date
         if (expiryDate.isEmpty()) {
             result.expiryDateError = "Expiry date is required"
         } else if (!expiryDate.matches(Regex("^(0[1-9]|1[0-2])/([0-9]{2})$"))) {
@@ -130,7 +124,6 @@ class PaymentViewModel @Inject constructor(
             }
         }
 
-        // Validate CVV
         if (cvv.isEmpty()) {
             result.cvvError = "CVV is required"
         } else if (!cvv.all { it.isDigit() }) {
@@ -139,7 +132,7 @@ class PaymentViewModel @Inject constructor(
             result.cvvError = "CVV should be 3 or 4 digits"
         }
 
-        // Validate cardholder name
+
         if (cardholderName.isEmpty()) {
             result.cardholderNameError = "Cardholder name is required"
         }
@@ -163,7 +156,7 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    // Luhn algorithm for credit card validation
+    // Card availability algorithm checks if it's correct card
     private fun isValidLuhn(cardNumber: String): Boolean {
         var sum = 0
         var alternate = false

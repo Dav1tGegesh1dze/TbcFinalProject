@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateBottomNavigationTheme() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // Force recreation of the bottom navigation colors
         bottomNav.itemIconTintList = null
         bottomNav.itemIconTintList = AppCompatResources.getColorStateList(
             this,
@@ -102,19 +101,17 @@ class MainActivity : AppCompatActivity() {
             R.color.bottom_nav_item_color
         )
 
-        // Update background
-        bottomNav.setBackgroundResource(0) // Clear existing background
-        val typedValue = TypedValue()
-        theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
-        bottomNav.setBackgroundColor(typedValue.data)
+
+        bottomNav.setBackgroundResource(0)
+        bottomNav.setBackgroundColor(getColor(R.color.bottom_navigation_color))
+
+        Log.d("MainActivity", "Setting bottom nav background to: ${getColor(R.color.bottom_navigation_color)}")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        // This will be called when the UI mode changes (dark/light)
         Log.d("MainActivity", "Configuration changed: ${newConfig.uiMode}")
 
-        // Update bottom navigation when configuration changes
         if ((newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES ||
             (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_NO) {
             updateBottomNavigationTheme()
@@ -126,18 +123,13 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Important: Create a new NavGraph instance but don't set it immediately
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-
-        // Bottom Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
 
-        // Check authentication status before setting the start destination
         lifecycleScope.launch {
             val isLoggedIn = checkAuthTokenUseCase()
 
-            // Set the appropriate start destination based on login status
             if (isLoggedIn) {
                 navGraph.setStartDestination(R.id.restaurantFragment)
                 Log.d("MainActivity", "User is logged in, navigating to Restaurant Fragment")
@@ -146,12 +138,10 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "User is not logged in, navigating to Login Fragment")
             }
 
-            // Apply the navigation graph AFTER setting the start destination
             navController.graph = navGraph
             isNavigationReady = true
         }
 
-        // Set up destination changed listener for showing/hiding bottom nav
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment, R.id.registerFragment,

@@ -14,7 +14,6 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Apply theme based on saved preferences
         themeManager.applyTheme()
     }
 }

@@ -53,12 +53,11 @@ class RestaurantViewModel @Inject constructor(
             }
 
             is RestaurantEvent.RestaurantSelected -> {
-                // Future implementation
+
             }
 
             is RestaurantEvent.AdBannerSelected -> {
-                // Do nothing - we only want to display the details
-                // The navigation to the detail screen is handled directly in the fragment
+                // Later
             }
 
             is RestaurantEvent.LocationUpdated -> {
@@ -126,7 +125,6 @@ class RestaurantViewModel @Inject constructor(
     }
 
     private fun loadNearbyRestaurants(latitude: Double, longitude: Double) {
-        // Future functionality - can be implemented later to filter restaurants by location
         loadRestaurants(state.value.selectedCategoryId)
     }
 }

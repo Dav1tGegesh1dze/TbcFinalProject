@@ -5,22 +5,59 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.middlecourseproject.R
-import com.example.middlecourseproject.databinding.FragmentOrderConfirmationBinding
 import com.example.middlecourseproject.domain.checkout.manager.OrderManager
-import com.example.middlecourseproject.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Calendar
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
-class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>(
-    FragmentOrderConfirmationBinding::inflate
-) {
+class OrderConfirmationFragment : Fragment() {
     @Inject
     lateinit var orderManager: OrderManager
 
@@ -29,7 +66,15 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
     private var isNewOrder = false
     private var lastOrderStatus = -1
 
-    // This receiver would get updates from our background service if needed
+
+    private var estimatedDeliveryTime by mutableStateOf("00:00")
+    private var remainingTime by mutableStateOf("00:00")
+    private var orderTrackingMessage by mutableStateOf("")
+    private var orderProgress by mutableStateOf(0)
+    private var deliveryAddress by mutableStateOf("Feradze Street, 9b")
+    private var currentStage by mutableStateOf(1)
+
+
     private val statusUpdateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == "com.example.middlecourseproject.ORDER_STATUS_UPDATED") {
@@ -44,7 +89,6 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
-        // Register for updates from background service
         requireContext().registerReceiver(
             statusUpdateReceiver,
             IntentFilter("com.example.middlecourseproject.ORDER_STATUS_UPDATED"),
@@ -54,25 +98,37 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
 
     override fun onStop() {
         super.onStop()
-        // Unregister when fragment is not visible
         requireContext().unregisterReceiver(statusUpdateReceiver)
     }
 
-    override fun start() {
-        setupListeners()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+
+            setContent {
+                MaterialTheme {
+                    OrderConfirmationScreen()
+                }
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         checkExistingOrder()
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         countDownTimer?.cancel()
+        super.onDestroyView()
     }
 
-    private fun setupListeners() {
-        binding.btnContinueShopping.setOnClickListener {
-            // Continue shopping, coming back to restaurant
-            findNavController().navigate(R.id.action_orderConfirmationFragment_to_restaurantFragment)
-        }
+    private fun continueShoppingClicked() {
+        findNavController().navigate(R.id.action_orderConfirmationFragment_to_restaurantFragment)
     }
 
     private fun checkExistingOrder() {
@@ -86,7 +142,6 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
     }
 
     private fun loadExistingOrder() {
-        //delivery time and date
         deliveryTimeMillis = orderManager.getDeliveryTimeMillis()
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = deliveryTimeMillis
@@ -95,11 +150,10 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
         val deliveryMinute = calendar.get(Calendar.MINUTE)
 
         val formattedTime = String.format("%02d:%02d", deliveryHour, deliveryMinute)
-        binding.tvEstimatedDeliveryTime.text = formattedTime
+        estimatedDeliveryTime = formattedTime
 
-        binding.tvDeliveryAddress.text = orderManager.getDeliveryAddress()
+        deliveryAddress = orderManager.getDeliveryAddress()
 
-        // Update UI to current status
         val currentStatus = orderManager.getCurrentOrderStatus()
         updateUIForStatus(currentStatus.value)
 
@@ -115,10 +169,10 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
         val deliveryHour = calendar.get(Calendar.HOUR_OF_DAY)
         val deliveryMinute = calendar.get(Calendar.MINUTE)
         val formattedTime = String.format("%02d:%02d", deliveryHour, deliveryMinute)
-        binding.tvEstimatedDeliveryTime.text = formattedTime
+        estimatedDeliveryTime = formattedTime
 
         val address = "Feradze Street, 9b"
-        binding.tvDeliveryAddress.text = address
+        deliveryAddress = address
 
         orderManager.createOrder(45, address)
     }
@@ -127,13 +181,12 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
         val currentTimeMillis = System.currentTimeMillis()
         val timeUntilDelivery = deliveryTimeMillis - currentTimeMillis
 
-        // Don't start tracking if already delivered
         if (timeUntilDelivery <= 0) {
-            binding.tvOrderTracking.text = "Your order has been delivered. Enjoy your meal!"
-            binding.tvEstimatedDeliveryTime.text = "Delivered"
-            binding.tvRemainingTime.text = "00:00"
-            binding.orderProgressBar.progress = 100
-            updateStageIndicators(4)
+            orderTrackingMessage = "Your order has been delivered. Enjoy your meal!"
+            estimatedDeliveryTime = "Delivered"
+            remainingTime = "00:00"
+            orderProgress = 100
+            currentStage = 4
             return
         }
 
@@ -150,12 +203,11 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
             }
 
             override fun onFinish() {
-                binding.tvOrderTracking.text = "Your order has been delivered. Enjoy your meal!"
-                binding.tvEstimatedDeliveryTime.text = "Delivered"
-                binding.tvRemainingTime.text = "00:00"
-                binding.orderProgressBar.progress = 100
-
-                updateStageIndicators(4) // 4 means all stages are complete
+                orderTrackingMessage = "Your order has been delivered. Enjoy your meal!"
+                estimatedDeliveryTime = "Delivered"
+                remainingTime = "00:00"
+                orderProgress = 100
+                currentStage = 4
 
                 orderManager.completeOrder()
             }
@@ -165,23 +217,23 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
     private fun updateRemainingTime(millisUntilFinished: Long) {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
         val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
-        binding.tvRemainingTime.text = String.format("%02d:%02d", minutes, seconds)
+        remainingTime = String.format("%02d:%02d", minutes, seconds)
     }
 
     private fun updateOrderStatus(totalTime: Long, remainingTime: Long) {
         val progress = (1 - (remainingTime.toFloat() / totalTime.toFloat())) * 100
         val progressInt = progress.toInt()
 
-        binding.orderProgressBar.progress = progressInt
+        orderProgress = progressInt
 
-        // Get appropriate status for this progress point
+
         val orderStatus = orderManager.getStatusForProgress(progressInt)
 
-        //show progresses, Where is delivering at that moment
-        binding.tvOrderTracking.text = orderStatus.message
-        updateStageIndicators(orderStatus.value)
 
-        // Check if status has changed to trigger notification (but not on every tick)
+        orderTrackingMessage = orderStatus.message
+        currentStage = orderStatus.value
+
+
         if (orderStatus.value != lastOrderStatus) {
             orderManager.updateOrderStatus(orderStatus)
             lastOrderStatus = orderStatus.value
@@ -189,17 +241,14 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
     }
 
     private fun updateUIForStatus(statusValue: Int) {
-        // Find the status enum from value
         val status = OrderManager.OrderStatus.values()
             .find { it.value == statusValue } ?: OrderManager.OrderStatus.CONFIRMED
 
-        // Update UI elements
-        binding.tvOrderTracking.text = status.message
-        updateStageIndicators(status.value)
+        orderTrackingMessage = status.message
+        currentStage = status.value
         lastOrderStatus = status.value
 
-        // Update progress bar based on status
-        val progress = when (statusValue) {
+        orderProgress = when (statusValue) {
             1 -> 20   // CONFIRMED
             2 -> 40   // PREPARING
             3 -> 60   // ON_THE_WAY
@@ -208,42 +257,176 @@ class OrderConfirmationFragment : BaseFragment<FragmentOrderConfirmationBinding>
             else -> 0
         }
 
-        binding.orderProgressBar.progress = progress
 
-        // If delivered, update time display
         if (statusValue == 5) {
-            binding.tvEstimatedDeliveryTime.text = "Delivered"
-            binding.tvRemainingTime.text = "00:00"
+            estimatedDeliveryTime = "Delivered"
+            this.remainingTime = "00:00"
 
-            // Cancel countdown timer if it's still running
             countDownTimer?.cancel()
         }
     }
 
     private fun resetOrderStatusIndicators() {
-        binding.tvStageConfirmed.setTextColor(resources.getColor(android.R.color.darker_gray, null))
-        binding.tvStagePreparing.setTextColor(resources.getColor(android.R.color.darker_gray, null))
-        binding.tvStageOnTheWay.setTextColor(resources.getColor(android.R.color.darker_gray, null))
-        binding.tvStageArriving.setTextColor(resources.getColor(android.R.color.darker_gray, null))
+        currentStage = 1
     }
 
-    private fun updateStageIndicators(currentStage: Int) {
-        resetOrderStatusIndicators()
+    @Composable
+    fun OrderConfirmationScreen() {
+        val backgroundColor = colorResource(id = R.color.color_background_category)
+        val accentColor = Color(0xFF00BFFF)
+        val orangeColor = Color(0xFFFF5722)
 
-        // completed stages
-        val activeColor = resources.getColor(R.color.activeStatus, null)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundColor)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(36.dp))
 
-        if (currentStage >= 1) {
-            binding.tvStageConfirmed.setTextColor(activeColor)
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = "Success",
+                modifier = Modifier.size(120.dp),
+                tint = accentColor
+            )
+
+            Text(
+                text = "Order Confirmed!",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 24.dp)
+            )
+
+            Text(
+                text = "Thank you for your order",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
+                elevation = 4.dp,
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Estimated Delivery",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                        Text(
+                            text = estimatedDeliveryTime,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = accentColor
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Arriving in:",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            text = remainingTime,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            color = orangeColor
+                        )
+                    }
+
+                    Text(
+                        text = orderTrackingMessage,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+
+                    LinearProgressIndicator(
+                        progress = orderProgress / 100f,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp),
+                        color = accentColor
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    ) {
+                        OrderStageText(
+                            text = "Confirmed",
+                            isActive = currentStage >= 1,
+                            accentColor = accentColor
+                        )
+                        OrderStageText(
+                            text = "Preparing",
+                            isActive = currentStage >= 2,
+                            accentColor = accentColor
+                        )
+                        OrderStageText(
+                            text = "On the way",
+                            isActive = currentStage >= 3,
+                            accentColor = accentColor
+                        )
+                        OrderStageText(
+                            text = "Arriving",
+                            isActive = currentStage >= 4,
+                            accentColor = accentColor
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = "Delivery Address",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Text(
+                            text = deliveryAddress,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
+            }
+
+            OutlinedButton(
+                onClick = { continueShoppingClicked() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                Text(text = "Continue Shopping")
+            }
         }
-        if (currentStage >= 2) {
-            binding.tvStagePreparing.setTextColor(activeColor)
-        }
-        if (currentStage >= 3) {
-            binding.tvStageOnTheWay.setTextColor(activeColor)
-        }
-        if (currentStage >= 4) {
-            binding.tvStageArriving.setTextColor(activeColor)
-        }
+    }
+
+    @Composable
+    fun RowScope.OrderStageText(text: String, isActive: Boolean, accentColor: Color) {
+        Text(
+            text = text,
+            fontSize = 12.sp,
+            color = if (isActive) accentColor else Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.weight(1f)
+        )
     }
 }

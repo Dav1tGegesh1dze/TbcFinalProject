@@ -110,13 +110,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun updateLanguageButton(currentLang: String) {
-        val alternativeLang = if (currentLang == "en") "ka" else "en"
-        binding.languageText.text = when (alternativeLang) {
+        binding.languageText.text = when (currentLang) {
             "en" -> "ENG"
             "ka" -> "GEO"
             else -> "ENG"
         }
-        if (alternativeLang == "en") {
+
+
+        if (currentLang == "en") {
             binding.languageImage.setImageResource(R.drawable.united_kingdom)
         } else {
             binding.languageImage.setImageResource(R.drawable.georgia)

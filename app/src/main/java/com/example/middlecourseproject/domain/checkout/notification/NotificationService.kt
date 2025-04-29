@@ -56,7 +56,7 @@ class NotificationService @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification) // Create this icon in your drawable resources
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

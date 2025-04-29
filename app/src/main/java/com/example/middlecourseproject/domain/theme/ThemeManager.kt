@@ -28,10 +28,9 @@ class ThemeManager @Inject constructor(
         Log.d("ThemeManager", "Toggle theme called. Current mode: ${isDarkModeActive()}")
         val isDark = !isDarkModeActive()
 
-        // Save the preference
+
         preferencesHelper.saveBooleanValue(THEME_KEY, isDark)
 
-        // Apply theme change
         try {
             val mode = if (isDark) {
                 Log.d("ThemeManager", "Setting to dark mode")

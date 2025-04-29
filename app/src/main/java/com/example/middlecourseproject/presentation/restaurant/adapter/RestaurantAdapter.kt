@@ -42,18 +42,16 @@ class RestaurantAdapter(
                     val restaurant = getItem(position)
                     onRestaurantClicked(restaurant.id)
 
-                    // Navigate to dishes screen with safe navigation
                     try {
-                        // Direct navigation using bundle instead of action
+
                         val bundle = Bundle().apply {
                             putString("restaurantId", restaurant.id)
                         }
 
-                        // Get the current destination ID
+
                         val navController = it.findNavController()
                         val currentDestId = navController.currentDestination?.id
 
-                        // Only navigate if we're not already in dishesFragment
                         if (currentDestId != R.id.dishesFragment) {
                             navController.navigate(R.id.dishesFragment, bundle)
                         }
@@ -96,7 +94,6 @@ class RestaurantAdapter(
                 Glide.with(root.context)
                     .load(restaurant.mainImage)
                     .centerCrop()
-                    //later
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
                     .into(ivRestaurantImage)

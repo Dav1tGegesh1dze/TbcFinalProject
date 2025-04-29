@@ -43,7 +43,6 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onDestroyView() {
         try {
-            // Clean up any resources before clearing binding
         } catch (e: Exception) {
             Log.e(javaClass.simpleName, "Error in onDestroyView: ${e.message}", e)
         } finally {

@@ -7,7 +7,6 @@ sealed class RestaurantEvent {
     data class CategorySelected(val categoryId: String) : RestaurantEvent()
     data class RestaurantSelected(val restaurantId: String) : RestaurantEvent()
     data class AdBannerSelected(val adId: String) : RestaurantEvent()
-    //LOCATION AND PERMISSIONS
     data class LocationUpdated(
         val latitude: Double,
         val longitude: Double,

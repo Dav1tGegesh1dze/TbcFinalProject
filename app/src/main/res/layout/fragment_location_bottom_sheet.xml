@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:text="Location"
+        android:text="@string/location"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,6 @@
         app:layout_constraintTop_toTopOf="@id/tvLocation"
         app:layout_constraintBottom_toBottomOf="@id/tvLocation" />
 
-    <!-- Use current location option -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnUseCurrentLocation"
         android:layout_width="match_parent"
@@ -67,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Use my current location"
+            android:text="@string/use_my_current_location"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +74,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Selected address (or placeholder) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/selectedAddressContainer"
         android:layout_width="match_parent"
@@ -103,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="41°48'3.25188\"
+            android:text="@string/_41_48_3_25188"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/iconCheck"
@@ -115,7 +113,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Tbilisi"
+            android:text="@string/tbilisi"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/tvCoordinates"
             app:layout_constraintStart_toEndOf="@id/iconHome"
@@ -132,7 +130,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Add new address option -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnAddNewAddress"
         android:layout_width="match_parent"
@@ -159,7 +157,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Add new address"
+            android:text="@string/add_new_address"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,7 +165,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- My addresses option -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnMyAddresses"
         android:layout_width="match_parent"
@@ -194,7 +191,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="My addresses"
+            android:text="@string/my_addresses"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +199,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Browse all cities option -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnBrowseAllCities"
         android:layout_width="match_parent"
@@ -229,7 +225,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Browse Out Delivery cities"
+            android:text="@string/browse_out_delivery_cities"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

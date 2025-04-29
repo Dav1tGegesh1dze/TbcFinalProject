@@ -52,7 +52,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     binding.emailInputRegister.error = state.emailError
                     binding.passwordInputRegister.error = state.passwordError
 
-                    // Update loading state
                     if (state.isLoading) {
                         binding.registerButton.isEnabled = false
                         binding.registerButton.text = ""

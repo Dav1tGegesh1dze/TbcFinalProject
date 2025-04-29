@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
                 search(event.query)
             }
             is SearchEvent.RestaurantSelected -> {
-                // Future functionality - could track selected restaurants
+
             }
             is SearchEvent.ClearSearch -> {
                 clearSearch()
@@ -53,7 +53,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
 
-            // Get popular search terms from search use case
             searchUseCase.getPopularSearchTerms()
                 .onEach { searchTerms ->
                     _state.value = _state.value.copy(
@@ -82,7 +81,7 @@ class SearchViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    // If there's an active search, update the results
+
                     if (_state.value.searchQuery.isNotEmpty()) {
                         search(_state.value.searchQuery)
                     }
@@ -112,7 +111,7 @@ class SearchViewModel @Inject constructor(
                 return@launch
             }
 
-            // Use search use case to get results
+
             searchUseCase.searchRestaurants(query)
                 .onEach { results ->
                     _state.value = _state.value.copy(

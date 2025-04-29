@@ -36,7 +36,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
     }
 
     private fun setupBackButton() {
-        binding.btnBack.bringToFront() // Make sure button is on top
+        binding.btnBack.bringToFront()
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -45,7 +45,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initially show loading
         binding.progressBar.visibility = View.VISIBLE
         binding.groupEmptyCart.visibility = View.GONE
         binding.groupCartContent.visibility = View.GONE
@@ -67,17 +66,14 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
         binding.rvCartItems.apply {
             adapter = cartAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            // Set initial items to an empty list to prevent null references
             cartAdapter.submitList(emptyList())
         }
     }
 
     private fun setupListeners() {
         binding.btnCheckout.setOnClickListener {
-            // Safety check
             if (!isAdded()) return@setOnClickListener
 
-            // Check if cart is empty
             if (viewModel.state.value.cartItems.isEmpty()) {
                 Snackbar.make(
                     binding.root,
@@ -87,7 +83,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
                 return@setOnClickListener
             }
 
-            // Navigate to checkout
             try {
                 findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
             } catch (e: Exception) {
@@ -110,23 +105,18 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
                     if (!isAdded()) return@collectLatest
 
                     try {
-                        // Update UI
                         binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
-                        // Create a new list to avoid modifying the existing one
                         val newList = state.cartItems.toList()
                         cartAdapter.submitList(newList)
 
-                        // Format price
                         val formatter = NumberFormat.getCurrencyInstance(Locale.US)
                         binding.tvTotalPrice.text = formatter.format(state.cartTotal)
 
-                        // Update visibility based on cart status
                         val isEmpty = state.cartItems.isEmpty()
                         binding.groupEmptyCart.visibility = if (isEmpty) View.VISIBLE else View.GONE
                         binding.groupCartContent.visibility = if (isEmpty) View.GONE else View.VISIBLE
 
-                        // Handle errors
                         state.error?.let { error ->
                             if (isAdded()) {
                                 Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
@@ -145,7 +135,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
 
     override fun onDestroyView() {
         try {
-            // Clean up references
             binding.rvCartItems.adapter = null
         } catch (e: Exception) {
             Log.e("CartFragment", "Error during cleanup: ${e.message}", e)

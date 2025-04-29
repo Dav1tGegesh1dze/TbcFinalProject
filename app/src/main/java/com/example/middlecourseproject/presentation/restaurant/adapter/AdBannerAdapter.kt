@@ -40,7 +40,7 @@ class AdBannerAdapter(
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val adBanner = getItem(position)
-                    onAdClicked(adBanner)  // Pass the entire AdBanner object
+                    onAdClicked(adBanner)
                 }
             }
         }
@@ -48,20 +48,16 @@ class AdBannerAdapter(
         fun bind(adBanner: AdBanner) {
             binding.tvAdTitle.text = adBanner.title
 
-            // Remove the description - just show title
-            binding.tvAdDescription.visibility = View.GONE
 
-            // Set background color if available
+            binding.tvAdDescription.visibility = View.GONE
             adBanner.backgroundColor?.let { colorString ->
                 try {
                     binding.adBannerBackground.setBackgroundColor(colorString.toColorInt())
                 } catch (e: Exception) {
-                    // Use default background if color parsing fails
                     binding.adBannerBackground.setBackgroundResource(R.color.white)
                 }
             }
 
-            // Handle different media types
             when (adBanner.mediaType) {
                 "image", "gif" -> {
                     binding.ivAdImage.visibility = View.VISIBLE
@@ -79,7 +75,6 @@ class AdBannerAdapter(
                     binding.ivAdImage.visibility = View.GONE
                     binding.videoAdContainer.visibility = View.VISIBLE
 
-                    // For video thumbnails, we'll just show the thumbnail image for now
                     Glide.with(binding.root.context)
                         .load(adBanner.thumbnailUrl ?: adBanner.mediaUrl)
                         .centerCrop()
@@ -90,7 +85,7 @@ class AdBannerAdapter(
                     binding.playButton.visibility = View.VISIBLE
                 }
                 else -> {
-                    // Fallback to image
+
                     binding.ivAdImage.visibility = View.VISIBLE
                     binding.videoAdContainer.visibility = View.GONE
 

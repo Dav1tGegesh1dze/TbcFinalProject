@@ -59,17 +59,15 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    // Update timer
+
     private val handler = Handler(Looper.getMainLooper())
     private val updateOrderTimeRunnable = object : Runnable {
         override fun run() {
             updateActiveOrderButton()
-            // Schedule next update in 1 second
             handler.postDelayed(this, 1000)
         }
     }
 
-    // Permission
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -87,7 +85,6 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
                     Toast.LENGTH_SHORT
                 ).show()
 
-                // If user is denied ,we go to bottom sheet
                 showLocationBottomSheet()
             }
         }
@@ -97,7 +94,6 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            // success notification
             viewModel.onEvent(RestaurantEvent.NotificationPermissionGranted)
         } else {
             viewModel.onEvent(RestaurantEvent.NotificationPermissionDenied)
@@ -135,37 +131,31 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
 
     override fun onResume() {
         super.onResume()
-        // Start updating the active order button time
         updateActiveOrderButton()
         handler.postDelayed(updateOrderTimeRunnable, 1000)
     }
 
     override fun onPause() {
         super.onPause()
-        // Stop the timer updates when fragment is not visible
         handler.removeCallbacks(updateOrderTimeRunnable)
     }
 
     private fun setupRecyclerViews() {
-        // Setup Categories RecyclerView
         binding.rvCategories.apply {
             adapter = categoryAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // Setup Ad Banners RecyclerView
         binding.rvAdBanners.apply {
             adapter = adBannerAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // Setup Restaurants RecyclerView
         binding.rvRestaurants.apply {
             adapter = restaurantAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        // Setup See All button for ads
         binding.tvSeeAllAds.setOnClickListener {
             Toast.makeText(requireContext(), "See all promotions (coming soon)", Toast.LENGTH_SHORT).show()
         }
@@ -185,47 +175,37 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
 
     private fun setupActiveOrderButton() {
         binding.btnActiveOrder.setOnClickListener {
-            // Navigate to the OrderConfirmationFragment
             findNavController().navigate(R.id.action_restaurantFragment_to_orderConfirmationFragment)
         }
 
-        // Update button visibility and timer
         updateActiveOrderButton()
     }
 
     private fun updateActiveOrderButton() {
         if (orderManager.hasActiveOrder()) {
-            // Show the button
             binding.btnActiveOrder.visibility = View.VISIBLE
 
-            // Get remaining time
             val remainingTimeMillis = orderManager.getRemainingTimeMillis() ?: 0L
 
             if (remainingTimeMillis > 0) {
-                // Convert to minutes and seconds
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMillis)
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMillis) % 60
 
-                // Format time and show on button
                 val timeText = String.format("%02d:%02d", minutes, seconds)
                 binding.tvRemainingTimeSmall.text = timeText
                 binding.tvRemainingTimeSmall.visibility = View.VISIBLE
             } else {
-                // If delivery time has passed, just show the icon (no timer)
                 binding.tvRemainingTimeSmall.visibility = View.GONE
             }
         } else {
-            // No active order, hide the button
             binding.btnActiveOrder.visibility = View.INVISIBLE
         }
     }
 
 
     private fun handleAdBannerClick(adBanner: AdBanner) {
-        // Tell the ViewModel about the selection if needed
         viewModel.onEvent(RestaurantEvent.AdBannerSelected(adBanner.id))
 
-        // Use the generated NavDirections class
         val action = RestaurantFragmentDirections.actionRestaurantFragmentToAdDetailFragment(adBanner)
         findNavController().navigate(action)
     }
@@ -339,7 +319,7 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
                 }
             }
         } else {
-            // For Android versions below 13, notification permission is granted by default
+            // Defaulyly on older versions
             viewModel.onEvent(RestaurantEvent.NotificationPermissionGranted)
         }
     }
@@ -360,21 +340,18 @@ class RestaurantFragment : BaseFragment<FragmentRestaurantBinding>(
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest { state ->
-                // Update UI
                 binding.progressBar.isVisible = state.isLoading
 
-                // Update adapters
                 categoryAdapter.submitList(state.categories)
                 categoryAdapter.setSelectedCategory(state.selectedCategoryId)
                 adBannerAdapter.submitList(state.adBanners)
                 restaurantAdapter.submitList(state.restaurants)
 
-                // Errors handling
                 state.error?.let { errorMessage ->
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }
 
-                // Update location
+
                 if (state.userLatitude != null && state.userLongitude != null) {
                     val displayText = state.userAddress ?:
                     "${String.format("%.5f", state.userLatitude)}°N ${String.format("%.5f", state.userLongitude)}°E"

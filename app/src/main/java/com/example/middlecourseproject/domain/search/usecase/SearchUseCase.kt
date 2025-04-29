@@ -11,9 +11,7 @@ class SearchUseCase @Inject constructor(
     private val restaurantRepository: RestaurantRepository,
     private val searchHelper: SearchHelper
 ) {
-    /**
-     * Returns a list of popular search terms based on restaurant data
-     */
+
     fun getPopularSearchTerms(): Flow<List<String>> {
         return restaurantRepository.getAllRestaurants()
             .map { restaurants ->
@@ -21,9 +19,6 @@ class SearchUseCase @Inject constructor(
             }
     }
 
-    /**
-     * Searches restaurants by the given query
-     */
     fun searchRestaurants(query: String): Flow<List<Restaurant>> {
         return restaurantRepository.getAllRestaurants()
             .map { restaurants ->

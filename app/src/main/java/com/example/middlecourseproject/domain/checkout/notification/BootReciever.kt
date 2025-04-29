@@ -20,7 +20,6 @@ class BootReceiver : BroadcastReceiver() {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             Log.d("BootReceiver", "Device rebooted, checking for active orders")
 
-            // If there's an active order, restart the tracking service
             if (orderManager.hasActiveOrder()) {
                 Log.d("BootReceiver", "Active order found, restarting tracking service")
 

@@ -124,7 +124,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>(
                     findNavController().navigateUp()
                 }
 
-                // Handle error
+                //  error
                 state.error?.let { error ->
                     Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
                 }

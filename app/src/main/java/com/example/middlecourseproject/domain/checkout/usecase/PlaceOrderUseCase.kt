@@ -9,10 +9,8 @@ class PlaceOrderUseCase @Inject constructor(
     private val clearCartUseCase: ClearCartUseCase
 ) {
     suspend operator fun invoke() {
-        // Place the order
         val orderId = checkoutRepository.placeOrder()
 
-        // Clear the cart after successful order
         clearCartUseCase()
     }
 }

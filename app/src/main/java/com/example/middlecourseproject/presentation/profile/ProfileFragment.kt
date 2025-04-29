@@ -42,7 +42,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
         binding.themeToggle.setOnCheckedChangeListener { _, isChecked ->
             Log.d("ProfileFragment", "Theme toggle changed to: $isChecked")
-            // Only trigger if the change came from the user, not from state update
             if (isChecked != profileViewModel.state.value.isDarkMode) {
                 profileViewModel.processIntent(ProfileIntent.ToggleTheme)
                 findNavController().navigate(R.id.action_profileFragment_to_restaurantFragment)
@@ -54,7 +53,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
 
         binding.ordersContainer.setOnClickListener {
-            // This is just visual - no functionality required
+            // LAter to do with this functionalitu
         }
     }
 
@@ -63,7 +62,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 profileViewModel.state.collect { state ->
                     Log.d("ProfileFragment", "State update - isDarkMode: ${state.isDarkMode}")
-                    // Update UI
                     binding.themeToggle.isChecked = state.isDarkMode
                     updateLanguageButton(state.currentLanguage)
                 }
@@ -90,7 +88,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     private fun navigateToLogin() {
-        // Pop everything off the back stack and navigate back to login
         findNavController().navigate(
             R.id.loginFragment,
             null,

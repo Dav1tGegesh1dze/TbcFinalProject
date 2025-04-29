@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?attr/colorSurface"
+        android:background="@color/bottom_navigation_color"
         app:itemIconTint="@color/bottom_nav_item_color"
         app:itemTextColor="@color/bottom_nav_item_color"
         app:layout_constraintBottom_toBottomOf="parent"

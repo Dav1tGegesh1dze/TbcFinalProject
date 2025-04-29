@@ -32,24 +32,20 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding>(
     }
 
     private fun setupListeners() {
-        // Back button
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        // Add payment
         binding.layoutPaymentMethod.setOnClickListener {
             findNavController().navigate(
                 CheckoutFragmentDirections.actionCheckoutFragmentToPaymentFragment()
             )
         }
 
-        // code
         binding.layoutRedeemCode.setOnClickListener {
             showPromoCodeDialog()
         }
 
-        // Update delivery address
         binding.layoutDeliveryAddress.setOnClickListener {
             showAddressUpdateDialog()
         }
@@ -163,7 +159,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding>(
             viewModel.state.collectLatest { state ->
                 binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
-                // Update UI
                 binding.tvSubtotal.text = "${state.subtotal} ₾"
                 binding.tvBagFee.text = "${state.bagFee} ₾"
                 binding.tvSmallOrderFee.text = "${state.smallOrderFee} ₾"
@@ -171,7 +166,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding>(
                 binding.tvDeliveryFee.text = "${state.deliveryFee} ₾"
                 binding.tvTotal.text = "${state.total} ₾"
 
-                // Update promo code
+                // promo code
                 if (state.promoCode != null) {
                     binding.tvCodeDescription.text = "Code applied: ${state.promoCode}"
 

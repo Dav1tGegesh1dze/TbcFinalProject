@@ -52,16 +52,10 @@ class CheckoutViewModel @Inject constructor(
             try {
                 _state.update { it.copy(isLoading = true) }
 
-                // Get cart total - collect the first value from the flow
                 val subtotal = getCartTotalUseCase().first()
-
-                // Get delivery address (mock for now)
                 val deliveryAddress = getDeliveryAddressUseCase()
-
-                // Get payment method if available
                 val paymentMethod = getPaymentMethodUseCase()
 
-                // Calculate total
                 val total = calculateTotal(
                     subtotal = subtotal,
                     bagFee = _state.value.bagFee,
@@ -72,7 +66,6 @@ class CheckoutViewModel @Inject constructor(
                     discount = _state.value.discount
                 )
 
-                // Update state
                 _state.update { currentState ->
                     currentState.copy(
                         subtotal = subtotal,
@@ -183,7 +176,6 @@ class CheckoutViewModel @Inject constructor(
             try {
                 _state.update { it.copy(isLoading = true) }
 
-                // Validate order is ready
                 if (_state.value.paymentMethod == null) {
                     _state.update {
                         it.copy(
@@ -194,10 +186,8 @@ class CheckoutViewModel @Inject constructor(
                     return@launch
                 }
 
-                // Place order
                 placeOrderUseCase()
 
-                // Update state on success
                 _state.update {
                     it.copy(
                         isLoading = false,

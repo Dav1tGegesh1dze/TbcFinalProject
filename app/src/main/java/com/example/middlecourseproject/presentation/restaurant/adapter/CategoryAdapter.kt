@@ -72,8 +72,8 @@ class CategoryAdapter(
                 Glide.with(binding.root.context)
                     .load(imageUrl)
                     .centerCrop()
-                    .placeholder(R.drawable.ic_launcher_foreground) // Change to real puctures later
-                    .error(R.drawable.ic_launcher_foreground) // change to real error picture later
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
                     .into(binding.ivCategoryImage)
             } ?: run {
                 binding.ivCategoryImage.setImageDrawable(null)

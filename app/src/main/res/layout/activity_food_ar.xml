@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Close"
+        android:text="@string/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="#80000000"
         android:padding="16dp"
-        android:text="Tap on a surface to place the model"
+        android:text="@string/tap_on_a_surface_to_place_the_model"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent" />

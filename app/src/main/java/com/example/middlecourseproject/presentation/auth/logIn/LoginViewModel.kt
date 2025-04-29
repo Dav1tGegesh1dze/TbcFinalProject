@@ -89,10 +89,6 @@ class LoginViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(isLoading = false)
-
-                        // The token should already be saved in your AuthRepositoryImpl
-                        // If not, you'll need to inject TokenRepository and save it here
-
                         _sideEffect.emit(LoginSideEffect.NavigateToHome)
                     }
                     is Resource.Error -> {
