@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="activeStatus">#40C4FF</color>
+    <color name="black">#FF000000</color>
+    <color name="bottom_navigation_color">#242424</color>
+    <color name="card_background">#1D1D1D</color>
+    <color name="colorAccent">#FFB74D</color>
+    <color name="colorInactive">#9E9E9E</color>
+    <color name="colorPrimary">#FF7043</color>
+    <color name="colorPrimaryDark">#FF5722</color>
+    <color name="color_background_category">#454545</color>
+    <color name="color_navigation_logos">#FFFFFF</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="header">#D13F54</color>
+    <color name="main_background">#121212</color>
+    <color name="main_red">#D13F54</color>
+    <color name="main_red1">#E05568</color>
+    <color name="red_required">#FF5252</color>
+    <color name="second_background">#2C2C2C</color>
+    <color name="white">#FFFFFFFF</color>
+    <style name="Base.Theme.MiddleCourseProject" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="android:windowBackground">@color/main_background</item>
+
+        
+        <item name="backgroundColor">@color/main_background</item>
+        <item name="colorSurface">@color/main_background</item>
+        <item name="colorSurfaceVariant">@color/card_background</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        
+        <item name="colorPrimary">@color/main_red1</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/main_red</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="cardBackgroundColor">@color/black</item>
+    </style>
+    <style name="Theme.MiddleCourseProject" parent="Base.Theme.MiddleCourseProject"/>
+</resources>

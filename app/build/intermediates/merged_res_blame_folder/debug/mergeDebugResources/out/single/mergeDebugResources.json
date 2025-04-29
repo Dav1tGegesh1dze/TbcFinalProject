@@ -1,0 +1,466 @@
+[
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_details.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_details.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_logo.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/logo.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_nav_restaurant.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_nav_restaurant.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_rounded_button_bg.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/rounded_button_bg.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_city.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_city.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_check.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_profile_overlay.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/profile_overlay.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_location_bottom_sheet.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_location_bottom_sheet.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/menu_bottom_navigation_menu.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/menu/bottom_navigation_menu.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_register_button.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/register_button.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_profile_save.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/profile_save.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_register.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_register.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_dish_overlay.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/dish_overlay.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_person_24_2.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_person_24_2.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_fastfood_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_fastfood_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_spinner_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/spinner_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_american.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_american.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_activity_food_ar.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/activity_food_ar.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_activity_main.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_camera_alt_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_camera_alt_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_payment.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_payment.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_nav_search.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_nav_search.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_search.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_search.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_profile.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_calendar_month_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_calendar_month_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_ingredient_recycler_item.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/ingredient_recycler_item.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_section_header.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_section_header.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_arrow_back_ios_new_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_arrow_back_ios_new_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_card_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/card_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_pick_image.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/pick_image.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_home.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_dishes.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_dishes.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_current_location.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_current_location.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_list.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_list.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_cart.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_add.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/navigation_nav_graph.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/navigation/nav_graph.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_restaurant.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_restaurant.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_cart.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/menu_menu_dishes.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/menu/menu_dishes.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ingredient_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ingredient_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_dish.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_dish.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_money.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_money.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_notification.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_edit_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_edit_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_bg_input_field.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/bg_input_field.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_otp_input_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/otp_input_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_georgia.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/georgia.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_food_recycler_item.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/food_recycler_item.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_nav_profile.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_nav_profile.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_avatari1.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/avatari1.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_united_kingdom.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/united_kingdom.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_search_category.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_search_category.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/color_bottom_nav_item_color.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/color/bottom_nav_item_color.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_lock_outline_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_lock_outline_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/xml_network_security_config.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_nav_cart.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_nav_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_splash_icon.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/splash_icon.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/xml_backup_rules.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_bg_button_green.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/bg_button_green.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_placeholder_image.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/placeholder_image.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_error_image.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/error_image.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_language_button.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/language_button.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_dropdown.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_dropdown.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_horizontal_list.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_horizontal_list.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_restaurant.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_restaurant.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_category.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_category.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_close.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_email_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_email_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_visa.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_visa.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_checkout.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_checkout.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_cart.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_visa.png.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/visa.png"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_dish.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_dish.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_home.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.example.middlecourseproject.app-debug-103:/layout_fragment_cart.xml.flat",
+        "source": "com.example.middlecourseproject.app-main-105:/layout/fragment_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_circle_background_blue.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/circle_background_blue.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_done_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_done_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_remove_red_eye_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_remove_red_eye_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_spinner_dropdown_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/spinner_dropdown_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_bottom_nav_item_color.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/bottom_nav_item_color.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_person_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_person_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_clear.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_clear.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_circle_background_light.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/circle_background_light.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_order_confirmation.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_order_confirmation.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_circle_background.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/circle_background.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_item_ad_banner.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_ad_banner.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_ad_detail.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_ad_detail.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_search_button.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/search_button.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_profile_edit_text.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/profile_edit_text.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_error_food.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/error_food.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/layout_fragment_login.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_login.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_edit_text.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/edit_text.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_baseline_star_24.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/baseline_star_24.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_bottom_sheet_handle.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/bottom_sheet_handle.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-debug-103:/drawable_ic_arrow_back.xml.flat",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/drawable/ic_arrow_back.xml"
+    }
+]

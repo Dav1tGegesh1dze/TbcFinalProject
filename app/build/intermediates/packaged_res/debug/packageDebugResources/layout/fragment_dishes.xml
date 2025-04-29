@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <Space
+        android:id="@+id/topSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_background"
+        android:contentDescription="@string/back"
+        android:padding="12dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSpacer" />
+
+
+    <ImageView
+        android:id="@+id/ivRestaurantImage"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/topSpacer"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+
+    <TextView
+        android:id="@+id/tvRestaurantName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/ivRestaurantImage"
+        tools:text="Khachapuri House" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.1"
+        app:layout_constraintStart_toStartOf="@id/tvRestaurantName"
+        app:layout_constraintTop_toBottomOf="@id/tvRestaurantName"
+        tools:rating="4.7" />
+
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+        app:layout_constraintStart_toEndOf="@id/ratingBar"
+        app:layout_constraintTop_toTopOf="@id/ratingBar"
+        tools:text="4.7" />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="4dp"
+        android:textSize="14sp"
+        app:drawableStartCompat="@android:drawable/ic_menu_myplaces"
+        app:layout_constraintEnd_toEndOf="@id/tvRestaurantName"
+        app:layout_constraintStart_toStartOf="@id/tvRestaurantName"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar"
+        tools:text="15 Rustaveli Ave, Tbilisi" />
+
+
+    <TextView
+        android:id="@+id/tvRestaurantDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/tvRestaurantName"
+        app:layout_constraintStart_toStartOf="@id/tvRestaurantName"
+        app:layout_constraintTop_toBottomOf="@id/tvLocation"
+        tools:text="Established in 2005, our restaurant offers the most authentic Georgian dishes." />
+
+    <TextView
+        android:id="@+id/tvDishesTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Menu"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/tvRestaurantName"
+        app:layout_constraintStart_toStartOf="@id/tvRestaurantName"
+        app:layout_constraintTop_toBottomOf="@id/tvRestaurantDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDishes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDishesTitle"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_dish" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

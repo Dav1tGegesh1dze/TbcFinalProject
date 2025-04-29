@@ -1,0 +1,114 @@
+[
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_profile.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_location_bottom_sheet.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_location_bottom_sheet.xml"
+    },
+    {
+        "merged": "com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_cart.xml",
+        "source": "com.example.middlecourseproject.app-main-105:/layout/fragment_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/ingredient_recycler_item.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/ingredient_recycler_item.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_search.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_search.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_checkout.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_checkout.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_home.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_restaurant.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_restaurant.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_login.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_login.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_dish.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_dish.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/activity_food_ar.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/activity_food_ar.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_dishes.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_dishes.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_details.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_details.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_ad_detail.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_ad_detail.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_cart.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_cart.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_search_category.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_search_category.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_ad_banner.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_ad_banner.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_category.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_category.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/food_recycler_item.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/food_recycler_item.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_section_header.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_section_header.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_dish.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_dish.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_order_confirmation.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_order_confirmation.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/activity_main.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_horizontal_list.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_horizontal_list.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_register.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_register.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_payment.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_payment.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/fragment_restaurant.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/fragment_restaurant.xml"
+    },
+    {
+        "merged": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-mergeDebugResources-102:/layout/item_cart.xml",
+        "source": "/Users/davitgegeshidze/.gradle/daemon/8.7/com.example.middlecourseproject.app-main-105:/layout/item_cart.xml"
+    }
+]
